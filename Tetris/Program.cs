@@ -51,7 +51,7 @@ namespace Tetris
             Mark();
 
             FramePerSecond = 30;
-            _clock.Interval = 1;
+            _clock.Interval = 10;
             _clock.Tick += (s, e) =>
             {
                 Mark();

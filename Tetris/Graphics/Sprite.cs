@@ -10,6 +10,7 @@ namespace Tetris.Graphics
     {
         public static readonly Dictionary<string, Sprite> Collection = new Dictionary<string, Sprite>();
         public static readonly string BoardSpriteKey = "Board";
+        public static readonly string ScoreboardSpriteKey = "ScoreBoard";
 
         public readonly string ID = "";
         public readonly Texture Texture = null;
@@ -43,6 +44,9 @@ namespace Tetris.Graphics
             srcRect.X += Block.BlockPixelSize;
 
             newSprite = new Sprite("Board", Texture.Collection[Texture.BoardTextureKey]);
+            Collection.Add(newSprite.ID, newSprite);
+
+            newSprite = new Sprite("ScoreBoard", Texture.Collection[Texture.ScoreBoardTextureKey]);
             Collection.Add(newSprite.ID, newSprite);
         }
 

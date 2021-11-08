@@ -10,6 +10,7 @@ namespace Tetris.Graphics
         public static readonly Dictionary<string, Texture> Collection = new Dictionary<string, Texture>();
         public static readonly string BlockTextureKey = "BlockTexture";
         public static readonly string BoardTextureKey = "BoardTexture";
+        public static readonly string ScoreBoardTextureKey = "ScoreBoardTexture";
 
         public readonly string ID;
         public readonly Bitmap Bmp;
@@ -19,7 +20,10 @@ namespace Tetris.Graphics
             Texture newTexture = new Texture(BlockTextureKey, Tetris.Images.SpriteImage);
             Collection.Add(newTexture.ID, newTexture);
 
-            newTexture = new Texture(BoardTextureKey, Tetris.Images.board);
+            newTexture = new Texture(BoardTextureKey, Tetris.Images.Board);
+            Collection.Add(newTexture.ID, newTexture);
+
+            newTexture = new Texture(ScoreBoardTextureKey, Tetris.Images.ScoreBoard);
             Collection.Add(newTexture.ID, newTexture);
         }
 

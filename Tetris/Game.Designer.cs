@@ -36,9 +36,9 @@ namespace Tetris
             // fpsLabel
             // 
             this.fpsLabel.AutoSize = true;
-            this.fpsLabel.BackColor = System.Drawing.Color.Transparent;
+            this.fpsLabel.BackColor = System.Drawing.Color.White;
             this.fpsLabel.Font = new System.Drawing.Font("Tahoma", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.fpsLabel.ForeColor = System.Drawing.Color.White;
+            this.fpsLabel.ForeColor = System.Drawing.Color.Black;
             this.fpsLabel.Location = new System.Drawing.Point(11, 10);
             this.fpsLabel.Name = "fpsLabel";
             this.fpsLabel.Size = new System.Drawing.Size(85, 29);
@@ -47,15 +47,13 @@ namespace Tetris
             // 
             // board1
             // 
-            this.board1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.board1.BackColor = System.Drawing.Color.Transparent;
+            this.board1.BackColor = System.Drawing.Color.Black;
+            this.board1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.board1.Font = new System.Drawing.Font("Tahoma", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.board1.Location = new System.Drawing.Point(263, 29);
+            this.board1.Location = new System.Drawing.Point(0, 0);
             this.board1.Margin = new System.Windows.Forms.Padding(20);
             this.board1.Name = "board1";
-            this.board1.Size = new System.Drawing.Size(599, 528);
+            this.board1.Size = new System.Drawing.Size(884, 761);
             this.board1.TabIndex = 5;
             this.board1.Text = "board1";
             // 
@@ -65,9 +63,10 @@ namespace Tetris
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(891, 586);
+            this.ClientSize = new System.Drawing.Size(884, 761);
             this.Controls.Add(this.fpsLabel);
             this.Controls.Add(this.board1);
+            this.MinimumSize = new System.Drawing.Size(900, 800);
             this.Name = "Game";
             this.Text = "Tetris";
             this.ResumeLayout(false);

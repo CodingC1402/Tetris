@@ -17,7 +17,16 @@ namespace Tetris.Logic
         public static readonly int NumberOfCol = 10;
         public static readonly float TimeBeforeClear = 0.5f;
         public static readonly int BaseScore = 40;
-        public static bool Paused = false;
+
+        private static bool _paused = false;
+        public static bool Paused
+        {
+            get => _paused;
+            set
+            {
+                _paused = value;
+            }
+        }
 
         private static bool _clearingRow = false;
 

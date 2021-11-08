@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Text;
 using System.Windows.Forms;
 using Tetris.Board;
@@ -15,16 +16,31 @@ namespace Tetris.Graphics
         public static Board Instance = null;
 
         public const int BlockPadding = 2;
+
+        public Bitmap[] BackgroundsCollection = new Bitmap[]
+        {
+        };
+        public int BackgroundIndex = 0;
+        public Bitmap BackgroundBitmap = null;
+        public Bitmap OldBackgroundBitmap = null;
+
+        public int BackgroundChangingInterval = 30000;
+        public float FadeTime = 1f;
+        private float _fadeCounter = 0;
+
         public Point StartPos = new Point(10, 10);
 
         private const int _scoreBoardNextBlockPadding = 30;
+        private const int _scoreBoardScorePadding = 15;
         private const int _maxScoreLength = 7;
 
         private Rectangle _innerBound = new Rectangle();
         private Sprite _boardSprite = Sprite.Collection[Sprite.BoardSpriteKey];
+        private Sprite _scoreBoardSprite = Sprite.Collection[Sprite.ScoreboardSpriteKey];
 
         private Size _boardSize = new Size();
-        private Size _scoreBoardSize = new Size(250, 250);
+        private int _scoreBoardPadding = 10;
+        private Rectangle _scoreBoardRect = new Rectangle(0, 0, 250, 250);
 
         private float _flashBeforeEnd = 1.5f;
         private float _maxOpacityWhenFlash = 0.8f;
@@ -32,28 +48,147 @@ namespace Tetris.Graphics
         private float _disappearOffset = 0.035f;
         private Bitmap _pausedOverlayBitmap;
 
+        private Timer _backgroundTimer = new Timer();
+
         public Board()
         {
             InitializeComponent();
             Instance = this;
+
+            ChangeBackground();
+            _backgroundTimer.Interval = BackgroundChangingInterval;
+            _backgroundTimer.Tick += (s, e) => ChangeBackground();
+            _backgroundTimer.Start();
 
             _boardSize = new Size(
                 StartPos.X * 2 + BoardLogic.NumberOfCol * Block.BlockPixelSize + BlockPadding * (BoardLogic.NumberOfCol + 1),
                 StartPos.Y * 2 + BoardLogic.NumberOfRow * Block.BlockPixelSize + BlockPadding * (BoardLogic.NumberOfRow + 1)
                 );
 
+            _scoreBoardRect.X = _boardSize.Width + _scoreBoardPadding;
+
             CreateBitmap(
-                _boardSize.Width + _scoreBoardSize.Width, 
+                _boardSize.Width + _scoreBoardRect.Width + _scoreBoardPadding, 
                 _boardSize.Height
                 );
         }
 
+        protected void ChangeBackground()
+        {
+            if (BackgroundsCollection.Length == 0)
+            {
+                OldBackgroundBitmap = null;
+                BackgroundBitmap = null;
+                BackgroundIndex = 0;
+                return;
+            }
+
+            OldBackgroundBitmap = BackgroundBitmap;
+            _fadeCounter = FadeTime;
+
+            BackgroundBitmap = BackgroundsCollection[BackgroundIndex];
+            BackgroundIndex = (BackgroundIndex + 1) % BackgroundsCollection.Length;
+        }
+
         protected override void OnPaint(PaintEventArgs pe)
         {
+            #region Draw background
+            pe.Graphics.Clear(BackColor);
+            pe.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            pe.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+            pe.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            if (BackgroundBitmap != null)
+            {
+                if (_fadeCounter > -FadeTime)
+                {
+                    _fadeCounter -= Program.DeltaTimeBetweenRender;
+
+                    ColorMatrix colorMatrix = new ColorMatrix();
+
+                    var opacity = MathF.Abs(_fadeCounter) / FadeTime;
+                    colorMatrix.Matrix33 = opacity;
+
+                    ImageAttributes attributes = new ImageAttributes();
+                    attributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+                    if (_fadeCounter > 0)
+                    {
+                        if (OldBackgroundBitmap == null)
+                            _fadeCounter = 0;
+                        else
+                        {
+                            var drawPos = new Point(
+                        (Width - OldBackgroundBitmap.Width) / 2,
+                        (Height - OldBackgroundBitmap.Height) / 2
+                        );
+
+                            pe.Graphics.DrawImage(
+                                OldBackgroundBitmap,
+                                new Rectangle(drawPos.X,
+                                                drawPos.Y,
+                                                OldBackgroundBitmap.Width,
+                                                OldBackgroundBitmap.Height),
+                                0,
+                                0,
+                                OldBackgroundBitmap.Width,
+                                OldBackgroundBitmap.Height,
+                                GraphicsUnit.Pixel,
+                                attributes);
+                        }
+                    }
+                    else
+                    {
+                        var drawPos = new Point(
+                        (Width - BackgroundBitmap.Width) / 2,
+                        (Height - BackgroundBitmap.Height) / 2
+                        );
+
+                        pe.Graphics.DrawImage(
+                            BackgroundBitmap,
+                            new Rectangle(drawPos.X,
+                                            drawPos.Y,
+                                            BackgroundBitmap.Width,
+                                            BackgroundBitmap.Height),
+                            0,
+                            0,
+                            BackgroundBitmap.Width,
+                            BackgroundBitmap.Height,
+                            GraphicsUnit.Pixel,
+                            attributes);
+                    }
+                }
+                else
+                {
+                    var drawPos = new Point(
+                    (Width - BackgroundBitmap.Width) / 2,
+                    (Height - BackgroundBitmap.Height) / 2
+                    );
+
+                    pe.Graphics.DrawImage(BackgroundBitmap, drawPos.X, drawPos.Y, BackgroundBitmap.Width, BackgroundBitmap.Height);
+                }
+            }
+            #endregion
             #region Render the scoreBoard
+            NeedToRender.Add(new RenderImageItem
+            {
+                image = _scoreBoardSprite.Texture.Bmp,
+                desRectangle = new Rectangle(_scoreBoardRect.X, 0, _scoreBoardRect.Width, _scoreBoardRect.Height),
+                srcRectangle = _scoreBoardSprite.SrcRect
+            });
+
             var scoreStr = BoardLogic.Score.ToString().PadLeft(_maxScoreLength, '0').Substring(0, _maxScoreLength);
             var strSize = pe.Graphics.MeasureString(scoreStr, Font);
-            var strPoint = new PointF(_boardSize.Width + (_scoreBoardSize.Width - strSize.Width) / 2, StartPos.Y);
+            var strPoint = new PointF(_scoreBoardRect.X + (_scoreBoardRect.Width - strSize.Width) / 2, _scoreBoardScorePadding);
+
+            // Shadow
+            NeedToRender.Add(new RenderTextItem
+            {
+                desRect = new RectangleF(strPoint.X, strPoint.Y + 4, strSize.Width, strSize.Height),
+                text = scoreStr,
+                font = Font,
+                textBrush = new SolidBrush(Color.FromArgb(127, 0, 0, 0))
+            });
+
             NeedToRender.Add(new RenderTextItem
             {
                 desRect = new RectangleF(strPoint.X, strPoint.Y, strSize.Width, strSize.Height),
@@ -67,8 +202,8 @@ namespace Tetris.Graphics
             if (nextBlock != null)
             {
                 var matrixSize = nextBlock.Matrix.Length * Block.BlockPixelSize + (nextBlock.Matrix.Length - 1) * BlockPadding;
-                var startY = _scoreBoardSize.Height - _scoreBoardNextBlockPadding - matrixSize;
-                var startX = _boardSize.Width + (_scoreBoardSize.Width - matrixSize) / 2;
+                var startY = _scoreBoardNextBlockPadding + (_scoreBoardRect.Height - matrixSize) / 2;
+                var startX = _boardSize.Width + (_scoreBoardRect.Width - matrixSize) / 2;
 
                 foreach (var row in nextBlock.Matrix)
                 {
@@ -211,14 +346,11 @@ namespace Tetris.Graphics
             }
             #endregion
 
-            if (BoardLogic.Paused)
-                NeedToRender.Add(new RenderImageItem
-                {
-                    image = _pausedOverlayBitmap,
-                    srcRectangle = new Rectangle(0, 0, _pausedOverlayBitmap.Width, _pausedOverlayBitmap.Height),
-                    desRectangle = new Rectangle(0, 0, _pausedOverlayBitmap.Width, _pausedOverlayBitmap.Height)
-                });
             base.OnPaint(pe);
+            if (BoardLogic.Paused)
+            {
+                pe.Graphics.DrawImage(_pausedOverlayBitmap, 0, 0, Width, Height);
+            }
         }
 
         protected override void SetBoundsForBitmap()

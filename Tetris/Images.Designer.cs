@@ -63,9 +63,9 @@ namespace Tetris {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _248369318_229702532589924_6173891530092604717_n {
+        public static System.Drawing.Bitmap BackGround {
             get {
-                object obj = ResourceManager.GetObject("248369318_229702532589924_6173891530092604717_n", resourceCulture);
+                object obj = ResourceManager.GetObject("BackGround", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,29 @@ namespace Tetris {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap board {
+        public static System.Drawing.Bitmap BackGround2 {
             get {
-                object obj = ResourceManager.GetObject("board", resourceCulture);
+                object obj = ResourceManager.GetObject("BackGround2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Board {
+            get {
+                object obj = ResourceManager.GetObject("Board", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap ScoreBoard {
+            get {
+                object obj = ResourceManager.GetObject("ScoreBoard", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

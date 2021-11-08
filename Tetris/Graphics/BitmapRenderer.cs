@@ -41,8 +41,6 @@ namespace Tetris.Graphics
             };
 
             DoubleBuffered = true;
-            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            BackColor = Color.Transparent;
         }
 
         public virtual void CreateBitmap(int width, int height)
@@ -58,8 +56,6 @@ namespace Tetris.Graphics
 
         protected override void OnPaint(PaintEventArgs pe)
         {
-            base.OnPaint(pe);
-
             if (_bufferBitmap == null)
                 return;
 

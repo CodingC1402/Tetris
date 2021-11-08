@@ -1,0 +1,277 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows.Forms;
+using Tetris.Board;
+
+namespace Tetris.Logic
+{
+    public static class BoardLogic
+    {
+        public static Block[][] Blocks;
+        public static TetrisBlock CurrentBlock = null;
+        public static readonly int NumberOfRow = 20;
+        public static readonly int NumberOfCol = 10;
+        public static readonly float TimeBeforeClear = 0.5f;
+
+        private static bool _clearingRow = false;
+
+        private static float _inputMoveLeftCheckCounter = 0;
+        private static float _inputMoveRightCheckCounter = 0;
+        private static float _inputMoveDownCheckCounter = 0;
+        private static float _delayBetweenEachInputcheck = 0.1f;
+
+        private static float _counter = 0;
+        private static float _maxCounter = 3;
+        private static int _dropSpeed = 1;
+        private static float _delayBetweenDrop;
+        private static int _lineCleared = 0;
+
+        private static float[] _rowCleanUpCounter = new float[NumberOfRow];
+        public static float[] RowCleanUpCounter
+        {
+            get => _rowCleanUpCounter;
+        }
+
+        private static float _placingCounter = 0;
+        public static float PlacingCounter
+        {
+            get => _placingCounter;
+        }
+        private static bool _startPlacingCounter = false;
+        public static bool StartPlacingCounter
+        {
+            get => _startPlacingCounter;
+        }
+
+        public static int DropSpeed
+        {
+            get => _dropSpeed;
+            set
+            {
+                _dropSpeed = value;
+                _delayBetweenDrop = 1 / (float)value;
+            }
+        }
+        public static float DelayBetweenDrop
+        {
+            get => _delayBetweenDrop;
+        }
+        public static int LineCleared
+        {
+            get => _lineCleared;
+            set
+            {
+                _lineCleared = value;
+                DropSpeed = _lineCleared / 50 + 1;
+            }
+        }
+
+        static BoardLogic()
+        {
+            _delayBetweenDrop = 1 / (float)_dropSpeed;
+
+            Blocks = new Block[BoardLogic.NumberOfRow][];
+            for (int i = 0; i < BoardLogic.NumberOfRow; i++)
+            {
+                Blocks[i] = new Block[BoardLogic.NumberOfCol];
+                _rowCleanUpCounter[i] = -1;
+            }
+        }
+
+        public static void Start()
+        {
+            CreateBlock();
+            Blocks = new Block[BoardLogic.NumberOfRow][];
+            for (int i = 0; i < BoardLogic.NumberOfRow; i++)
+            {
+                Blocks[i] = new Block[BoardLogic.NumberOfCol];
+                _rowCleanUpCounter[i] = -1;
+            }
+        }
+
+        public static void Update()
+        {
+            #region clearing rows
+
+            for (int row = 0; row < NumberOfRow; row++)
+            {
+                if (_rowCleanUpCounter[row] > 0)
+                {
+                    _rowCleanUpCounter[row] -= Program.DeltaTime;
+                    if (_rowCleanUpCounter[row] <= 0)
+                    {
+                        ClearRow(row);
+                        if (_clearingRow)
+                        {
+                            CreateBlock();
+                            _clearingRow = false;
+                        }
+                    }
+                }
+            }
+
+            if (_clearingRow)
+                return;
+
+            #endregion
+            #region Move down and check place
+            _counter += Program.DeltaTime;
+            if (_counter > _maxCounter)
+                _counter = _maxCounter;
+
+            if (_counter > _delayBetweenDrop)
+            {
+                _counter -= _delayBetweenDrop;
+                if (CurrentBlock != null)
+                {
+                    CurrentBlock.MoveDown();
+                }
+            }
+
+            _inputMoveDownCheckCounter += Program.DeltaTime;
+            _inputMoveLeftCheckCounter += Program.DeltaTime;
+            _inputMoveRightCheckCounter += Program.DeltaTime;
+
+            if (CurrentBlock != null)
+            {
+                var needToCheckRight = _inputMoveRightCheckCounter >= _delayBetweenEachInputcheck;
+                var needToCheckLeft = _inputMoveLeftCheckCounter >= _delayBetweenEachInputcheck;
+                var needToCheckDown = _inputMoveDownCheckCounter >= MathF.Min(_delayBetweenEachInputcheck, _delayBetweenDrop);
+
+                if (InputSystem.MoveLeftInput.IsKeyPressed ^ InputSystem.MoveRightInput.IsKeyPressed)
+                {
+                    if (InputSystem.MoveLeftInput.IsKeyDown || (needToCheckLeft && InputSystem.MoveLeftInput.IsKeyPressed))
+                    {
+                        CurrentBlock.MoveLeft();
+                        _inputMoveLeftCheckCounter = 0;
+                    }
+
+                    if (InputSystem.MoveRightInput.IsKeyDown || (needToCheckRight && InputSystem.MoveRightInput.IsKeyPressed))
+                    {
+                        CurrentBlock.MoveRight();
+                        _inputMoveRightCheckCounter = 0;
+                    }
+                }
+
+                if (InputSystem.MoveDownInput.IsKeyDown || (needToCheckDown && InputSystem.MoveDownInput.IsKeyPressed))
+                {
+                    CurrentBlock.MoveDown();
+                    _counter = 0;
+                    _inputMoveDownCheckCounter = 0;
+                }
+
+                if (InputSystem.RotateInput.IsKeyDown)
+                {
+                    CurrentBlock.Rotate();
+                }
+
+                if (InputSystem.ForcePlaceInput.IsKeyDown)
+                {
+                    CurrentBlock.ForcePlace();
+                    CurrentBlock = null;
+                    if (!_clearingRow)
+                        CreateBlock();
+                }
+            }
+            #endregion
+            #region Counter to place
+            if (CurrentBlock!= null && !CurrentBlock.CheckMoveDown())
+            {
+                if (_startPlacingCounter)
+                {
+                    _placingCounter += Program.DeltaTime;
+                    if (_placingCounter >= _delayBetweenDrop)
+                    {
+                        PlaceBlock();
+                        if (!_clearingRow)
+                            CreateBlock();
+                    }
+                }
+                else
+                {
+                    _startPlacingCounter = true;
+                    _placingCounter = 0;
+                }
+            }
+            else
+            {
+                _startPlacingCounter = false;
+            }
+            #endregion
+        }
+
+        private static void PlaceBlock()
+        {
+            _startPlacingCounter = false;
+            CurrentBlock.Dispose();
+            CurrentBlock = null;
+        }
+
+        private static void ClearRow(int row)
+        {
+            for (int clearingRow = row; clearingRow > 0; clearingRow--)
+            {
+                Blocks[clearingRow] = Blocks[clearingRow - 1];
+            }
+            Blocks[0] = new Block[NumberOfCol];
+            LineCleared++;
+        }
+
+        private static void CreateBlock()
+        {
+            _counter = 0;
+
+            bool foundBlock = false;
+            int row;
+            CurrentBlock = TetrisBlock.CreateTetrisBlock();
+            for (row = CurrentBlock.Matrix.Length - 1; row >= 0; row--)
+            {
+                for (int col = 0; col < CurrentBlock.Matrix[row].Length; col++)
+                {
+                    if (CurrentBlock.Matrix[row][col] != null)
+                    {
+                        foundBlock = true;
+                        break;
+                    }
+                }
+
+                if (foundBlock)
+                    break;
+            }
+            CurrentBlock.Position.Y = -row - 1;
+            CurrentBlock.Position.X = (NumberOfCol - CurrentBlock.Matrix[0].Length) / 2;
+        }
+
+        // Bottom up
+        public static void CheckClear(int startRow, int numberOfRowCheck)
+        {
+            bool clear;
+            for (int row = startRow; row > startRow - numberOfRowCheck && row > 0; row--)
+            {
+                clear = true;
+                foreach (var block in Blocks[row])
+                {
+                    if (block == null)
+                    {
+                        clear = false;
+                        break;
+                    }
+                }
+
+                if (clear)
+                {
+                    _rowCleanUpCounter[row] = TimeBeforeClear;
+                    _clearingRow = true;
+                    //for (int clearingRow = row; clearingRow > 0; clearingRow--)
+                    //{
+                    //    Blocks[clearingRow] = Blocks[clearingRow - 1];
+                    //}
+                    //Blocks[0] = new Block[NumberOfCol];
+                    //row++;
+                    //LineCleared++;
+                }
+            }
+        }
+    }
+}

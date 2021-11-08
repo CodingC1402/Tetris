@@ -83,7 +83,7 @@ namespace Tetris.Board
         public static TetrisBlockTemplate GetRandomTemplate()
         {
             var index = Program.Rnd.Next(0, Templates.Count);
-            return Templates[0];
+            return Templates[index];
         }
 
         public int[][] Matrix;

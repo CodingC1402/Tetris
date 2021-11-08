@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using Tetris.Board;
+using Tetris.Graphics;
 
 namespace Tetris.Logic
 {
@@ -10,9 +11,13 @@ namespace Tetris.Logic
     {
         public static Block[][] Blocks;
         public static TetrisBlock CurrentBlock = null;
+        public static TetrisBlock NextBlock = null;
+
         public static readonly int NumberOfRow = 20;
         public static readonly int NumberOfCol = 10;
         public static readonly float TimeBeforeClear = 0.5f;
+        public static readonly int BaseScore = 40;
+        public static bool Paused = false;
 
         private static bool _clearingRow = false;
 
@@ -26,6 +31,16 @@ namespace Tetris.Logic
         private static int _dropSpeed = 1;
         private static float _delayBetweenDrop;
         private static int _lineCleared = 0;
+
+        private static int _score = 0;
+        public static int Score
+        {
+            get => _score;
+            private set
+            {
+                _score = value;
+            }
+        }
 
         private static float[] _rowCleanUpCounter = new float[NumberOfRow];
         public static float[] RowCleanUpCounter
@@ -81,6 +96,8 @@ namespace Tetris.Logic
 
         public static void Start()
         {
+            NextBlock = TetrisBlock.CreateTetrisBlock();
+            CurrentBlock = null;
             CreateBlock();
             Blocks = new Block[BoardLogic.NumberOfRow][];
             for (int i = 0; i < BoardLogic.NumberOfRow; i++)
@@ -88,12 +105,29 @@ namespace Tetris.Logic
                 Blocks[i] = new Block[BoardLogic.NumberOfCol];
                 _rowCleanUpCounter[i] = -1;
             }
+
+            //for (int i = NumberOfRow - 1; i > NumberOfRow - 5; i--)
+            //{
+            //    for (int c = 1; c < NumberOfCol; c++)
+            //    {
+            //        Blocks[i][c] = new Block
+            //        {
+            //            LocalPosition = new System.Drawing.Point(c, i),
+            //            Sprite = Sprite.Collection["Block0"],
+            //        };
+            //    }
+            //}
+
+            DropSpeed = 1;
+            Score = 0;
         }
 
         public static void Update()
         {
-            #region clearing rows
+            if (Paused)
+                return;
 
+            #region clearing rows
             for (int row = 0; row < NumberOfRow; row++)
             {
                 if (_rowCleanUpCounter[row] > 0)
@@ -224,7 +258,8 @@ namespace Tetris.Logic
 
             bool foundBlock = false;
             int row;
-            CurrentBlock = TetrisBlock.CreateTetrisBlock();
+
+            CurrentBlock = NextBlock;
             for (row = CurrentBlock.Matrix.Length - 1; row >= 0; row--)
             {
                 for (int col = 0; col < CurrentBlock.Matrix[row].Length; col++)
@@ -241,12 +276,15 @@ namespace Tetris.Logic
             }
             CurrentBlock.Position.Y = -row - 1;
             CurrentBlock.Position.X = (NumberOfCol - CurrentBlock.Matrix[0].Length) / 2;
+
+            NextBlock = TetrisBlock.CreateTetrisBlock();
         }
 
         // Bottom up
         public static void CheckClear(int startRow, int numberOfRowCheck)
         {
             bool clear;
+            int numberOfRowCleared = 0;
             for (int row = startRow; row > startRow - numberOfRowCheck && row > 0; row--)
             {
                 clear = true;
@@ -263,6 +301,7 @@ namespace Tetris.Logic
                 {
                     _rowCleanUpCounter[row] = TimeBeforeClear;
                     _clearingRow = true;
+                    numberOfRowCleared++;
                     //for (int clearingRow = row; clearingRow > 0; clearingRow--)
                     //{
                     //    Blocks[clearingRow] = Blocks[clearingRow - 1];
@@ -271,6 +310,20 @@ namespace Tetris.Logic
                     //row++;
                     //LineCleared++;
                 }
+            }
+
+            if (numberOfRowCleared > 0)
+            {
+                int score = BaseScore;
+                if (numberOfRowCleared > 1)
+                    score = (int)(score * 2.5f);
+                if (numberOfRowCleared > 2)
+                    score = (int)(score * 3.0f);
+                if (numberOfRowCleared > 3)
+                    score = (int)(score * 4.0f);
+
+                score *= _dropSpeed;
+                Score += score;
             }
         }
     }

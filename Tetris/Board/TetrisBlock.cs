@@ -221,7 +221,11 @@ namespace Tetris.Board
             {
                 foreach (var col in row)
                 {
-                    col?.Place();
+                    if (col != null && !col.Place())
+                    {
+                        BoardLogic.Start();
+                        return;
+                    }
                 }
             }
 

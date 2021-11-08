@@ -20,7 +20,7 @@ namespace Tetris.Graphics
         protected int _offSetX = 0;
         protected int _offSetY = 0;
 
-        public bool PerfectPixel = false;
+        public bool PerfectPixel = true;
 
         public Bitmap BufferBitmap
         {
@@ -41,9 +41,11 @@ namespace Tetris.Graphics
             };
 
             DoubleBuffered = true;
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            BackColor = Color.Transparent;
         }
 
-        public void CreateBitmap(int width, int height)
+        public virtual void CreateBitmap(int width, int height)
         {
             _bufferBitmap = new Bitmap(width, height);
             _bufferGfx = System.Drawing.Graphics.FromImage(_bufferBitmap);
@@ -67,11 +69,10 @@ namespace Tetris.Graphics
                 item.Draw(_bufferGfx);
             }
 
-            pe.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-            pe.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-            pe.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            pe.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            pe.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Default;
+            pe.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
 
-            pe.Graphics.Clear(BackColor);
             pe.Graphics.DrawImage(_bufferBitmap, _offSetX, _offSetY, _trueWidth, _trueHeight);
             NeedToRender.Clear();
         }

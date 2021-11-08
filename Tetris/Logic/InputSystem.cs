@@ -70,6 +70,11 @@ namespace Tetris.Logic
                 {
                     BoardLogic.Start();
                 }
+
+                if (key.IsKeyDown && key.KeyCode == Keys.Escape)
+                {
+                    BoardLogic.Paused = !BoardLogic.Paused;
+                }
             }
         }
 

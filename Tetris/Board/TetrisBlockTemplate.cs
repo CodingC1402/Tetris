@@ -82,7 +82,7 @@ namespace Tetris.Board
         };
         public static TetrisBlockTemplate GetRandomTemplate()
         {
-            var index = Program.Rnd.Next(0, Templates.Count);
+            var index = Program.GetRandom(0, Templates.Count);
             return Templates[index];
         }
 

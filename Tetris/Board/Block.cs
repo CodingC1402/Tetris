@@ -24,10 +24,36 @@ namespace Tetris.Board
                 return new Point(Parent.Position.X + LocalPosition.X, Parent.Position.Y + LocalPosition.Y);
         }
 
+        public Point GetShadowPosition()
+        {
+            if (!Moving)
+                return LocalPosition;
+            else
+                return new Point(Parent.ShadowPosition.X + LocalPosition.X, Parent.ShadowPosition.Y + LocalPosition.Y);
+        }
+
         // if touching other blocks or the end it will return false else return true
         public bool CheckMoveDown()
         {
             Point newPos = GetWorldPoint();
+            newPos.Y++;
+
+            if (newPos.Y < 0)
+                return true;
+
+            if (newPos.Y >= BoardLogic.NumberOfRow)
+                return false;
+
+            if (newPos.Y < 0)
+                return true;
+
+            var block = BoardLogic.Blocks[newPos.Y][newPos.X];
+            return block == null;
+        }
+
+        public bool CheckShadowCast()
+        {
+            Point newPos = GetShadowPosition();
             newPos.Y++;
 
             if (newPos.Y < 0)

@@ -50,6 +50,11 @@ namespace Tetris.Graphics
 
         private Timer _backgroundTimer = new Timer();
 
+        private float _tetrisEffectOffset = 0.05f;
+
+        private float _shadowOpacity = 0.35f;
+        private float _shadowScale = 0.9f;
+
         public Board()
         {
             InitializeComponent();
@@ -239,9 +244,118 @@ namespace Tetris.Graphics
                 image = _boardSprite.Texture.Bmp,
                 desRectangle = new Rectangle(0, 0, _boardSize.Width, BufferBitmap.Height)
             });
-            Rectangle desRect = new Rectangle(StartPos.X + BlockPadding, StartPos.Y + BlockPadding, Block.BlockPixelSize, Block.BlockPixelSize);
 
-            for(int row = 0; row < BoardLogic.Blocks.Length; row++)
+            if (BoardLogic.TetrisEffectCounter > 0)
+                DrawBoardTetrisEffect();
+            else
+                DrawBoardWthoutTetrisEffect();
+
+            DrawCurrentBlock();
+            #endregion
+
+            base.OnPaint(pe);
+            if (BoardLogic.Paused)
+            {
+                pe.Graphics.DrawImage(_pausedOverlayBitmap, 0, 0, Width, Height);
+            }
+        }
+
+        protected override void SetBoundsForBitmap()
+        {
+            base.SetBoundsForBitmap();
+            _innerBound.X = _offSetX + StartPos.X / 2;
+            _innerBound.Y = _offSetY + StartPos.Y / 2;
+            _innerBound.Width = _trueWidth - StartPos.X;
+            _innerBound.Height = _trueHeight - StartPos.Y;
+        }
+
+        public override void CreateBitmap(int width, int height)
+        {
+            base.CreateBitmap(width, height);
+            _pausedOverlayBitmap = new Bitmap(width, height);
+            using (System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(_pausedOverlayBitmap))
+            {
+                gfx.Clear(Color.FromArgb(127, 0, 0, 0));
+            }
+        }
+
+        protected void DrawCurrentBlock()
+        {
+            var currentBlock = BoardLogic.CurrentBlock;
+            if (currentBlock != null)
+            {
+                bool needToDrawShadow = !currentBlock.Position.Equals(currentBlock.ShadowPosition);
+                foreach (var row in currentBlock.Matrix)
+                {
+                    foreach (var block in row)
+                    {
+                        if (block != null)
+                        {
+                            Point worldPoint = block.GetWorldPoint();
+                            if (worldPoint.Y >= 0)
+                            {
+                                RenderImageItem newRenderItem = new RenderImageItem
+                                {
+                                    srcRectangle = block.Sprite.SrcRect,
+                                    image = block.Sprite.Texture.Bmp,
+                                    desRectangle = new Rectangle(
+                                        StartPos.X + worldPoint.X * Block.BlockPixelSize + (worldPoint.X + 1) * BlockPadding,
+                                        StartPos.Y + worldPoint.Y * Block.BlockPixelSize + (worldPoint.Y + 1) * BlockPadding,
+                                        Block.BlockPixelSize,
+                                        Block.BlockPixelSize
+                                    ),
+                                };
+
+                                if (BoardLogic.StartPlacingCounter)
+                                {
+                                    newRenderItem.colorMatrix = new System.Drawing.Imaging.ColorMatrix();
+
+                                    float divisionTime = BoardLogic.DelayBetweenDrop / _flashBeforeEnd;
+                                    float opacityFactor = (BoardLogic.PlacingCounter % divisionTime) / divisionTime;
+
+                                    if (opacityFactor > 0.5)
+                                    {
+                                        opacityFactor = 1 - opacityFactor;
+                                    }
+
+                                    float opacity = opacityFactor * 2 * _maxOpacityWhenFlash;
+                                    newRenderItem.colorMatrix.Matrix33 = opacity;
+                                }
+
+                                NeedToRender.Add(newRenderItem);
+                            }
+
+                            // Drawing shadows
+                            Point shadowPoint = block.GetShadowPosition();
+                            if (needToDrawShadow &&  shadowPoint.Y >= 0)
+                            {
+                                var offSet = (int)(Block.BlockPixelSize * (1 - _shadowScale) / 2);
+                                RenderImageItem newRenderItem = new RenderImageItem
+                                {
+                                    srcRectangle = block.Sprite.SrcRect,
+                                    image = block.Sprite.Texture.Bmp,
+                                    desRectangle = new Rectangle(
+                                        StartPos.X + shadowPoint.X * Block.BlockPixelSize + (shadowPoint.X + 1) * BlockPadding + offSet,
+                                        StartPos.Y + shadowPoint.Y * Block.BlockPixelSize + (shadowPoint.Y + 1) * BlockPadding + offSet,
+                                        (int)(Block.BlockPixelSize * _shadowScale),
+                                        (int)(Block.BlockPixelSize * _shadowScale)
+                                    ),
+                                    colorMatrix = new ColorMatrix()
+                                };
+                                newRenderItem.colorMatrix.Matrix33 = _shadowOpacity;
+
+                                NeedToRender.Add(newRenderItem);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        protected void DrawBoardWthoutTetrisEffect()
+        {
+            Rectangle desRect = new Rectangle(StartPos.X + BlockPadding, StartPos.Y + BlockPadding, Block.BlockPixelSize, Block.BlockPixelSize);
+            for (int row = 0; row < BoardLogic.Blocks.Length; row++)
             {
                 if (BoardLogic.RowCleanUpCounter[row] > 0)
                 {
@@ -298,78 +412,45 @@ namespace Tetris.Graphics
                 desRect.X = StartPos.X + BlockPadding;
                 desRect.Y += BlockPadding + Block.BlockPixelSize;
             }
+        }
 
-            var currentBlock = BoardLogic.CurrentBlock;
-            if (currentBlock != null)
+        protected void DrawBoardTetrisEffect()
+        {
+            Rectangle desRect = new Rectangle(StartPos.X + BlockPadding, StartPos.Y + BlockPadding, Block.BlockPixelSize, Block.BlockPixelSize);
+            for (int row = 0; row < BoardLogic.Blocks.Length; row++)
             {
-                foreach (var row in currentBlock.Matrix)
+                var colOffSet = (row) * _tetrisEffectOffset;
+                for (int col = 0; col < BoardLogic.NumberOfCol; col++)
                 {
-                    foreach (var block in row)
+                    var block = BoardLogic.Blocks[row][col];
+                    if (block != null)
                     {
-                        if (block != null)
+                        var newItem = new RenderImageItem
                         {
-                            Point worldPoint = block.GetWorldPoint();
-                            if (worldPoint.Y >= 0)
-                            {
-                                RenderImageItem newRenderItem = new RenderImageItem
-                                {
-                                    srcRectangle = block.Sprite.SrcRect,
-                                    image = block.Sprite.Texture.Bmp,
-                                    desRectangle = new Rectangle(
-                                        StartPos.X + worldPoint.X * Block.BlockPixelSize + (worldPoint.X + 1) * BlockPadding,
-                                        StartPos.Y + worldPoint.Y * Block.BlockPixelSize + (worldPoint.Y + 1) * BlockPadding,
-                                        Block.BlockPixelSize,
-                                        Block.BlockPixelSize
-                                    ),
-                                };
-                                if (BoardLogic.StartPlacingCounter)
-                                {
-                                    newRenderItem.colorMatrix = new System.Drawing.Imaging.ColorMatrix();
-
-                                    float divisionTime = BoardLogic.DelayBetweenDrop / _flashBeforeEnd;
-                                    float opacityFactor = (BoardLogic.PlacingCounter % divisionTime) / divisionTime;
-
-                                    if (opacityFactor > 0.5)
-                                    {
-                                        opacityFactor = 1 - opacityFactor;
-                                    }
-
-                                    float opacity = opacityFactor * 2 * _maxOpacityWhenFlash;
-                                    newRenderItem.colorMatrix.Matrix33 = opacity;
-                                }
-
-                                NeedToRender.Add(newRenderItem);
-                            }
+                            srcRectangle = block.Sprite.SrcRect,
+                            image = block.Sprite.Texture.Bmp,
+                            desRectangle = desRect,
+                            colorMatrix = new ColorMatrix()
+                        };
+                        var opacity = MathF.Max(0, (BoardLogic.TetrisEffectCounter - colOffSet)) / (BoardLogic.TetrisEffectTime - colOffSet);
+                        if (opacity < 0.5)
+                        {
+                            opacity = 1 - opacity;
                         }
+                        opacity = (opacity - 0.5f) * 2;
+                        //newItem.colorMatrix.Matrix33 = opacity;
+                        newItem.colorMatrix.Matrix00 = 1 / opacity;
+                        newItem.colorMatrix.Matrix11 = 1 / opacity;
+                        newItem.colorMatrix.Matrix22 = 1 / opacity;
+
+                        NeedToRender.Add(newItem);
                     }
+                    desRect.X += BlockPadding + Block.BlockPixelSize;
                 }
-            }
-            #endregion
 
-            base.OnPaint(pe);
-            if (BoardLogic.Paused)
-            {
-                pe.Graphics.DrawImage(_pausedOverlayBitmap, 0, 0, Width, Height);
-            }
-        }
-
-        protected override void SetBoundsForBitmap()
-        {
-            base.SetBoundsForBitmap();
-            _innerBound.X = _offSetX + StartPos.X / 2;
-            _innerBound.Y = _offSetY + StartPos.Y / 2;
-            _innerBound.Width = _trueWidth - StartPos.X;
-            _innerBound.Height = _trueHeight - StartPos.Y;
-        }
-
-        public override void CreateBitmap(int width, int height)
-        {
-            base.CreateBitmap(width, height);
-            _pausedOverlayBitmap = new Bitmap(width, height);
-            using (System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(_pausedOverlayBitmap))
-            {
-                gfx.Clear(Color.FromArgb(127, 0, 0, 0));
-            }
+                desRect.X = StartPos.X + BlockPadding;
+                desRect.Y += BlockPadding + Block.BlockPixelSize;
+            } 
         }
     }
 }

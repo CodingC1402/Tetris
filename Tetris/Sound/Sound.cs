@@ -11,7 +11,7 @@ namespace Tetris.Sound
     public class Sound : IDisposable
     {
         public static readonly string AudioPath = "";
-        public static readonly string AudioFolder = "AudioFiles";
+        public static readonly string AudioFolder = "AudioFiles/SoundEffects";
 
         private static float _sfxVolumn = 1;
         public static float SfxVolumn
@@ -23,15 +23,15 @@ namespace Tetris.Sound
                 if (_sfxVolumn != value)
                 {
                     _sfxVolumn = value;
-                    foreach (Sound sound in Collection)
+                    foreach (var sound in Collection)
                     {
-                        sound.UpdateVolumn();
+                        sound.Value.UpdateVolumn();
                     }
                 }
             }
         }
 
-        public static Sound[] Collection;
+        public static Dictionary<string, Sound> Collection;
 
         public readonly string ID = "";
         public readonly string AudioAddress = "";
@@ -53,9 +53,7 @@ namespace Tetris.Sound
         static Sound()
         {
             AudioPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, AudioFolder);
-            Collection = new Sound[] { 
-                
-            };
+            Collection = new Dictionary<string, Sound>();
         }
 
         private Sound(string id, string fileAddress)

@@ -11,10 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Audio.Designer.cs">
+    <Compile Update="SfxFileName.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Audio.resx</DependentUpon>
+      <DependentUpon>SfxFileName.resx</DependentUpon>
     </Compile>
     <Compile Update="Images.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -24,14 +24,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Audio.resx">
+    <EmbeddedResource Update="SfxFileName.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Audio.Designer.cs</LastGenOutput>
+      <LastGenOutput>SfxFileName.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Images.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Images.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AudioFiles\Musics\" />
+    <Folder Include="AudioFiles\SoundEffects\" />
   </ItemGroup>
 
 </Project>

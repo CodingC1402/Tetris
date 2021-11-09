@@ -15,7 +15,7 @@ namespace Tetris.Board
             var template = TetrisBlockTemplate.GetRandomTemplate();
 
             var newTetris = new TetrisBlock(template);
-            var rotateTime = Program.Rnd.Next(0, 4);
+            var rotateTime = Program.GetRandom(0, 4);
             for (int i = 0; i < rotateTime; i++)
             {
                 newTetris.Rotate();
@@ -25,7 +25,21 @@ namespace Tetris.Board
         }
 
         public Block[][] Matrix;
-        public Point Position;
+
+        private Point _position = new Point();
+        public Point Position
+        {
+            get => _position;
+            set
+            {
+                if (_position != value)
+                {
+                    _position = value;
+                    UpdateShadow();
+                }
+            }
+        }
+        public Point ShadowPosition;
 
         private TetrisBlock(TetrisBlockTemplate template)
         {
@@ -62,7 +76,8 @@ namespace Tetris.Board
                 }
             }
 
-            Position.X++;
+            _position.X++;
+            UpdateShadow();
             return true;
         }
 
@@ -79,7 +94,8 @@ namespace Tetris.Board
                 }
             }
 
-            Position.X--;
+            _position.X--;
+            UpdateShadow();
             return true;
         }
 
@@ -96,7 +112,7 @@ namespace Tetris.Board
                 }
             }
 
-            Position.Y++;
+            _position.Y++;
             return true;
         }
 
@@ -211,7 +227,11 @@ namespace Tetris.Board
             }
 
             if (canRotate)
+            {
                 Matrix = newMatrix;
+                UpdateShadow();
+            }
+
             return canRotate;
         }
 
@@ -230,6 +250,28 @@ namespace Tetris.Board
             }
 
             BoardLogic.CheckClear(Math.Min(Position.Y + Matrix.Length - 1, BoardLogic.NumberOfRow - 1), Matrix.Length);
+        }
+
+        private void UpdateShadow()
+        {
+            ShadowPosition = Position;
+
+            bool hitBottom = false;
+            while (!hitBottom)
+            {
+                foreach (Block[] row in Matrix)
+                {
+                    foreach (Block block in row)
+                    {
+                        if (block != null && !block.CheckShadowCast())
+                        {
+                            return;
+                        }
+                    }
+                }
+
+                ShadowPosition.Y++;
+            }
         }
     }
 }

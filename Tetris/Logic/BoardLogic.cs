@@ -41,6 +41,11 @@ namespace Tetris.Logic
         private static float _delayBetweenDrop;
         private static int _lineCleared = 0;
 
+        private static float _tetrisEffectTime = 1f;
+        private static float _tetrisEffectCounter = 0f;
+        public static float TetrisEffectCounter { get => _tetrisEffectCounter; }
+        public static float TetrisEffectTime { get => _tetrisEffectTime; }
+
         private static int _score = 0;
         public static int Score
         {
@@ -135,6 +140,12 @@ namespace Tetris.Logic
         {
             if (Paused)
                 return;
+
+            if (_tetrisEffectCounter > 0)
+            {
+                _tetrisEffectCounter -= Program.DeltaTime;
+                return;
+            }
 
             #region clearing rows
             for (int row = 0; row < NumberOfRow; row++)
@@ -283,9 +294,7 @@ namespace Tetris.Logic
                 if (foundBlock)
                     break;
             }
-            CurrentBlock.Position.Y = -row - 1;
-            CurrentBlock.Position.X = (NumberOfCol - CurrentBlock.Matrix[0].Length) / 2;
-
+            CurrentBlock.Position = new System.Drawing.Point((NumberOfCol - CurrentBlock.Matrix[0].Length) / 2, -row - 1);
             NextBlock = TetrisBlock.CreateTetrisBlock();
         }
 
@@ -325,11 +334,18 @@ namespace Tetris.Logic
             {
                 int score = BaseScore;
                 if (numberOfRowCleared > 1)
+                {
                     score = (int)(score * 2.5f);
+                }
+
                 if (numberOfRowCleared > 2)
                     score = (int)(score * 3.0f);
+
                 if (numberOfRowCleared > 3)
+                {
                     score = (int)(score * 4.0f);
+                    _tetrisEffectCounter = _tetrisEffectTime;
+                }
 
                 score *= _dropSpeed;
                 Score += score;

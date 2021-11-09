@@ -245,12 +245,15 @@ namespace Tetris.Graphics
                 desRectangle = new Rectangle(0, 0, _boardSize.Width, BufferBitmap.Height)
             });
 
-            if (BoardLogic.TetrisEffectCounter > 0)
-                DrawBoardTetrisEffect();
-            else
-                DrawBoardWthoutTetrisEffect();
+            if (!BoardLogic.Paused)
+            {
+                if (BoardLogic.TetrisEffectCounter > 0)
+                    DrawBoardTetrisEffect();
+                else
+                    DrawBoardWthoutTetrisEffect();
 
-            DrawCurrentBlock();
+                DrawCurrentBlock();
+            }
             #endregion
 
             base.OnPaint(pe);
@@ -291,6 +294,29 @@ namespace Tetris.Graphics
                     {
                         if (block != null)
                         {
+                            // Drawing shadows
+                            Point shadowPoint = block.GetShadowPosition();
+                            if (needToDrawShadow && shadowPoint.Y >= 0)
+                            {
+                                var offSet = (int)(Block.BlockPixelSize * (1 - _shadowScale) / 2);
+                                RenderImageItem newRenderItem = new RenderImageItem
+                                {
+                                    srcRectangle = block.Sprite.SrcRect,
+                                    image = block.Sprite.Texture.Bmp,
+                                    desRectangle = new Rectangle(
+                                        StartPos.X + shadowPoint.X * Block.BlockPixelSize + (shadowPoint.X + 1) * BlockPadding + offSet,
+                                        StartPos.Y + shadowPoint.Y * Block.BlockPixelSize + (shadowPoint.Y + 1) * BlockPadding + offSet,
+                                        (int)(Block.BlockPixelSize * _shadowScale),
+                                        (int)(Block.BlockPixelSize * _shadowScale)
+                                    ),
+                                    colorMatrix = new ColorMatrix()
+                                };
+                                newRenderItem.colorMatrix.Matrix33 = _shadowOpacity;
+
+                                NeedToRender.Add(newRenderItem);
+                            }
+
+                            // Drawing the block
                             Point worldPoint = block.GetWorldPoint();
                             if (worldPoint.Y >= 0)
                             {
@@ -321,28 +347,6 @@ namespace Tetris.Graphics
                                     float opacity = opacityFactor * 2 * _maxOpacityWhenFlash;
                                     newRenderItem.colorMatrix.Matrix33 = opacity;
                                 }
-
-                                NeedToRender.Add(newRenderItem);
-                            }
-
-                            // Drawing shadows
-                            Point shadowPoint = block.GetShadowPosition();
-                            if (needToDrawShadow &&  shadowPoint.Y >= 0)
-                            {
-                                var offSet = (int)(Block.BlockPixelSize * (1 - _shadowScale) / 2);
-                                RenderImageItem newRenderItem = new RenderImageItem
-                                {
-                                    srcRectangle = block.Sprite.SrcRect,
-                                    image = block.Sprite.Texture.Bmp,
-                                    desRectangle = new Rectangle(
-                                        StartPos.X + shadowPoint.X * Block.BlockPixelSize + (shadowPoint.X + 1) * BlockPadding + offSet,
-                                        StartPos.Y + shadowPoint.Y * Block.BlockPixelSize + (shadowPoint.Y + 1) * BlockPadding + offSet,
-                                        (int)(Block.BlockPixelSize * _shadowScale),
-                                        (int)(Block.BlockPixelSize * _shadowScale)
-                                    ),
-                                    colorMatrix = new ColorMatrix()
-                                };
-                                newRenderItem.colorMatrix.Matrix33 = _shadowOpacity;
 
                                 NeedToRender.Add(newRenderItem);
                             }
@@ -432,6 +436,8 @@ namespace Tetris.Graphics
                             desRectangle = desRect,
                             colorMatrix = new ColorMatrix()
                         };
+
+                        // Converting linear timeline to segmented in/out timeline for tetris
                         var opacity = MathF.Max(0, (BoardLogic.TetrisEffectCounter - colOffSet)) / (BoardLogic.TetrisEffectTime - colOffSet);
                         if (opacity < 0.5)
                         {

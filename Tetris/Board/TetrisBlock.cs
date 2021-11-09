@@ -140,6 +140,7 @@ namespace Tetris.Board
 
         public bool Rotate()
         {
+            // Create new copy of the old matrix
             Block[][] newMatrix = new Block[Matrix.Length][];
             for (int i = 0; i < Matrix.Length; i++)
             {
@@ -155,6 +156,7 @@ namespace Tetris.Board
             }
 
             bool canRotate = true;
+            // Rotate the copy
             for (int row = 0; row < Matrix.Length / 2; row++)
             {
                 for (int col = row; col <= (Matrix[row].Length - row) / 2; col++)
@@ -178,11 +180,6 @@ namespace Tetris.Board
                     {
                         thirdBlock.LocalPosition.X = fourthCountCol;
                         thirdBlock.LocalPosition.Y = fourthCountRow;
-                        if (!thirdBlock.CheckCurrentPos())
-                        {
-                            canRotate = false;
-                            break;
-                        }
                     }
 
                     newMatrix[row][col] = fourthBlock;
@@ -190,11 +187,6 @@ namespace Tetris.Board
                     {
                         fourthBlock.LocalPosition.X = col;
                         fourthBlock.LocalPosition.Y = row;
-                        if (!fourthBlock.CheckCurrentPos())
-                        {
-                            canRotate = false;
-                            break;
-                        }
                     }
 
                     newMatrix[secondCountRow][secondCountCol] = firstBlock;
@@ -202,11 +194,6 @@ namespace Tetris.Board
                     {
                         firstBlock.LocalPosition.X = secondCountCol;
                         firstBlock.LocalPosition.Y = secondCountRow;
-                        if (!firstBlock.CheckCurrentPos())
-                        {
-                            canRotate = false;
-                            break;
-                        }
                     }
 
                     newMatrix[thirdCountRow][thirdCountCol] = secondBlock;
@@ -214,16 +201,63 @@ namespace Tetris.Board
                     {
                         secondBlock.LocalPosition.X = thirdCountCol;
                         secondBlock.LocalPosition.Y = thirdCountRow;
-                        if (!secondBlock.CheckCurrentPos())
-                        {
-                            canRotate = false;
-                            break;
-                        }
+                    }
+                }
+            }
+
+            bool needShiftLeft = false;
+            bool needShiftRight = false;
+
+            bool needShiftDown = false;
+            bool needShiftUp = false;
+
+            for (var row = 0; row < newMatrix.Length; row++)
+            {
+                bool collide = false;
+
+                for (int col = 0; col < newMatrix[row].Length; col++)
+                {
+                    var block = newMatrix[row][col];
+                    if (block != null && !block.CheckCurrentPos())
+                    {
+                        collide = true;
+
+                        if (col < newMatrix[row].Length / 2)
+                            needShiftRight = true;
+                        else
+                            needShiftLeft = true;
                     }
                 }
 
-                if (!canRotate)
-                    break;
+                if (collide)
+                {
+                    if (row < (newMatrix.Length / 2))
+                        needShiftDown = true;
+                    else
+                        needShiftUp = true;
+                }
+            }
+
+            if (needShiftUp && needShiftDown)
+                canRotate = false;
+            else if (needShiftUp)
+            {
+                canRotate = CheckShiftUp(newMatrix);
+            }
+            else if (needShiftDown)
+            {
+                canRotate = CheckShiftDown(newMatrix);
+            }
+
+            if (needShiftLeft && needShiftRight)
+                canRotate = false;
+            else if (needShiftLeft)
+            {
+                canRotate =  CheckShiftLeft(newMatrix);
+            }
+            else if (needShiftRight)
+            {
+                canRotate = CheckShiftRight(newMatrix);
             }
 
             if (canRotate)
@@ -234,6 +268,98 @@ namespace Tetris.Board
 
             return canRotate;
         }
+
+        private bool CheckMatrix(Block[][] matrix)
+        {
+            foreach (var row in matrix)
+            {
+                for (int col = 0; col < row.Length; col++)
+                {
+                    var block = row[col];
+                    if (block != null && !block.CheckCurrentPos())
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        #region Shifting when rotate
+        // Will shift left if can, if not return false and do nothing
+        private bool CheckShiftLeft(Block[][] matrix)
+        {
+            int shifted = 0;
+            bool ableToShift = CheckMatrix(matrix);
+            for (shifted = 0; shifted < matrix.Length / 2 && !ableToShift; shifted++)
+            {
+                _position.X--;
+                ableToShift = CheckMatrix(matrix);
+            }
+
+            if (!ableToShift)
+            {
+                _position.X += shifted;
+            }
+
+            return ableToShift;
+        }
+        // Will shift right if can, if not return false and do nothing
+        private bool CheckShiftRight(Block[][] matrix)
+        {
+            int shifted = 0;
+            bool ableToShift = CheckMatrix(matrix);
+            for (shifted = 0; shifted < matrix.Length / 2 && !ableToShift; shifted++)
+            {
+                _position.X++;
+                ableToShift = CheckMatrix(matrix);
+            }
+
+            if (!ableToShift)
+            {
+                _position.X -= shifted;
+            }
+
+            return ableToShift;
+        }
+        // Will shift up if can, if not return false and do nothing
+        private bool CheckShiftUp(Block[][] matrix)
+        {
+            int shifted = 0;
+            bool ableToShift = false;
+            for (shifted = 0; shifted < matrix.Length / 2 && !ableToShift; shifted++)
+            {
+                _position.Y--;
+                ableToShift = CheckMatrix(matrix);
+            }
+
+            if (!ableToShift)
+            {
+                _position.Y += shifted;
+            }
+
+            return ableToShift;
+        }
+        // Will shift down if can, if not return false and do nothing
+        private bool CheckShiftDown(Block[][] matrix)
+        {
+            int shifted = 0;
+            bool ableToShift = false;
+            for (shifted = 0; shifted < matrix.Length / 2 && !ableToShift; shifted++)
+            {
+                _position.Y++;
+                ableToShift = CheckMatrix(matrix);
+            }
+
+            if (!ableToShift)
+            {
+                _position.Y -= shifted;
+            }
+
+            return ableToShift;
+        }
+        #endregion
 
         public void Dispose()
         {

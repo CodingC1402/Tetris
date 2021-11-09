@@ -105,7 +105,7 @@ namespace Tetris.Board
 
             Block block;
 
-            if (newPos.X < 0 || newPos.X >= BoardLogic.NumberOfCol)
+            if (newPos.X < 0 || newPos.X >= BoardLogic.NumberOfCol || newPos.Y >= BoardLogic.NumberOfRow)
                 return false;
 
             if (newPos.Y < 0)

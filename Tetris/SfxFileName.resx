@@ -117,7 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ClearOne" xml:space="preserve">
-    <value>ClearOne.wav</value>
+  <data name="ClearOne1" xml:space="preserve">
+    <value>ClearOne1.wav</value>
+    <comment>When clearing one row</comment>
+  </data>
+  <data name="ClearThree1" xml:space="preserve">
+    <value>ClearThree1.wav</value>
+    <comment>When clearing three row</comment>
+  </data>
+  <data name="ClearTwo1" xml:space="preserve">
+    <value>ClearTwo1.wav</value>
+    <comment>When clearing two row</comment>
+  </data>
+  <data name="PlayerAction" xml:space="preserve">
+    <value>PlayerAction.wav</value>
+  </data>
+  <data name="Tetris1" xml:space="preserve">
+    <value>Tetris1.wav</value>
+    <comment>When getting a tetris</comment>
   </data>
 </root>

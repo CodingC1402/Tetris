@@ -39,4 +39,22 @@
     <Folder Include="AudioFiles\SoundEffects\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="AudioFiles\SoundEffects\ClearOne1.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AudioFiles\SoundEffects\ClearThree1.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AudioFiles\SoundEffects\ClearTwo1.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AudioFiles\SoundEffects\PlayerAction.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AudioFiles\SoundEffects\Tetris1.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

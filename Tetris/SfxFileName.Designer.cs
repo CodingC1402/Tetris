@@ -61,11 +61,47 @@ namespace Tetris {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ClearOne.wav.
+        ///   Looks up a localized string similar to ClearOne1.wav.
         /// </summary>
-        public static string ClearOne {
+        public static string ClearOne1 {
             get {
-                return ResourceManager.GetString("ClearOne", resourceCulture);
+                return ResourceManager.GetString("ClearOne1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ClearThree1.wav.
+        /// </summary>
+        public static string ClearThree1 {
+            get {
+                return ResourceManager.GetString("ClearThree1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ClearTwo1.wav.
+        /// </summary>
+        public static string ClearTwo1 {
+            get {
+                return ResourceManager.GetString("ClearTwo1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PlayerAction.wav.
+        /// </summary>
+        public static string PlayerAction {
+            get {
+                return ResourceManager.GetString("PlayerAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tetris1.wav.
+        /// </summary>
+        public static string Tetris1 {
+            get {
+                return ResourceManager.GetString("Tetris1", resourceCulture);
             }
         }
     }

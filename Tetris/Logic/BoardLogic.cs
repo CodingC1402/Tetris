@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using Tetris.Board;
 using Tetris.Graphics;
+using Tetris.Sound;
 
 namespace Tetris.Logic
 {
@@ -45,6 +46,16 @@ namespace Tetris.Logic
         private static float _tetrisEffectCounter = 0f;
         public static float TetrisEffectCounter { get => _tetrisEffectCounter; }
         public static float TetrisEffectTime { get => _tetrisEffectTime; }
+
+        private static float _scoreMultiplyer2 = 2.5f;
+        private static float _scoreMultiplyer3 = 3.0f;
+        private static float _scoreMultiplyer4 = 4.0f;
+
+        private static SoundEffect _playerActionSound = SoundEffect.Collection[SfxFileName.PlayerAction];
+        private static SoundEffect _clearOneSound = SoundEffect.Collection[SfxFileName.ClearOne1];
+        private static SoundEffect _clearTwoSound = SoundEffect.Collection[SfxFileName.ClearTwo1];
+        private static SoundEffect _clearThreeSound = SoundEffect.Collection[SfxFileName.ClearThree1];
+        private static SoundEffect _tetrisSound = SoundEffect.Collection[SfxFileName.Tetris1];
 
         private static int _score = 0;
         public static int Score
@@ -192,41 +203,53 @@ namespace Tetris.Logic
                 var needToCheckRight = _inputMoveRightCheckCounter >= _delayBetweenEachInputcheck;
                 var needToCheckLeft = _inputMoveLeftCheckCounter >= _delayBetweenEachInputcheck;
                 var needToCheckDown = _inputMoveDownCheckCounter >= MathF.Min(_delayBetweenEachInputcheck, _delayBetweenDrop);
+                bool executeAction = false;
 
                 if (InputSystem.MoveLeftInput.IsKeyPressed ^ InputSystem.MoveRightInput.IsKeyPressed)
                 {
                     if (InputSystem.MoveLeftInput.IsKeyDown || (needToCheckLeft && InputSystem.MoveLeftInput.IsKeyPressed))
                     {
-                        CurrentBlock.MoveLeft();
+
+                        if (CurrentBlock.MoveLeft())
+                            executeAction = true;
                         _inputMoveLeftCheckCounter = 0;
                     }
-
-                    if (InputSystem.MoveRightInput.IsKeyDown || (needToCheckRight && InputSystem.MoveRightInput.IsKeyPressed))
+                    else if (InputSystem.MoveRightInput.IsKeyDown || (needToCheckRight && InputSystem.MoveRightInput.IsKeyPressed))
                     {
-                        CurrentBlock.MoveRight();
+                        if (CurrentBlock.MoveRight())
+                            executeAction = true;
                         _inputMoveRightCheckCounter = 0;
                     }
                 }
 
                 if (InputSystem.MoveDownInput.IsKeyDown || (needToCheckDown && InputSystem.MoveDownInput.IsKeyPressed))
                 {
-                    CurrentBlock.MoveDown();
+                    if (CurrentBlock.MoveDown())
+                        executeAction = true;
                     _counter = 0;
                     _inputMoveDownCheckCounter = 0;
                 }
 
                 if (InputSystem.RotateInput.IsKeyDown)
                 {
-                    CurrentBlock.Rotate();
+                    if (CurrentBlock.Rotate())
+                        executeAction = true;
                 }
 
                 if (InputSystem.ForcePlaceInput.IsKeyDown)
                 {
                     CurrentBlock.ForcePlace();
+                    executeAction = true;
                     CurrentBlock = null;
                     if (!_clearingRow)
                         CreateBlock();
                 }
+
+                if (executeAction)
+                {
+                    _playerActionSound.Play();
+                }
+
             }
             #endregion
             #region Counter to place
@@ -333,17 +356,24 @@ namespace Tetris.Logic
             if (numberOfRowCleared > 0)
             {
                 int score = BaseScore;
-                if (numberOfRowCleared > 1)
+                if (numberOfRowCleared == 1)
                 {
-                    score = (int)(score * 2.5f);
+                    _clearOneSound.Play();
                 }
-
-                if (numberOfRowCleared > 2)
-                    score = (int)(score * 3.0f);
-
-                if (numberOfRowCleared > 3)
+                else if (numberOfRowCleared == 2)
                 {
-                    score = (int)(score * 4.0f);
+                    score = (int)(score * _scoreMultiplyer2);
+                    _clearTwoSound.Play();
+                }
+                else if (numberOfRowCleared == 3)
+                {
+                    score = (int)(score * _scoreMultiplyer2 * _scoreMultiplyer3);
+                    _clearThreeSound.Play();
+                }
+                else if (numberOfRowCleared == 4)
+                {
+                    score = (int)(score * _scoreMultiplyer2 * _scoreMultiplyer3 * _scoreMultiplyer4);
+                    _tetrisSound.Play();
                     _tetrisEffectCounter = _tetrisEffectTime;
                 }
 

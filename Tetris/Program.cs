@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tetris.Sound;
+
 namespace Tetris
 {
     static class Program
@@ -55,6 +57,8 @@ namespace Tetris
             Application.SetCompatibleTextRenderingDefault(false);
 
             Mark();
+            // Tempt
+            Music.StartPlayingMenuMusic();
 
             FramePerSecond = 30;
             _clock.Interval = 10;

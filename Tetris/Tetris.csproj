@@ -11,6 +11,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="MenuTheme.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MenuTheme.resx</DependentUpon>
+    </Compile>
+    <Compile Update="GameTheme.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GameTheme.resx</DependentUpon>
+    </Compile>
     <Compile Update="SfxFileName.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -24,6 +34,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="MenuTheme.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MenuTheme.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GameTheme.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GameTheme.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="SfxFileName.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SfxFileName.Designer.cs</LastGenOutput>
@@ -40,6 +58,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="AudioFiles\Musics\Game\20XX.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AudioFiles\Musics\Game\Dingos.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AudioFiles\Musics\Game\Flouride.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AudioFiles\Musics\Game\Thermal.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AudioFiles\Musics\Menu\Prime.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="AudioFiles\SoundEffects\ClearOne1.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

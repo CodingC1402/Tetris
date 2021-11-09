@@ -121,6 +121,8 @@ namespace Tetris.Logic
 
         public static void Start()
         {
+            Music.StartPlayingGameMusic();
+
             NextBlock = TetrisBlock.CreateTetrisBlock();
             CurrentBlock = null;
             CreateBlock();

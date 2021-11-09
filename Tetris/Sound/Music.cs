@@ -4,11 +4,51 @@ using System.Text;
 
 namespace Tetris.Sound
 {
-    public class Music : IDisposable
+    public static class Music
     {
-        public void Dispose()
+        public static readonly string AudioFile = "AudioFiles/Musics";
+        private static float _volumn = 1f;
+        public static float Volumn
         {
-            throw new NotImplementedException();
+            get => _volumn;
+            set
+            {
+                value = Math.Clamp(value, 0, 1);
+                if (_volumn != value)
+                {
+                    _volumn = value;
+                    _gameGroup.UpdateVolumn();
+                    _menuGroup.UpdateVolumn();
+                }
+            }
+        }
+        private static MusicGroup _gameGroup;
+        private static MusicGroup _menuGroup;
+
+        public static void StartPlayingGameMusic()
+        {
+            _menuGroup.Stop();
+            _gameGroup.Start();
+        }
+
+        public static void StartPlayingMenuMusic()
+        {
+            _gameGroup.Stop();
+            _menuGroup.Start();
+        }
+
+        static Music()
+        {
+            _gameGroup = new MusicGroup("GameGroup", new string[] { 
+                GameTheme.Dingos,
+                GameTheme.Flouride,
+                GameTheme.Thermal,
+                GameTheme._20XX
+            });
+
+            _menuGroup = new MusicGroup("MenuGroup", new string[] {
+                MenuTheme.Prime
+            });
         }
     }
 }

@@ -19,6 +19,8 @@ namespace Tetris.Graphics
 
         public Bitmap[] BackgroundsCollection = new Bitmap[]
         {
+            Images.BackGround,
+            Images.BackGround2
         };
         public int BackgroundIndex = 0;
         public Bitmap BackgroundBitmap = null;

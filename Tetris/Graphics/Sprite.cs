@@ -19,6 +19,7 @@ namespace Tetris.Graphics
         static Sprite()
         {
             Rectangle srcRect = new Rectangle(0, 0, Block.BlockPixelSize, Block.BlockPixelSize);
+
             Sprite newSprite = new Sprite("Block0", Texture.Collection[Texture.BlockTextureKey], srcRect);
             Collection.Add(newSprite.ID, newSprite);
             srcRect.X += Block.BlockPixelSize;
@@ -40,6 +41,14 @@ namespace Tetris.Graphics
             srcRect.X += Block.BlockPixelSize;
 
             newSprite = new Sprite("Block5", Texture.Collection[Texture.BlockTextureKey], srcRect);
+            Collection.Add(newSprite.ID, newSprite);
+            srcRect.X += Block.BlockPixelSize;
+
+            newSprite = new Sprite("Block6", Texture.Collection[Texture.BlockTextureKey], srcRect);
+            Collection.Add(newSprite.ID, newSprite);
+            srcRect.X += Block.BlockPixelSize;
+
+            newSprite = new Sprite("Block7", Texture.Collection[Texture.BlockTextureKey], srcRect);
             Collection.Add(newSprite.ID, newSprite);
             srcRect.X += Block.BlockPixelSize;
 

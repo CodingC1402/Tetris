@@ -159,25 +159,27 @@ namespace Tetris.Logic
             }
 
             #region clearing rows
-            for (int row = 0; row < NumberOfRow; row++)
+
+            if (_clearingRow)
             {
-                if (_rowCleanUpCounter[row] > 0)
+                for (int row = 0; row < NumberOfRow; row++)
                 {
-                    _rowCleanUpCounter[row] -= Program.DeltaTime;
-                    if (_rowCleanUpCounter[row] <= 0)
+                    if (_rowCleanUpCounter[row] > 0)
                     {
-                        ClearRow(row);
-                        if (_clearingRow)
+                        _rowCleanUpCounter[row] -= Program.DeltaTime;
+                        if (_rowCleanUpCounter[row] <= 0)
                         {
-                            CreateBlock();
+                            ClearRow(row);
                             _clearingRow = false;
                         }
                     }
                 }
-            }
 
-            if (_clearingRow)
-                return;
+                if (_clearingRow)
+                    return;
+                else
+                    CreateBlock();
+            }
 
             #endregion
             #region Move down and check place

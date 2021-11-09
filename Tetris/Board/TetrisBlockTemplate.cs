@@ -16,7 +16,7 @@ namespace Tetris.Board
                     new int[] {1, 1},
                     new int[] {1, 1}
                 },
-                BlockSkinID = "Block0"
+                BlockSkinID = "Block1"
             },
             new TetrisBlockTemplate()
             {
@@ -26,7 +26,7 @@ namespace Tetris.Board
                     new int[] {1, 1, 1},
                     new int[] {0, 0, 0},
                 },
-                BlockSkinID = "Block0"
+                BlockSkinID = "Block2"
             },
             new TetrisBlockTemplate()
             {
@@ -36,7 +36,7 @@ namespace Tetris.Board
                     new int[] {1, 1, 0},
                     new int[] {1, 0, 0},
                 },
-                BlockSkinID = "Block1"
+                BlockSkinID = "Block3"
             },
             new TetrisBlockTemplate()
             {
@@ -46,7 +46,7 @@ namespace Tetris.Board
                     new int[] {0, 1, 1},
                     new int[] {0, 0, 1},
                 },
-                BlockSkinID = "Block2"
+                BlockSkinID = "Block4"
             },
             new TetrisBlockTemplate()
             {
@@ -56,7 +56,7 @@ namespace Tetris.Board
                     new int[] {0, 1, 0},
                     new int[] {0, 1, 0},
                 },
-                BlockSkinID = "Block3"
+                BlockSkinID = "Block5"
             },
             new TetrisBlockTemplate()
             {
@@ -66,7 +66,7 @@ namespace Tetris.Board
                     new int[] {0, 1, 0},
                     new int[] {0, 1, 0},
                 },
-                BlockSkinID = "Block4"
+                BlockSkinID = "Block6"
             },
             new TetrisBlockTemplate()
             {
@@ -77,7 +77,7 @@ namespace Tetris.Board
                     new int[] {0, 0, 0, 0},
                     new int[] {0, 0, 0, 0}
                 },
-                BlockSkinID = "Block5"
+                BlockSkinID = "Block7"
             }
         };
         public static TetrisBlockTemplate GetRandomTemplate()

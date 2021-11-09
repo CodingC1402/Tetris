@@ -50,6 +50,8 @@ namespace Tetris
 
             Mark();
 
+            string path = Sound.Sound.AudioPath;
+
             FramePerSecond = 30;
             _clock.Interval = 10;
             _clock.Tick += (s, e) =>

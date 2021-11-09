@@ -59,5 +59,14 @@ namespace Tetris {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ClearOne.wav.
+        /// </summary>
+        public static string ClearOne {
+            get {
+                return ResourceManager.GetString("ClearOne", resourceCulture);
+            }
+        }
     }
 }

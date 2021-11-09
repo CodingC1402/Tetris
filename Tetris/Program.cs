@@ -17,11 +17,11 @@ namespace Tetris
         private static float _deltaTime = 0;
         private static long _oldTimeStamp;
 
-        private static Random _rnd = new Random();
+        public static Random Rnd = new Random();
         public static int GetRandom(int min, int max)
         {
-            var result = _rnd.Next(min, max);
-            _rnd = new Random(_rnd.Next());
+            var result = Rnd.Next(min, max);
+            Rnd = new Random(Rnd.Next());
             return result;
         }
 

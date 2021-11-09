@@ -18,6 +18,8 @@ namespace Tetris.Sound
         {
             Name = name;
             AudioFileNames = audioFileNames;
+            _currentIndex = Program.Rnd.Next(0, audioFileNames.Length);
+
             _currentWo = new WaveOutEvent();
             _currentWo.PlaybackStopped += PlayStopped;
             UpdateVolumn();

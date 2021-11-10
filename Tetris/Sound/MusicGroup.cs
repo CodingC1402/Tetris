@@ -11,7 +11,8 @@ namespace Tetris.Sound
         public readonly string[] AudioFileNames;
         public bool IsPlaying { get; private set; } = false;
 
-        private WaveOutEvent _currentWo;
+        private DirectSoundOut _currentWo;
+        private AudioFileReader _currentAudioFile;
         private int _currentIndex = 0;
 
         public MusicGroup(string name, string[] audioFileNames)
@@ -20,14 +21,14 @@ namespace Tetris.Sound
             AudioFileNames = audioFileNames;
             _currentIndex = Program.Rnd.Next(0, audioFileNames.Length);
 
-            _currentWo = new WaveOutEvent();
+            _currentWo = new DirectSoundOut();
             _currentWo.PlaybackStopped += PlayStopped;
-            UpdateVolumn();
         }
 
         public void UpdateVolumn()
         {
-            _currentWo.Volume = Music.Volumn;
+            if (_currentAudioFile != null)
+                _currentAudioFile.Volume = Music.Volumn;
         }
 
         public void Start()
@@ -45,6 +46,7 @@ namespace Tetris.Sound
                 return;
 
             IsPlaying = false;
+            _currentAudioFile = null;
             _currentWo.Stop();
         }
 
@@ -59,8 +61,10 @@ namespace Tetris.Sound
 
         private void PlayCurrentFile()
         {
-            AudioFileReader audioFileReader = new AudioFileReader(System.IO.Path.Combine(Music.AudioFile, AudioFileNames[_currentIndex]));
-            _currentWo.Init(audioFileReader);
+            _currentAudioFile = new AudioFileReader(System.IO.Path.Combine(Music.AudioFile, AudioFileNames[_currentIndex]));
+            _currentWo.Init(_currentAudioFile);
+            UpdateVolumn();
+
             _currentWo.Play();
         }
     }

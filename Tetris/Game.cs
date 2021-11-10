@@ -14,6 +14,7 @@ namespace Tetris
     public partial class Game : Form
     {
         private static Game _instance = null;
+        public static Game Instance { get => _instance; }
 
         public static bool InFullScreenMode { get; private set; } = false;
         public static void FullScreen()
@@ -38,6 +39,7 @@ namespace Tetris
             InitializeComponent();
             this.VisibleChanged += (s, e) =>
             {
+                LoadLogic();
                 slider1.Value = Music.Volumn;
             };
             slider1.ValueChanged += (s, e) =>
@@ -57,6 +59,19 @@ namespace Tetris
 
             _instance = this;
             Graphics.Renderer.FpsLable = fpsLabel;
+        }
+
+        public void UpdateLogic()
+        {
+            Logic.InputSystem.Update();
+            Logic.Logic.Update();
+            Graphics.Renderer.Render();
+            Logic.InputSystem.FlushKeyDown();
+        }
+
+        public void LoadLogic()
+        {
+
         }
 
         protected override void OnPaint(PaintEventArgs e)

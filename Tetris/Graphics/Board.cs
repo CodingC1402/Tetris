@@ -32,6 +32,16 @@ namespace Tetris.Graphics
 
         public Point StartPos = new Point(10, 10);
 
+        private float _boardOpacity = 0.9f;
+        public float BoardOpacity
+        {
+            get => _boardOpacity;
+            set
+            {
+                _boardOpacity = Math.Clamp(value, 0, 1);
+            }
+        }
+
         private const int _scoreBoardNextBlockPadding = 30;
         private const int _scoreBoardScorePadding = 15;
         private const int _maxScoreLength = 7;
@@ -176,12 +186,15 @@ namespace Tetris.Graphics
             }
             #endregion
             #region Render the scoreBoard
-            NeedToRender.Add(new RenderImageItem
+            var scoreBoardItem = new RenderImageItem
             {
                 image = _scoreBoardSprite.Texture.Bmp,
                 desRectangle = new Rectangle(_scoreBoardRect.X, 0, _scoreBoardRect.Width, _scoreBoardRect.Height),
-                srcRectangle = _scoreBoardSprite.SrcRect
-            });
+                srcRectangle = _scoreBoardSprite.SrcRect,
+                colorMatrix = new ColorMatrix()
+            };
+            scoreBoardItem.colorMatrix.Matrix33 = _boardOpacity;
+            NeedToRender.Add(scoreBoardItem);
 
             var scoreStr = BoardLogic.Score.ToString().PadLeft(_maxScoreLength, '0').Substring(0, _maxScoreLength);
             var strSize = pe.Graphics.MeasureString(scoreStr, Font);
@@ -240,12 +253,16 @@ namespace Tetris.Graphics
             }
             #endregion
             #region Render the board
-            NeedToRender.Add(new RenderImageItem()
+            RenderImageItem boardItem = new RenderImageItem()
             {
                 srcRectangle = _boardSprite.SrcRect,
                 image = _boardSprite.Texture.Bmp,
-                desRectangle = new Rectangle(0, 0, _boardSize.Width, BufferBitmap.Height)
-            });
+                desRectangle = new Rectangle(0, 0, _boardSize.Width, BufferBitmap.Height),
+                colorMatrix = new ColorMatrix()
+            };
+            boardItem.colorMatrix.Matrix33 = _boardOpacity;
+
+            NeedToRender.Add(boardItem);
 
             if (!BoardLogic.Paused)
             {

@@ -37,9 +37,9 @@ namespace Tetris.Sound
         public readonly string AudioAddress = "";
         public bool Stacking = false;
 
-        private List<WaveOutEvent> _waveOutEvents = new List<WaveOutEvent>();
+        private List<DirectSoundOut> _waveOutEvents = new List<DirectSoundOut>();
 
-        private float _volumn = 0;
+        private float _volumn = 1;
         public float Volumn
         {
             get => _volumn;
@@ -95,7 +95,7 @@ namespace Tetris.Sound
         {
             if (Stacking || (!Stacking && (_waveOutEvents.Count == 0)))
             {
-                WaveOutEvent wo = new WaveOutEvent();
+                DirectSoundOut wo = new DirectSoundOut();
                 AudioFileReader audioFileReader = new AudioFileReader(AudioAddress);
                 wo.Init(audioFileReader);
                 wo.PlaybackStopped += DonePlaying;
@@ -107,7 +107,7 @@ namespace Tetris.Sound
 
         private void DonePlaying(object sender, StoppedEventArgs e)
         {
-            WaveOutEvent wo = sender as WaveOutEvent;
+            DirectSoundOut wo = sender as DirectSoundOut;
             _waveOutEvents.Remove(wo);
             wo.Dispose();
         }

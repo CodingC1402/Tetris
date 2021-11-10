@@ -20,9 +20,7 @@ namespace Tetris
         public static Random Rnd = new Random();
         public static int GetRandom(int min, int max)
         {
-            var result = Rnd.Next(min, max);
-            Rnd = new Random(Rnd.Next());
-            return result;
+            return Rnd.Next(min, max);
         }
 
         public static int FramePerSecond
@@ -73,10 +71,7 @@ namespace Tetris
                 }
                 else
                 {
-                    Logic.InputSystem.Update();
-                    Logic.Logic.Update();
-                    Graphics.Renderer.Render();
-                    Logic.InputSystem.FlushKeyDown();
+                    Game.Instance.UpdateLogic();
                 }
             };
             _clock.Start();

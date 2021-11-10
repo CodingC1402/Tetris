@@ -7,6 +7,7 @@ namespace Tetris.Board
 {
     public class TetrisBlockTemplate
     {
+        private static int TotalBlockCount = 0;
         public static List<TetrisBlockTemplate> Templates { get; } = new List<TetrisBlockTemplate>()
         {
             new TetrisBlockTemplate()
@@ -82,10 +83,35 @@ namespace Tetris.Board
         };
         public static TetrisBlockTemplate GetRandomTemplate()
         {
-            var index = Program.GetRandom(0, Templates.Count);
+            TotalBlockCount++;
+            int averageBlockCount = TotalBlockCount / Templates.Count;
+            double rndValue = Program.Rnd.NextDouble();
+
+            double minChance = 0;
+            double maxChance = 0;
+
+            var index = -1;
+            for (int i = 0; i < Templates.Count; i++)
+            {
+                maxChance += (100 / Templates.Count - (Templates[i].AppearTime - averageBlockCount)) / 100f;
+                if (minChance <= rndValue && rndValue < maxChance)
+                {
+                    index = i;
+                    Templates[i].AppearTime++;
+                    break;
+                }
+            }
+
+            if (index < 0)
+            {
+                index = Program.Rnd.Next(0, Templates.Count);
+                Templates[index].AppearTime++;
+            }
+
             return Templates[index];
         }
 
+        public int AppearTime = 0;
         public int[][] Matrix;
         public string BlockSkinID;
     }

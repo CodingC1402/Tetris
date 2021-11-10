@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tetris.Sound;
 
 namespace Tetris
 {
@@ -35,6 +36,15 @@ namespace Tetris
         public Game()
         {
             InitializeComponent();
+            this.VisibleChanged += (s, e) =>
+            {
+                slider1.Value = Music.Volumn;
+            };
+            slider1.ValueChanged += (s, e) =>
+            {
+                Music.Volumn = slider1.Value;
+            };
+
             KeyPreview = true;
             KeyDown += (s, e) =>
             {

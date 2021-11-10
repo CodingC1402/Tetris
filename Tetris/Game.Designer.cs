@@ -31,6 +31,7 @@ namespace Tetris
         {
             this.fpsLabel = new System.Windows.Forms.Label();
             this.board1 = new Tetris.Graphics.Board();
+            this.slider1 = new Tetris.CustomWfControls.Slider();
             this.SuspendLayout();
             // 
             // fpsLabel
@@ -57,6 +58,21 @@ namespace Tetris
             this.board1.TabIndex = 5;
             this.board1.Text = "board1";
             // 
+            // slider1
+            // 
+            this.slider1.BackColor = System.Drawing.Color.Transparent;
+            this.slider1.CornerRadius = 10;
+            this.slider1.Location = new System.Drawing.Point(11, 58);
+            this.slider1.Name = "slider1";
+            this.slider1.Size = new System.Drawing.Size(164, 32);
+            this.slider1.SliderColor = System.Drawing.Color.Gray;
+            this.slider1.SliderHeight = 10;
+            this.slider1.TabIndex = 6;
+            this.slider1.Text = "slider1";
+            this.slider1.ThumbColor = System.Drawing.Color.White;
+            this.slider1.ThumbWidth = 10;
+            this.slider1.Value = 0.5F;
+            // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -64,6 +80,7 @@ namespace Tetris
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(884, 761);
+            this.Controls.Add(this.slider1);
             this.Controls.Add(this.fpsLabel);
             this.Controls.Add(this.board1);
             this.MinimumSize = new System.Drawing.Size(900, 800);
@@ -78,6 +95,7 @@ namespace Tetris
 
         private System.Windows.Forms.Label fpsLabel;
         private Graphics.Board board1;
+        private CustomWfControls.Slider slider1;
     }
 }
 

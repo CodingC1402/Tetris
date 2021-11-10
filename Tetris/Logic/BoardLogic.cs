@@ -10,6 +10,12 @@ namespace Tetris.Logic
 {
     public static class BoardLogic
     {
+        public enum GameMode
+        {
+            RisingFloor,
+            Normal
+        }
+
         public static Block[][] Blocks;
         public static TetrisBlock CurrentBlock = null;
         public static TetrisBlock NextBlock = null;
@@ -18,6 +24,12 @@ namespace Tetris.Logic
         public static readonly int NumberOfCol = 10;
         public static readonly float TimeBeforeClear = 0.5f;
         public static readonly int BaseScore = 40;
+
+        private static bool _started = false;
+        public static bool Started
+        {
+            get => _started;
+        }
 
         private static bool _paused = false;
         public static bool Paused
@@ -42,6 +54,13 @@ namespace Tetris.Logic
         private static float _delayBetweenDrop;
         private static int _lineCleared = 0;
 
+        #region RisingFloor Mode
+        private static int _risingFloorSpeed = 1;
+        private const int _risingFloorBaseline = 60;
+        private static float _risingFloorDelay = _risingFloorBaseline / (float)_risingFloorSpeed;
+        private static float _risingFloorCounter = 0;
+        #endregion
+
         private static float _tetrisEffectTime = 1f;
         private static float _tetrisEffectCounter = 0f;
         public static float TetrisEffectCounter { get => _tetrisEffectCounter; }
@@ -56,6 +75,18 @@ namespace Tetris.Logic
         private static SoundEffect _clearTwoSound = SoundEffect.Collection[SfxFileName.ClearTwo1];
         private static SoundEffect _clearThreeSound = SoundEffect.Collection[SfxFileName.ClearThree1];
         private static SoundEffect _tetrisSound = SoundEffect.Collection[SfxFileName.Tetris1];
+
+        public static GameMode CurrentGameMode { get; private set; }
+
+        public static int RisingFloorSpeed
+        {
+            get => _risingFloorSpeed;
+            set
+            {
+                _risingFloorSpeed = value;
+                _risingFloorDelay = _risingFloorBaseline / (float)_risingFloorSpeed;
+            }
+        }
 
         private static int _score = 0;
         public static int Score
@@ -103,7 +134,8 @@ namespace Tetris.Logic
             set
             {
                 _lineCleared = value;
-                DropSpeed = _lineCleared / 50 + 1;
+                DropSpeed = _lineCleared / 30 + 1;
+                RisingFloorSpeed = _lineCleared / 30 + 1;
             }
         }
 
@@ -119,10 +151,12 @@ namespace Tetris.Logic
             }
         }
 
-        public static void Start()
+        public static void Start(GameMode mode)
         {
             Music.StartPlayingGameMusic();
 
+            _started = true;
+            CurrentGameMode = mode;
             NextBlock = TetrisBlock.CreateTetrisBlock();
             CurrentBlock = null;
             CreateBlock();
@@ -149,9 +183,16 @@ namespace Tetris.Logic
             Score = 0;
         }
 
+        public static void Stop()
+        {
+            _started = false;
+            NextBlock = null;
+            CurrentBlock = null;
+        }
+
         public static void Update()
         {
-            if (Paused)
+            if (Paused || !_started)
                 return;
 
             if (_tetrisEffectCounter > 0)
@@ -161,7 +202,6 @@ namespace Tetris.Logic
             }
 
             #region clearing rows
-
             if (_clearingRow)
             {
                 for (int row = 0; row < NumberOfRow; row++)
@@ -182,7 +222,21 @@ namespace Tetris.Logic
                 else
                     CreateBlock();
             }
+            #endregion
+            #region Raise the floor if in correct mode
+            if (CurrentGameMode == GameMode.RisingFloor)
+            {
+                if (_risingFloorCounter <= 0)
+                {
+                    _risingFloorCounter = _risingFloorDelay;
+                }
 
+                _risingFloorCounter -= Program.DeltaTime;
+                if (_risingFloorCounter <= 0)
+                {
+                    RaiseFloor();
+                }
+            }
             #endregion
             #region Move down and check place
             _counter += Program.DeltaTime;
@@ -383,6 +437,39 @@ namespace Tetris.Logic
 
                 score *= _dropSpeed;
                 Score += score;
+            }
+        }
+
+        public static void RaiseFloor()
+        {
+            for (int i = 0; i < NumberOfRow - 1;)
+            {
+                Blocks[i] = Blocks[++i];
+            }
+
+            var lastRow = new Block[NumberOfCol];
+            Blocks[NumberOfRow - 1] = lastRow;
+
+            var emptyIndex = Program.Rnd.Next(0, NumberOfCol);
+            for (int col = 0; col < NumberOfCol; col++)
+            {
+                if (col != emptyIndex)
+                {
+                    lastRow[col] = Block.GetGrayBlock();
+                    lastRow[col].LocalPosition = new System.Drawing.Point(NumberOfRow - 1, col);
+                }
+            }
+
+            if (CurrentBlock != null)
+            {
+                if (!CurrentBlock.CheckCurrentPos())
+                {
+                    var pos = CurrentBlock.Position;
+                    pos.Y--;
+
+                    CurrentBlock.Position = pos;
+                }
+                CurrentBlock.UpdateShadow();
             }
         }
     }

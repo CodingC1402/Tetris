@@ -68,7 +68,7 @@ namespace Tetris.Logic
 
                 if (key.IsKeyDown && key.KeyCode == Keys.F12)
                 {
-                    BoardLogic.Start();
+                    BoardLogic.Start(BoardLogic.GameMode.RisingFloor);
                 }
 
                 if (key.IsKeyDown && key.KeyCode == Keys.Escape)

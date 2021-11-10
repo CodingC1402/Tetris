@@ -9,6 +9,15 @@ namespace Tetris.Board
 {
     public class Block : ICloneable
     {
+        public static Block GetGrayBlock()
+        {
+            return new Block()
+            {
+                Sprite = Sprite.Collection["Block0"],
+                Moving = false
+            };
+        }
+
         public const int BlockPixelSize = 32;
         public Sprite Sprite;
         public Point LocalPosition = new Point();

@@ -32,7 +32,7 @@ namespace Tetris.Graphics
 
         public Point StartPos = new Point(10, 10);
 
-        private float _boardOpacity = 0.9f;
+        private float _boardOpacity = 1f;
         public float BoardOpacity
         {
             get => _boardOpacity;

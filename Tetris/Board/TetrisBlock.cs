@@ -269,6 +269,11 @@ namespace Tetris.Board
             return canRotate;
         }
 
+        public bool CheckCurrentPos()
+        {
+            return CheckMatrix(Matrix);
+        }
+
         private bool CheckMatrix(Block[][] matrix)
         {
             foreach (var row in matrix)
@@ -369,7 +374,7 @@ namespace Tetris.Board
                 {
                     if (col != null && !col.Place())
                     {
-                        BoardLogic.Start();
+                        BoardLogic.Start(BoardLogic.CurrentGameMode);
                         return;
                     }
                 }
@@ -378,7 +383,7 @@ namespace Tetris.Board
             BoardLogic.CheckClear(Math.Min(Position.Y + Matrix.Length - 1, BoardLogic.NumberOfRow - 1), Matrix.Length);
         }
 
-        private void UpdateShadow()
+        public void UpdateShadow()
         {
             ShadowPosition = Position;
 

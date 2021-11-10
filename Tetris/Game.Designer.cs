@@ -32,6 +32,7 @@ namespace Tetris
             this.fpsLabel = new System.Windows.Forms.Label();
             this.board1 = new Tetris.Graphics.Board();
             this.slider1 = new Tetris.CustomWfControls.Slider();
+            this.flatButton1 = new Tetris.CustomWfControls.FlatButton();
             this.SuspendLayout();
             // 
             // fpsLabel
@@ -73,6 +74,19 @@ namespace Tetris
             this.slider1.ThumbWidth = 10;
             this.slider1.Value = 0.5F;
             // 
+            // flatButton1
+            // 
+            this.flatButton1.BackColor = System.Drawing.Color.White;
+            this.flatButton1.CornerRadius = 30;
+            this.flatButton1.FlatAppearance.BorderSize = 0;
+            this.flatButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.flatButton1.Location = new System.Drawing.Point(575, 391);
+            this.flatButton1.Name = "flatButton1";
+            this.flatButton1.Size = new System.Drawing.Size(162, 59);
+            this.flatButton1.TabIndex = 7;
+            this.flatButton1.Text = "flatButton1";
+            this.flatButton1.UseVisualStyleBackColor = false;
+            // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -80,6 +94,7 @@ namespace Tetris
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(884, 761);
+            this.Controls.Add(this.flatButton1);
             this.Controls.Add(this.slider1);
             this.Controls.Add(this.fpsLabel);
             this.Controls.Add(this.board1);
@@ -96,6 +111,7 @@ namespace Tetris
         private System.Windows.Forms.Label fpsLabel;
         private Graphics.Board board1;
         private CustomWfControls.Slider slider1;
+        private CustomWfControls.FlatButton flatButton1;
     }
 }
 

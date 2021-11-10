@@ -3,11 +3,24 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Tetris.CustomWfControls
 {
     public static class CustomControlHelpers
     {
+        public static void CallFunctionWithDelay(Control control, Action action, float secs)
+        {
+            System.Threading.Timer timer = null;
+            timer = new System.Threading.Timer((obj) =>
+            {
+                control.Invoke(action);
+                timer.Dispose();
+            },
+            null, (int)(secs * 1000), System.Threading.Timeout.Infinite);
+        }
+
         public static GraphicsPath GetRoundPath(RectangleF Rect, int radius)
         {
             GraphicsPath graphPath = new GraphicsPath();

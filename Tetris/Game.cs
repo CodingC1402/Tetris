@@ -7,39 +7,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tetris.CustomWfControls;
 using Tetris.Sound;
 
 namespace Tetris
 {
-    public partial class Game : Form
+    public partial class Game : Scene
     {
         private static Game _instance = null;
         public static Game Instance { get => _instance; }
 
-        public static bool InFullScreenMode { get; private set; } = false;
-        public static void FullScreen()
-        {
-            if (InFullScreenMode)
-            {
-                InFullScreenMode = false;
-                _instance.FormBorderStyle = FormBorderStyle.Sizable;
-                _instance.WindowState = FormWindowState.Normal;
-            }
-            else
-            {
-                InFullScreenMode = true;
-                _instance.WindowState = FormWindowState.Normal;
-                _instance.FormBorderStyle = FormBorderStyle.None;
-                _instance.WindowState = FormWindowState.Maximized;
-            }
-        }
+        private Transition _boardTransition;
 
         public Game()
         {
             InitializeComponent();
+            _boardTransition = new Transition(board);
+            _boardTransition.TransitionInTime = 1;
+
             this.VisibleChanged += (s, e) =>
             {
-                LoadLogic();
                 slider1.Value = Music.Volumn;
             };
             slider1.ValueChanged += (s, e) =>
@@ -47,31 +34,35 @@ namespace Tetris
                 Music.Volumn = slider1.Value;
             };
 
-            KeyPreview = true;
-            KeyDown += (s, e) =>
-            {
-                Logic.InputSystem.AddToStack(e.KeyCode, false, true);
-            };
-            KeyUp += (s, e) =>
-            {
-                Logic.InputSystem.AddToStack(e.KeyCode, false, false);
-            };
-
             _instance = this;
+
             Graphics.Renderer.FpsLable = fpsLabel;
         }
 
-        public void UpdateLogic()
+        protected override void OnVisibleChanged(EventArgs e)
         {
-            Logic.InputSystem.Update();
-            Logic.Logic.Update();
-            Graphics.Renderer.Render();
-            Logic.InputSystem.FlushKeyDown();
+            base.OnVisibleChanged(e);
+            slider1.Value = Music.Volumn;
+            if (Visible)
+                _boardTransition.StartTransitionIn();
         }
 
-        public void LoadLogic()
+        public override void UpdateLogic()
+        {
+            if (!Visible)
+                return;
+
+            Logic.Logic.Update();
+        }
+
+        public override void StartLogic()
         {
 
+        }
+
+        public override void Render()
+        {
+            Graphics.Board.Instance.Invalidate();
         }
 
         protected override void OnPaint(PaintEventArgs e)

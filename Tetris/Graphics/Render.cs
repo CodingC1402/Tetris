@@ -26,7 +26,7 @@ namespace Tetris.Graphics
 
             if (_counter > Program.DeltaTimeBetweenRender)
             {
-                Board.Instance?.Invalidate();
+                MainWindow.Instance.CurrentScene?.Render();
 
                 _counter -= Program.DeltaTimeBetweenRender;
                 _frameRendered++;

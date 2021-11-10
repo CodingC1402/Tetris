@@ -275,11 +275,12 @@ namespace Tetris.Graphics
             }
             #endregion
 
-            base.OnPaint(pe);
             if (BoardLogic.Paused)
             {
                 pe.Graphics.DrawImage(_pausedOverlayBitmap, 0, 0, Width, Height);
             }
+
+            base.OnPaint(pe);
         }
 
         protected override void SetBoundsForBitmap()

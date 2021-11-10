@@ -28,6 +28,8 @@ namespace Tetris.CustomWfControls
         public FlatButton()
         {
             InitializeComponent();
+            DoubleBuffered = true;
+
             FlatStyle = FlatStyle.Flat;
             FlatAppearance.BorderSize = 0;
         }

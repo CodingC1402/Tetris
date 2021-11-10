@@ -16,6 +16,8 @@ namespace Tetris.Logic
         public static Input MoveDownInput;
         public static Input ForcePlaceInput;
 
+        public static bool HaveKeyDown { get; private set; }
+
         static InputSystem()
         {
             Input input = new Input("MoveDown", Keys.S);
@@ -61,9 +63,11 @@ namespace Tetris.Logic
                     }
                 }
 
+                HaveKeyDown |= key.IsKeyDown;
+
                 if (key.IsKeyDown && key.KeyCode == Keys.F11)
                 {
-                    Game.FullScreen();
+                    MainWindow.FullScreen();
                 }
 
                 if (key.IsKeyDown && key.KeyCode == Keys.F12)
@@ -86,6 +90,7 @@ namespace Tetris.Logic
                 input.IsKeyDown = false;
                 input.IsKeyUp = false;
             }
+            HaveKeyDown = false;
         }
     }
 }

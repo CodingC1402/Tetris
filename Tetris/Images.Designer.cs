@@ -93,6 +93,16 @@ namespace Tetris {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap MainMenuBG {
+            get {
+                object obj = ResourceManager.GetObject("MainMenuBG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap ScoreBoard {
             get {
                 object obj = ResourceManager.GetObject("ScoreBoard", resourceCulture);
@@ -106,6 +116,16 @@ namespace Tetris {
         public static System.Drawing.Bitmap SpriteImage {
             get {
                 object obj = ResourceManager.GetObject("SpriteImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap StartingBG {
+            get {
+                object obj = ResourceManager.GetObject("StartingBG", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

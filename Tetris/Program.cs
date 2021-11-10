@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tetris.CustomWfControls;
+using Tetris.Graphics;
 using Tetris.Sound;
 
 namespace Tetris
@@ -71,11 +74,20 @@ namespace Tetris
                 }
                 else
                 {
-                    Game.Instance.UpdateLogic();
+                    Logic.InputSystem.Update();
+                    Transition.UpdateTransitions();
+                    MainWindow.Instance.CurrentScene?.UpdateLogic();
+                    Logic.InputSystem.FlushKeyDown();
+                    Renderer.Render();
                 }
             };
             _clock.Start();
-            Application.Run(new Game());
+            Application.Run(new MainWindow());
+        }
+
+        public static bool IsDesignMode()
+        {
+            return LicenseManager.UsageMode == LicenseUsageMode.Designtime;
         }
 
         static void Mark()

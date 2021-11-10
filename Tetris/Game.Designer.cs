@@ -30,7 +30,7 @@ namespace Tetris
         private void InitializeComponent()
         {
             this.fpsLabel = new System.Windows.Forms.Label();
-            this.board1 = new Tetris.Graphics.Board();
+            this.board = new Tetris.Graphics.Board();
             this.slider1 = new Tetris.CustomWfControls.Slider();
             this.SuspendLayout();
             // 
@@ -46,17 +46,18 @@ namespace Tetris
             this.fpsLabel.TabIndex = 1;
             this.fpsLabel.Text = "label1";
             // 
-            // board1
+            // board
             // 
-            this.board1.BackColor = System.Drawing.Color.Black;
-            this.board1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.board1.Font = new System.Drawing.Font("Tahoma", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.board1.Location = new System.Drawing.Point(0, 0);
-            this.board1.Margin = new System.Windows.Forms.Padding(20);
-            this.board1.Name = "board1";
-            this.board1.Size = new System.Drawing.Size(884, 761);
-            this.board1.TabIndex = 5;
-            this.board1.Text = "board1";
+            this.board.BackColor = System.Drawing.Color.Black;
+            this.board.BoardOpacity = 1F;
+            this.board.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.board.Font = new System.Drawing.Font("Tahoma", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.board.Location = new System.Drawing.Point(0, 0);
+            this.board.Margin = new System.Windows.Forms.Padding(20);
+            this.board.Name = "board";
+            this.board.Size = new System.Drawing.Size(900, 800);
+            this.board.TabIndex = 5;
+            this.board.Text = "board1";
             // 
             // slider1
             // 
@@ -79,10 +80,10 @@ namespace Tetris
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(884, 761);
+            this.ClientSize = new System.Drawing.Size(900, 800);
             this.Controls.Add(this.slider1);
             this.Controls.Add(this.fpsLabel);
-            this.Controls.Add(this.board1);
+            this.Controls.Add(this.board);
             this.MinimumSize = new System.Drawing.Size(900, 800);
             this.Name = "Game";
             this.Text = "Tetris";
@@ -94,7 +95,7 @@ namespace Tetris
         #endregion
 
         private System.Windows.Forms.Label fpsLabel;
-        private Graphics.Board board1;
+        private Graphics.Board board;
         private CustomWfControls.Slider slider1;
     }
 }

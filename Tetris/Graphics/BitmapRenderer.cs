@@ -71,6 +71,8 @@ namespace Tetris.Graphics
 
             pe.Graphics.DrawImage(_bufferBitmap, _offSetX, _offSetY, _trueWidth, _trueHeight);
             NeedToRender.Clear();
+
+            base.OnPaint(pe);
         }
 
         protected virtual void SetBoundsForBitmap()

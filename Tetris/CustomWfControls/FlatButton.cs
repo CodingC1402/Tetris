@@ -75,6 +75,13 @@ namespace Tetris.CustomWfControls
             }
         }
 
+        public void ForceStopAnim()
+        {
+            UsingHoverAnimation = false;
+            _hoverAnimation.Stop();
+            _mouseLeaveAnimation.Stop();
+        }
+
         public FlatButton()
         {
             InitializeComponent();
@@ -117,7 +124,7 @@ namespace Tetris.CustomWfControls
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseEnter(e);
-            if (_usingHoverAnimation && _mouseLeaveAnimation.CurrentState == AnimationBase.State.Stopped && !_isMouseInside)
+            if (_mouseLeaveAnimation.CurrentState == AnimationBase.State.Stopped && !_isMouseInside)
             {
                 PlayMouseEnterAnimation();
             }
@@ -126,7 +133,7 @@ namespace Tetris.CustomWfControls
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            if (_usingHoverAnimation && _hoverAnimation.CurrentState == AnimationBase.State.Stopped && _isMouseInside)
+            if (_hoverAnimation.CurrentState == AnimationBase.State.Stopped && _isMouseInside)
             {
                 PlayMouseLeaveAnimation();
             }
@@ -134,12 +141,18 @@ namespace Tetris.CustomWfControls
 
         protected void PlayMouseLeaveAnimation()
         {
+            if (!_usingHoverAnimation)
+                return;
+
             _isMouseInside = false;
             _mouseLeaveAnimation.Start();
         }
 
         protected void PlayMouseEnterAnimation()
         {
+            if (!_usingHoverAnimation)
+                return;
+
             _isMouseInside = true;
             _hoverAnimation.Start();
         }

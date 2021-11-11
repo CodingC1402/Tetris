@@ -54,6 +54,8 @@ namespace Tetris
 
             startButton.Click += (s, e) =>
             {
+                startButton.ForceStopAnim();
+                quitButton.ForceStopAnim();
                 pressAnyKeyToStartLable.Visible = startButton.Visible = quitButton.Visible = false;
                 transition.StartTransitionOut();
                 MainWindow.Instance.ToGame(transition.TransitionOutTime);

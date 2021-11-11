@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Tetris.CustomWfControls;
 using Tetris.Logic;
+using Tetris.Sound;
 
 namespace Tetris
 {
@@ -23,6 +24,8 @@ namespace Tetris
         private PositionAnimation _quitBtnAnim;
         private PositionAnimation _optionBtnAnim;
 
+        private SoundEffect _startSoundEffect = SoundEffect.Collection[SfxFileName.GameStart];
+        
         private enum State
         {
             WaitForInput,
@@ -147,6 +150,7 @@ namespace Tetris
                 if (InputSystem.HaveKeyDown)
                 {
                     _currentState = State.InMenu;
+                    _startSoundEffect.Play();
                 }
                 return;
             }

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ButtonClick" xml:space="preserve">
+    <value>ButtonClick.wav</value>
+  </data>
   <data name="ClearOne1" xml:space="preserve">
     <value>ClearOne1.wav</value>
     <comment>When clearing one row</comment>
@@ -131,6 +134,9 @@
   </data>
   <data name="CountDown" xml:space="preserve">
     <value>CountDown.wav</value>
+  </data>
+  <data name="GameStart" xml:space="preserve">
+    <value>GameStart.wav</value>
   </data>
   <data name="PlayerAction" xml:space="preserve">
     <value>PlayerAction.wav</value>

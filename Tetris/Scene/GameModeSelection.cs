@@ -18,6 +18,8 @@ namespace Tetris
         private PositionAnimation _normalAnim;
         private PositionAnimation _labelAnim;
 
+        private List<Bitmap> _controlBitmap;
+
         private int _imagePadding = 40;
 
         public GameModeSelection()
@@ -30,8 +32,7 @@ namespace Tetris
             _labelAnim = new PositionAnimation(label);
             _labelAnim.AnimationTime = _risingFloorAnim.AnimationTime = _normalAnim.AnimationTime = 0.5f;
 
-            risingLabel.Visible = normalLabel.Visible = false;
-            label.Visible = risingFloorBtn.Visible = normalModeBtn.Visible = false;
+            SetControlVisibility(false);
 
             risingFloorBtn.Paint += DrawOnButton;
             normalModeBtn.Paint += DrawOnButton;
@@ -62,7 +63,7 @@ namespace Tetris
 
             _transition.TransitionInFinished += (s, e) =>
             {
-                risingLabel.Visible = normalLabel.Visible = true;
+                SetControlVisibility(true);
             };
         }
 
@@ -100,10 +101,12 @@ namespace Tetris
 
         protected void TransitionSetup()
         {
-            risingLabel.Visible = normalLabel.Visible = false;
             risingFloorBtn.ForceStopAnim();
             normalModeBtn.ForceStopAnim();
-            label.Visible = risingFloorBtn.Visible = normalModeBtn.Visible = false;
+            backButton.ForceStopAnim();
+            SetControlVisibility(false);
+
+            _controlBitmap = GetBitmapFromControls();
             _transition.StartTransitionOut();
         }
 
@@ -135,6 +138,14 @@ namespace Tetris
 
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             e.Graphics.DrawImage(_mainMenuBG, drawingRect);
+
+            if (_controlBitmap != null)
+            {
+                for (int i = 0; i < _controlBitmap.Count; i++)
+                {
+                    e.Graphics.DrawImage(_controlBitmap[i], Controls[i].Bounds);
+                }
+            }
 
             base.OnPaint(e);
         }

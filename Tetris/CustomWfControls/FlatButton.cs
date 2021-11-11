@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using PropertyChanged;
+using Tetris.Sound;
 
 namespace Tetris.CustomWfControls
 {
@@ -17,6 +18,8 @@ namespace Tetris.CustomWfControls
         private ScaleAnimation _hoverAnimation;
         private ScaleAnimation _mouseLeaveAnimation;
         private bool _isMouseInside = false;
+
+        private SoundEffect _buttonClick = SoundEffect.Collection[SfxFileName.ButtonClick];
 
         private Size _originalSize;
         public Size OriginalSize {
@@ -85,6 +88,11 @@ namespace Tetris.CustomWfControls
         public FlatButton()
         {
             InitializeComponent();
+            Click += (s, e) =>
+            {
+                _buttonClick.Play();
+            };
+
             _hoverAnimation = new ScaleAnimation(this, 1, _hoverScale);
             _hoverAnimation.AnimationEnded += (s, e) =>
             {

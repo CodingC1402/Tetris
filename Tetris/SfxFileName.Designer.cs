@@ -61,6 +61,15 @@ namespace Tetris {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ButtonClick.wav.
+        /// </summary>
+        public static string ButtonClick {
+            get {
+                return ResourceManager.GetString("ButtonClick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ClearOne1.wav.
         /// </summary>
         public static string ClearOne1 {
@@ -93,6 +102,15 @@ namespace Tetris {
         public static string CountDown {
             get {
                 return ResourceManager.GetString("CountDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GameStart.wav.
+        /// </summary>
+        public static string GameStart {
+            get {
+                return ResourceManager.GetString("GameStart", resourceCulture);
             }
         }
         

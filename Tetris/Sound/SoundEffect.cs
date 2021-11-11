@@ -76,6 +76,12 @@ namespace Tetris.Sound
 
             newSound = new SoundEffect(SfxFileName.CountDown, Path.Combine(AudioPath, SfxFileName.CountDown));
             Collection.Add(newSound.ID, newSound);
+
+            newSound = new SoundEffect(SfxFileName.ButtonClick, Path.Combine(AudioPath, SfxFileName.ButtonClick));
+            Collection.Add(newSound.ID, newSound);
+
+            newSound = new SoundEffect(SfxFileName.GameStart, Path.Combine(AudioPath, SfxFileName.GameStart));
+            Collection.Add(newSound.ID, newSound);
         }
 
         private SoundEffect(string id, string fileAddress)

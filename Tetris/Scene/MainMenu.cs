@@ -21,6 +21,7 @@ namespace Tetris
 
         private PositionAnimation _startBtnAnim;
         private PositionAnimation _quitBtnAnim;
+        private PositionAnimation _optionBtnAnim;
 
         private enum State
         {
@@ -33,7 +34,7 @@ namespace Tetris
         {
             InitializeComponent();
             _transition = new Transition(this);
-            pressAnyKeyToStartLable.Visible = startButton.Visible = quitButton.Visible = false;
+            pressAnyKeyToStartLable.Visible = startButton.Visible = quitButton.Visible = optionBtn.Visible = false;
 
             Resize += (s, e) =>
             {
@@ -42,18 +43,23 @@ namespace Tetris
 
             startButton.UsingHoverAnimation = true;
             quitButton.UsingHoverAnimation = true;
+            optionBtn.UsingHoverAnimation = true;
 
             _startBtnAnim = new PositionAnimation(startButton);
             _quitBtnAnim = new PositionAnimation(quitButton);
-            _quitBtnAnim.AnimationTime = _startBtnAnim.AnimationTime = _fadeTime;
+            _optionBtnAnim = new PositionAnimation(optionBtn);
+            _optionBtnAnim.AnimationTime = _quitBtnAnim.AnimationTime = _startBtnAnim.AnimationTime = _fadeTime;
 
             startButton.Click += (s, e) =>
             {
-                startButton.ForceStopAnim();
-                quitButton.ForceStopAnim();
-                pressAnyKeyToStartLable.Visible = startButton.Visible = quitButton.Visible = false;
-                _transition.StartTransitionOut();
+                StartTransition();
                 MainWindow.Instance.ToGameModeSelection(_transition.TransitionOutTime);
+            };
+
+            optionBtn.Click += (s, e) =>
+            {
+                StartTransition();
+                MainWindow.Instance.ToSettingMenu(_transition.TransitionOutTime);
             };
 
             quitButton.Click += (s, e) =>
@@ -63,9 +69,20 @@ namespace Tetris
 
             startButton.OriginalSize = startButton.Size;
             quitButton.OriginalSize = quitButton.Size;
+            optionBtn.OriginalSize = optionBtn.Size;
 
             _fadeCounter = _fadeTime;
             DoubleBuffered = true;
+        }
+
+        private void StartTransition()
+        {
+            startButton.ForceStopAnim();
+            quitButton.ForceStopAnim();
+            optionBtn.ForceStopAnim();
+
+            pressAnyKeyToStartLable.Visible =  startButton.Visible = optionBtn.Visible = quitButton.Visible = false;
+            _transition.StartTransitionOut();
         }
 
         protected void UpdateAnimation()
@@ -75,6 +92,9 @@ namespace Tetris
 
             _quitBtnAnim.FromValue = new Point(quitButton.Location.X, quitButton.Location.Y + Height);
             _quitBtnAnim.ToValue = quitButton.Location;
+
+            _optionBtnAnim.FromValue = new Point(optionBtn.Location.X, optionBtn.Location.Y + Height);
+            _optionBtnAnim.ToValue = optionBtn.Location;
         }
 
         protected override void OnVisibleChanged(EventArgs e)
@@ -139,15 +159,11 @@ namespace Tetris
                     _fadeCounter = 0;
                     _quitBtnAnim.Start();
                     _startBtnAnim.Start();
+                    _optionBtnAnim.Start();
                 }
                 return;
             }
 
-        }
-
-        public override void Render()
-        {
-            Invalidate();
         }
 
         protected void SetRelativePos(Control control, float relativeX, float relativeY)

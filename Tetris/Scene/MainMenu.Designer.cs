@@ -29,30 +29,11 @@ namespace Tetris
         /// </summary>
         private void InitializeComponent()
         {
-            this.startButton = new Tetris.CustomWfControls.FlatButton();
             this.quitButton = new Tetris.CustomWfControls.FlatButton();
             this.pressAnyKeyToStartLable = new System.Windows.Forms.Label();
+            this.startButton = new Tetris.CustomWfControls.FlatButton();
+            this.optionBtn = new Tetris.CustomWfControls.FlatButton();
             this.SuspendLayout();
-            // 
-            // startButton
-            // 
-            this.startButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.startButton.AnimationTime = 0.2F;
-            this.startButton.BackColor = System.Drawing.Color.Teal;
-            this.startButton.CornerRadius = 15;
-            this.startButton.FlatAppearance.BorderSize = 0;
-            this.startButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.startButton.Font = new System.Drawing.Font("Stencil", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.startButton.ForeColor = System.Drawing.Color.White;
-            this.startButton.HoverScale = 1.05F;
-            this.startButton.Location = new System.Drawing.Point(413, 256);
-            this.startButton.Name = "startButton";
-            this.startButton.OriginalSize = new System.Drawing.Size(0, 0);
-            this.startButton.Size = new System.Drawing.Size(228, 70);
-            this.startButton.TabIndex = 8;
-            this.startButton.Text = "START";
-            this.startButton.UseVisualStyleBackColor = false;
-            this.startButton.UsingHoverAnimation = false;
             // 
             // quitButton
             // 
@@ -65,7 +46,7 @@ namespace Tetris
             this.quitButton.Font = new System.Drawing.Font("Stencil", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.quitButton.ForeColor = System.Drawing.Color.White;
             this.quitButton.HoverScale = 1.05F;
-            this.quitButton.Location = new System.Drawing.Point(448, 350);
+            this.quitButton.Location = new System.Drawing.Point(448, 414);
             this.quitButton.Name = "quitButton";
             this.quitButton.OriginalSize = new System.Drawing.Size(0, 0);
             this.quitButton.Size = new System.Drawing.Size(159, 60);
@@ -86,15 +67,56 @@ namespace Tetris
             this.pressAnyKeyToStartLable.TabIndex = 10;
             this.pressAnyKeyToStartLable.Text = "Press any key to start";
             // 
+            // startButton
+            // 
+            this.startButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.startButton.AnimationTime = 0.2F;
+            this.startButton.BackColor = System.Drawing.Color.Teal;
+            this.startButton.CornerRadius = 15;
+            this.startButton.FlatAppearance.BorderSize = 0;
+            this.startButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.startButton.Font = new System.Drawing.Font("Stencil", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.startButton.ForeColor = System.Drawing.Color.White;
+            this.startButton.HoverScale = 1.05F;
+            this.startButton.Location = new System.Drawing.Point(427, 236);
+            this.startButton.Name = "startButton";
+            this.startButton.OriginalSize = new System.Drawing.Size(0, 0);
+            this.startButton.Size = new System.Drawing.Size(200, 65);
+            this.startButton.TabIndex = 12;
+            this.startButton.Text = "START";
+            this.startButton.UseVisualStyleBackColor = false;
+            this.startButton.UsingHoverAnimation = false;
+            // 
+            // optionBtn
+            // 
+            this.optionBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.optionBtn.AnimationTime = 0.2F;
+            this.optionBtn.BackColor = System.Drawing.Color.Teal;
+            this.optionBtn.CornerRadius = 15;
+            this.optionBtn.FlatAppearance.BorderSize = 0;
+            this.optionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.optionBtn.Font = new System.Drawing.Font("Stencil", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.optionBtn.ForeColor = System.Drawing.Color.White;
+            this.optionBtn.HoverScale = 1.05F;
+            this.optionBtn.Location = new System.Drawing.Point(427, 324);
+            this.optionBtn.Name = "optionBtn";
+            this.optionBtn.OriginalSize = new System.Drawing.Size(0, 0);
+            this.optionBtn.Size = new System.Drawing.Size(200, 65);
+            this.optionBtn.TabIndex = 14;
+            this.optionBtn.Text = "OPTION";
+            this.optionBtn.UseVisualStyleBackColor = false;
+            this.optionBtn.UsingHoverAnimation = false;
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1054, 583);
+            this.Controls.Add(this.optionBtn);
+            this.Controls.Add(this.startButton);
             this.Controls.Add(this.pressAnyKeyToStartLable);
             this.Controls.Add(this.quitButton);
-            this.Controls.Add(this.startButton);
             this.Name = "MainMenu";
             this.Text = "MainMenu";
             this.ResumeLayout(false);
@@ -103,8 +125,9 @@ namespace Tetris
         }
 
         #endregion
-        private CustomWfControls.FlatButton startButton;
         private CustomWfControls.FlatButton quitButton;
         private System.Windows.Forms.Label pressAnyKeyToStartLable;
+        private CustomWfControls.FlatButton startButton;
+        private CustomWfControls.FlatButton optionBtn;
     }
 }

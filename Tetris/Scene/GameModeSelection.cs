@@ -54,6 +54,12 @@ namespace Tetris
                 TransitionToGame();
             };
 
+            backButton.Click += (s, e) =>
+            {
+                TransitionSetup();
+                MainWindow.Instance.ToMainMenu(_transition.TransitionOutTime);
+            };
+
             _transition.TransitionInFinished += (s, e) =>
             {
                 risingLabel.Visible = normalLabel.Visible = true;
@@ -92,15 +98,19 @@ namespace Tetris
             _labelAnim.ToValue = label.Location;
         }
 
-        protected void TransitionToGame()
+        protected void TransitionSetup()
         {
             risingLabel.Visible = normalLabel.Visible = false;
             risingFloorBtn.ForceStopAnim();
             normalModeBtn.ForceStopAnim();
             label.Visible = risingFloorBtn.Visible = normalModeBtn.Visible = false;
-
-            MainWindow.Instance.ToGame(_transition.TransitionOutTime);
             _transition.StartTransitionOut();
+        }
+
+        protected void TransitionToGame()
+        {
+            TransitionSetup();
+            MainWindow.Instance.ToGame(_transition.TransitionOutTime);
         }
 
         protected override void OnVisibleChanged(EventArgs e)

@@ -72,9 +72,9 @@ namespace Tetris.Graphics
 
         private int _countingImageSize = 150;
         private Bitmap[] _countingImages = {
-            Images.counter3,        
-            Images.counter2,        
             Images.counter1,        
+            Images.counter2,        
+            Images.counter3,        
         };
 
         public Board()

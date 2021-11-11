@@ -45,8 +45,8 @@ namespace Tetris.CustomWfControls
             remove { _transitionOutFinished -= value; }
         }
 
-        private float _transitionInTime = 1;
-        private float _transitionOutTime = 1;
+        private float _transitionInTime = 0.5f;
+        private float _transitionOutTime = 0.5f;
 
         public float TransitionInTime {
             get => _transitionInTime;

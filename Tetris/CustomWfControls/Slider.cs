@@ -40,6 +40,7 @@ namespace Tetris.CustomWfControls
             set
             {
                 _sliderHeight = value;
+                CreateSliderBmp();
                 Invalidate();
             }
         }
@@ -50,6 +51,7 @@ namespace Tetris.CustomWfControls
             {
                 _thumbWidth = value;
                 UpdateWorkingWidth();
+                CreateThumbBmp();
                 Invalidate();
             }
         }
@@ -113,9 +115,9 @@ namespace Tetris.CustomWfControls
             BackColor = Color.Transparent;
         }
 
-        protected override void OnSizeChanged(EventArgs e)
+        protected override void OnResize(EventArgs e)
         {
-            base.OnSizeChanged(e);
+            base.OnResize(e);
             UpdateWorkingWidth();
 
             CreateThumbBmp();
@@ -171,8 +173,6 @@ namespace Tetris.CustomWfControls
 
         protected override void OnPaint(PaintEventArgs pe)
         {
-            base.OnPaint(pe);
-
             if (_redrawSlider)
             {
                 _sliderGfx.Clear(Color.Transparent);
@@ -193,13 +193,15 @@ namespace Tetris.CustomWfControls
                 using (Brush thumbBrush = new SolidBrush(_thumbColor))
                 {
                     var thumbBounds = CustomControlHelpers.GetRoundPath(thumbRect, CornerRadius);
-                    _thumbGfx.FillPath(thumbBrush, thumbBounds);   
+                    _thumbGfx.FillPath(thumbBrush, thumbBounds);
                 }
                 _redrawThumb = false;
             }
 
             pe.Graphics.DrawImage(_sliderBmp, 0, (Height - _sliderHeight) / 2);
             pe.Graphics.DrawImage(_thumbBmp, _workingWidth * _value, 0);
+
+            base.OnPaint(pe);
         }
 
         protected virtual void OnValueChanged(EventArgs e)

@@ -129,6 +129,9 @@
     <value>ClearTwo1.wav</value>
     <comment>When clearing two row</comment>
   </data>
+  <data name="CountDown" xml:space="preserve">
+    <value>CountDown.wav</value>
+  </data>
   <data name="PlayerAction" xml:space="preserve">
     <value>PlayerAction.wav</value>
   </data>

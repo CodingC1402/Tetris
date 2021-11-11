@@ -67,6 +67,13 @@ namespace Tetris.Graphics
         private float _shadowOpacity = 0.35f;
         private float _shadowScale = 0.9f;
 
+        private int _countingImageSize = 150;
+        private Bitmap[] _countingImages = {
+            Images.counter3,        
+            Images.counter2,        
+            Images.counter1,        
+        };
+
         public Board()
         {
             InitializeComponent();
@@ -275,12 +282,25 @@ namespace Tetris.Graphics
             }
             #endregion
 
-            if (BoardLogic.Paused)
+            base.OnPaint(pe);
+        }
+
+        protected override void OnBeforePaintCall(PaintEventArgs pe)
+        {
+            base.OnBeforePaintCall(pe);
+
+            if (BoardLogic.Paused || BoardLogic.CountingCounter > 0)
             {
                 pe.Graphics.DrawImage(_pausedOverlayBitmap, 0, 0, Width, Height);
-            }
+                if (BoardLogic.CountingCounter > 0)
+                {
+                    var countingNumber = BoardLogic.CountingCounter / (BoardLogic.CountingTime / 3);
+                    var drawX = (Width - _countingImageSize) / 2;
+                    var drawY = (Height - _countingImageSize) / 2;
 
-            base.OnPaint(pe);
+                    pe.Graphics.DrawImage(_countingImages[(int)Math.Clamp(countingNumber, 0, _countingImages.Length - 1)], drawX, drawY, _countingImageSize, _countingImageSize);
+                }
+            }
         }
 
         protected override void SetBoundsForBitmap()

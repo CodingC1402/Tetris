@@ -76,6 +76,13 @@ namespace Tetris.Logic
         private static SoundEffect _clearThreeSound = SoundEffect.Collection[SfxFileName.ClearThree1];
         private static SoundEffect _tetrisSound = SoundEffect.Collection[SfxFileName.Tetris1];
 
+        private static float _countingTime = 2.8f;
+        private static float _countingCounter = 0;
+        public static float CountingCounter { get => _countingCounter; }
+        public static float CountingTime { get => _countingTime; }
+
+        private static SoundEffect _countDownSound = SoundEffect.Collection[SfxFileName.CountDown];
+
         public static GameMode CurrentGameMode { get; private set; }
 
         public static int RisingFloorSpeed
@@ -167,17 +174,8 @@ namespace Tetris.Logic
                 _rowCleanUpCounter[i] = -1;
             }
 
-            //for (int i = NumberOfRow - 1; i > NumberOfRow - 5; i--)
-            //{
-            //    for (int c = 1; c < NumberOfCol; c++)
-            //    {
-            //        Blocks[i][c] = new Block
-            //        {
-            //            LocalPosition = new System.Drawing.Point(c, i),
-            //            Sprite = Sprite.Collection["Block0"],
-            //        };
-            //    }
-            //}
+            _countDownSound.Play();
+            _countingCounter = _countingTime;
 
             DropSpeed = 1;
             Score = 0;
@@ -194,6 +192,12 @@ namespace Tetris.Logic
         {
             if (Paused || !_started)
                 return;
+
+            if (_countingCounter > 0)
+            {
+                _countingCounter -= Program.DeltaTime;
+                return;
+            }
 
             if (_tetrisEffectCounter > 0)
             {

@@ -139,4 +139,13 @@
   <data name="StartingBG" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Images\StartingBG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="counter1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Images\counter1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="counter2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Images\counter2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="counter3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Images\counter3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

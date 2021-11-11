@@ -88,6 +88,15 @@ namespace Tetris {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CountDown.wav.
+        /// </summary>
+        public static string CountDown {
+            get {
+                return ResourceManager.GetString("CountDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PlayerAction.wav.
         /// </summary>
         public static string PlayerAction {

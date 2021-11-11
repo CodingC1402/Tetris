@@ -83,6 +83,9 @@
     <None Update="AudioFiles\SoundEffects\ClearTwo1.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="AudioFiles\SoundEffects\CountDown.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="AudioFiles\SoundEffects\PlayerAction.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

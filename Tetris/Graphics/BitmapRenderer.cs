@@ -56,6 +56,12 @@ namespace Tetris.Graphics
 
         protected override void OnPaint(PaintEventArgs pe)
         {
+            OnBeforePaintCall(pe);
+            base.OnPaint(pe);
+        }
+
+        protected virtual void OnBeforePaintCall(PaintEventArgs pe)
+        {
             if (_bufferBitmap == null)
                 return;
 
@@ -71,8 +77,6 @@ namespace Tetris.Graphics
 
             pe.Graphics.DrawImage(_bufferBitmap, _offSetX, _offSetY, _trueWidth, _trueHeight);
             NeedToRender.Clear();
-
-            base.OnPaint(pe);
         }
 
         protected virtual void SetBoundsForBitmap()

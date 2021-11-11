@@ -59,7 +59,6 @@ namespace Tetris
 
             Mark();
             // Tempt
-            Music.StartPlayingMenuMusic();
 
             FramePerSecond = 30;
             _clock.Interval = 10;

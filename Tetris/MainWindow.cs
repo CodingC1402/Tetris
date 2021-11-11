@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tetris.CustomWfControls;
+using Tetris.Sound;
 
 namespace Tetris
 {
@@ -59,11 +60,13 @@ namespace Tetris
 
         public void ToMainMenu(float delay)
         {
+            Music.StartPlayingMenuMusic();
             ToScene(new MainMenu(), delay);
         }
 
         public void ToGame(float delay)
         {
+            Music.StartPlayingGameMusic();
             ToScene(new Game(), delay);
         }
 

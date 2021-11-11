@@ -23,6 +23,8 @@ namespace Tetris
         public Game()
         {
             InitializeComponent();
+            SetControlVisibility();
+
             circelPause.BackGroundImage = Images.pauseButton;
             circelPause.Referencing = board;
             circelPause.MouseDown += (s, e) =>
@@ -30,9 +32,57 @@ namespace Tetris
                 BoardLogic.Paused = true;
             };
 
+            soundEffectSlider.VisibleChanged += (s, e) =>
+            {
+                if (soundEffectSlider.Visible)
+                    soundEffectSlider.Value = SoundEffect.SfxVolumn;
+            };
+            soundEffectSlider.ValueChanged += (s, e) =>
+            {
+                SoundEffect.SfxVolumn = soundEffectSlider.Value;
+            };
+
+            musicSlider.VisibleChanged += (s, e) =>
+            {
+                if (musicSlider.Visible)
+                    musicSlider.Value = Music.Volumn;
+            };
+            musicSlider.ValueChanged += (s, e) =>
+            {
+                Music.Volumn = musicSlider.Value;
+            };
+
+            continueBtn.Click += (s, e) =>
+            {
+                BoardLogic.Paused = false;
+            };
+
+            menuBtn.Click += (s, e) =>
+            {
+                BoardLogic.Stop();
+                StartTransition();
+                MainWindow.Instance.ToMainMenu(_boardTransition.TransitionOutTime);
+            };
+
+            restartBtn.Click += (s, e) =>
+            {
+                BoardLogic.Stop();
+                StartTransition();
+                MainWindow.Instance.ToGame(_boardTransition.TransitionOutTime);
+            };
+
             _boardTransition = new Transition(board);
             _boardTransition.TransitionInTime = 1;
             _instance = this;
+        }
+
+        protected void StartTransition()
+        {
+            menuBtn.ForceStopAnim();
+            continueBtn.ForceStopAnim();
+            restartBtn.ForceStopAnim();
+
+            _boardTransition.StartTransitionOut();
         }
 
         protected override void OnVisibleChanged(EventArgs e)
@@ -50,8 +100,14 @@ namespace Tetris
             if (!Visible)
                 return;
 
-            circelPause.Visible = !(BoardLogic.Paused || !BoardLogic.Started);
+            SetControlVisibility();
             Logic.Logic.Update();
+        }
+
+        private void SetControlVisibility()
+        {
+            restartBtn.Visible = menuBtn.Visible = continueBtn.Visible = sfxLabel.Visible = musicLabel.Visible = musicSlider.Visible = soundEffectSlider.Visible = pausedLabel.Visible = BoardLogic.Paused;
+            circelPause.Visible = !(BoardLogic.Paused || !BoardLogic.Started);
         }
 
         public override void StartLogic()
@@ -61,7 +117,7 @@ namespace Tetris
 
         public override void Render()
         {
-            Graphics.Board.Instance.Invalidate();
+            board.Invalidate();
             circelPause.Invalidate();
         }
 

@@ -31,6 +31,14 @@ namespace Tetris
         {
             this.board = new Tetris.Graphics.Board();
             this.circelPause = new Tetris.CustomWfControls.CircelPause();
+            this.pausedLabel = new System.Windows.Forms.Label();
+            this.musicSlider = new Tetris.CustomWfControls.Slider();
+            this.musicLabel = new System.Windows.Forms.Label();
+            this.sfxLabel = new System.Windows.Forms.Label();
+            this.soundEffectSlider = new Tetris.CustomWfControls.Slider();
+            this.continueBtn = new Tetris.CustomWfControls.FlatButton();
+            this.menuBtn = new Tetris.CustomWfControls.FlatButton();
+            this.restartBtn = new Tetris.CustomWfControls.FlatButton();
             this.SuspendLayout();
             // 
             // board
@@ -61,24 +69,180 @@ namespace Tetris
             this.circelPause.TabIndex = 6;
             this.circelPause.Text = "circelPause1";
             // 
+            // pausedLabel
+            // 
+            this.pausedLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pausedLabel.AutoSize = true;
+            this.pausedLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.pausedLabel.Font = new System.Drawing.Font("Stencil", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.pausedLabel.ForeColor = System.Drawing.Color.White;
+            this.pausedLabel.Location = new System.Drawing.Point(354, 230);
+            this.pausedLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.pausedLabel.Name = "pausedLabel";
+            this.pausedLabel.Size = new System.Drawing.Size(210, 57);
+            this.pausedLabel.TabIndex = 14;
+            this.pausedLabel.Text = "Paused";
+            // 
+            // musicSlider
+            // 
+            this.musicSlider.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.musicSlider.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.musicSlider.CornerRadius = 10;
+            this.musicSlider.Location = new System.Drawing.Point(300, 410);
+            this.musicSlider.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.musicSlider.Name = "musicSlider";
+            this.musicSlider.Size = new System.Drawing.Size(608, 38);
+            this.musicSlider.SliderColor = System.Drawing.Color.DarkSlateGray;
+            this.musicSlider.SliderHeight = 20;
+            this.musicSlider.TabIndex = 13;
+            this.musicSlider.Text = "slider2";
+            this.musicSlider.ThumbColor = System.Drawing.Color.Azure;
+            this.musicSlider.ThumbWidth = 30;
+            this.musicSlider.Value = 0F;
+            // 
+            // musicLabel
+            // 
+            this.musicLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.musicLabel.AutoSize = true;
+            this.musicLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.musicLabel.Font = new System.Drawing.Font("Stencil", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.musicLabel.ForeColor = System.Drawing.Color.White;
+            this.musicLabel.Location = new System.Drawing.Point(-7, 411);
+            this.musicLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.musicLabel.Name = "musicLabel";
+            this.musicLabel.Size = new System.Drawing.Size(119, 38);
+            this.musicLabel.TabIndex = 12;
+            this.musicLabel.Text = "Music";
+            // 
+            // sfxLabel
+            // 
+            this.sfxLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.sfxLabel.AutoSize = true;
+            this.sfxLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.sfxLabel.Font = new System.Drawing.Font("Stencil", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.sfxLabel.ForeColor = System.Drawing.Color.White;
+            this.sfxLabel.Location = new System.Drawing.Point(-7, 333);
+            this.sfxLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.sfxLabel.Name = "sfxLabel";
+            this.sfxLabel.Size = new System.Drawing.Size(270, 38);
+            this.sfxLabel.TabIndex = 11;
+            this.sfxLabel.Text = "Sound effects";
+            // 
+            // soundEffectSlider
+            // 
+            this.soundEffectSlider.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.soundEffectSlider.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.soundEffectSlider.CornerRadius = 10;
+            this.soundEffectSlider.Location = new System.Drawing.Point(300, 337);
+            this.soundEffectSlider.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.soundEffectSlider.Name = "soundEffectSlider";
+            this.soundEffectSlider.Size = new System.Drawing.Size(608, 38);
+            this.soundEffectSlider.SliderColor = System.Drawing.Color.DarkSlateGray;
+            this.soundEffectSlider.SliderHeight = 20;
+            this.soundEffectSlider.TabIndex = 10;
+            this.soundEffectSlider.Text = "slider1";
+            this.soundEffectSlider.ThumbColor = System.Drawing.Color.Azure;
+            this.soundEffectSlider.ThumbWidth = 30;
+            this.soundEffectSlider.Value = 0F;
+            // 
+            // continueBtn
+            // 
+            this.continueBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.continueBtn.AnimationTime = 0.2F;
+            this.continueBtn.BackColor = System.Drawing.Color.Teal;
+            this.continueBtn.CornerRadius = 15;
+            this.continueBtn.FlatAppearance.BorderSize = 0;
+            this.continueBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.continueBtn.Font = new System.Drawing.Font("Stencil", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.continueBtn.ForeColor = System.Drawing.Color.White;
+            this.continueBtn.HoverScale = 1.05F;
+            this.continueBtn.Location = new System.Drawing.Point(179, 498);
+            this.continueBtn.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.continueBtn.Name = "continueBtn";
+            this.continueBtn.OriginalSize = new System.Drawing.Size(0, 0);
+            this.continueBtn.Size = new System.Drawing.Size(150, 67);
+            this.continueBtn.TabIndex = 15;
+            this.continueBtn.Text = "Continue";
+            this.continueBtn.UseVisualStyleBackColor = false;
+            this.continueBtn.UsingHoverAnimation = false;
+            // 
+            // menuBtn
+            // 
+            this.menuBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.menuBtn.AnimationTime = 0.2F;
+            this.menuBtn.BackColor = System.Drawing.Color.Teal;
+            this.menuBtn.CornerRadius = 15;
+            this.menuBtn.FlatAppearance.BorderSize = 0;
+            this.menuBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.menuBtn.Font = new System.Drawing.Font("Stencil", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.menuBtn.ForeColor = System.Drawing.Color.White;
+            this.menuBtn.HoverScale = 1.05F;
+            this.menuBtn.Location = new System.Drawing.Point(579, 498);
+            this.menuBtn.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.menuBtn.Name = "menuBtn";
+            this.menuBtn.OriginalSize = new System.Drawing.Size(0, 0);
+            this.menuBtn.Size = new System.Drawing.Size(150, 67);
+            this.menuBtn.TabIndex = 16;
+            this.menuBtn.Text = "Menu";
+            this.menuBtn.UseVisualStyleBackColor = false;
+            this.menuBtn.UsingHoverAnimation = false;
+            // 
+            // restartBtn
+            // 
+            this.restartBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.restartBtn.AnimationTime = 0.2F;
+            this.restartBtn.BackColor = System.Drawing.Color.Teal;
+            this.restartBtn.CornerRadius = 15;
+            this.restartBtn.FlatAppearance.BorderSize = 0;
+            this.restartBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.restartBtn.Font = new System.Drawing.Font("Stencil", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.restartBtn.ForeColor = System.Drawing.Color.White;
+            this.restartBtn.HoverScale = 1.05F;
+            this.restartBtn.Location = new System.Drawing.Point(378, 498);
+            this.restartBtn.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.restartBtn.Name = "restartBtn";
+            this.restartBtn.OriginalSize = new System.Drawing.Size(0, 0);
+            this.restartBtn.Size = new System.Drawing.Size(150, 67);
+            this.restartBtn.TabIndex = 17;
+            this.restartBtn.Text = "Restart";
+            this.restartBtn.UseVisualStyleBackColor = false;
+            this.restartBtn.UsingHoverAnimation = false;
+            // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Black;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(900, 800);
+            this.Controls.Add(this.restartBtn);
+            this.Controls.Add(this.menuBtn);
+            this.Controls.Add(this.continueBtn);
+            this.Controls.Add(this.pausedLabel);
+            this.Controls.Add(this.musicSlider);
+            this.Controls.Add(this.musicLabel);
+            this.Controls.Add(this.sfxLabel);
+            this.Controls.Add(this.soundEffectSlider);
             this.Controls.Add(this.circelPause);
             this.Controls.Add(this.board);
             this.Name = "Game";
             this.Text = "Tetris";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
         private Graphics.Board board;
         private CustomWfControls.CircelPause circelPause;
+        private System.Windows.Forms.Label pausedLabel;
+        private CustomWfControls.Slider musicSlider;
+        private System.Windows.Forms.Label musicLabel;
+        private System.Windows.Forms.Label sfxLabel;
+        private CustomWfControls.Slider soundEffectSlider;
+        private CustomWfControls.FlatButton continueBtn;
+        private CustomWfControls.FlatButton menuBtn;
+        private CustomWfControls.FlatButton restartBtn;
     }
 }
 

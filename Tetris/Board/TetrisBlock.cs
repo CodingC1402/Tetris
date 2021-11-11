@@ -368,6 +368,9 @@ namespace Tetris.Board
 
         public void Dispose()
         {
+            if (!BoardLogic.Started)
+                return;
+
             foreach (var row in Matrix)
             {
                 foreach (var col in row)

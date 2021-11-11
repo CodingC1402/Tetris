@@ -37,7 +37,7 @@ namespace Tetris.Logic
             get => _paused;
             set
             {
-                if (_countingCounter > 0)
+                if (_countingCounter > 0 || !_started)
                     return;
                 _paused = value;
             }
@@ -171,8 +171,6 @@ namespace Tetris.Logic
 
         public static void Start()
         {
-            Music.StartPlayingGameMusic();
-
             NextBlock = TetrisBlock.CreateTetrisBlock();
             CurrentBlock = null;
             CreateBlock();
@@ -193,7 +191,8 @@ namespace Tetris.Logic
         public static void Stop()
         {
             _started = false;
-            NextBlock = null;
+            _paused = false;
+            CurrentBlock.Dispose();
             CurrentBlock = null;
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,39 +54,52 @@ namespace Tetris
                 Logic.InputSystem.AddToStack(e.KeyCode, false, false);
             };
 
-            ToMainMenu(0);
+            ToMainMenu(0.01f);
         }
 
         public void ToMainMenu(float delay)
         {
-            CustomControlHelpers.CallFunctionWithDelay(this, () => {
-                ToScene(new MainMenu());
-            }, delay);
+            ToScene(new MainMenu(), delay);
         }
 
         public void ToGame(float delay)
         {
-            CustomControlHelpers.CallFunctionWithDelay(this, () => {
-                ToScene(new Game());
-            }, delay);
+            ToScene(new Game(), delay);
         }
 
-        public void ToScene(Scene scene)
+        public void ToGameModeSelection(float delay)
         {
-            if (_currentScene == scene || scene == null)
-                return;
+            ToScene(new GameModeSelection(), delay);
+        }
 
-            if (_currentScene != null)
-            {
-                _currentScene.Visible = false;
-                _currentScene.EndLogic();
-            }
+        public void ToScoreBoard(float delay)
+        {
+            ToScene(new ScoreBoard(), delay);
+        }
 
-            scene.StartLogic();
-            Controls.Add(scene);
-            scene.Dock = DockStyle.Fill;
-            scene.Visible = true;
-            _currentScene = scene;
+        public void ToSettingMenu(float delay)
+        {
+            ToScene(new SettingMenu(), delay);
+        }
+
+        public void ToScene(Scene scene, float delay)
+        {
+            CustomControlHelpers.CallFunctionWithDelay(this, () => {
+                if (_currentScene == scene || scene == null)
+                    return;
+
+                if (_currentScene != null)
+                {
+                    _currentScene.Visible = false;
+                    _currentScene.EndLogic();
+                }
+
+                scene.StartLogic();
+                Controls.Add(scene);
+                scene.Dock = DockStyle.Fill;
+                scene.Visible = true;
+                _currentScene = scene;
+            }, delay);
         }
     }
 }

@@ -37,34 +37,42 @@ namespace Tetris
             // startButton
             // 
             this.startButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.startButton.AnimationTime = 0.2F;
             this.startButton.BackColor = System.Drawing.Color.Teal;
-            this.startButton.CornerRadius = 30;
+            this.startButton.CornerRadius = 15;
             this.startButton.FlatAppearance.BorderSize = 0;
             this.startButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.startButton.Font = new System.Drawing.Font("Stencil", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.startButton.ForeColor = System.Drawing.Color.White;
+            this.startButton.HoverScale = 1.1F;
             this.startButton.Location = new System.Drawing.Point(413, 256);
             this.startButton.Name = "startButton";
+            this.startButton.OriginalSize = new System.Drawing.Size(0, 0);
             this.startButton.Size = new System.Drawing.Size(228, 70);
             this.startButton.TabIndex = 8;
             this.startButton.Text = "START";
             this.startButton.UseVisualStyleBackColor = false;
+            this.startButton.UsingHoverAnimation = false;
             // 
             // quitButton
             // 
             this.quitButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.quitButton.AnimationTime = 0.2F;
             this.quitButton.BackColor = System.Drawing.Color.Teal;
-            this.quitButton.CornerRadius = 30;
+            this.quitButton.CornerRadius = 15;
             this.quitButton.FlatAppearance.BorderSize = 0;
             this.quitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.quitButton.Font = new System.Drawing.Font("Stencil", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.quitButton.ForeColor = System.Drawing.Color.White;
+            this.quitButton.HoverScale = 1.1F;
             this.quitButton.Location = new System.Drawing.Point(448, 350);
             this.quitButton.Name = "quitButton";
+            this.quitButton.OriginalSize = new System.Drawing.Size(0, 0);
             this.quitButton.Size = new System.Drawing.Size(159, 60);
             this.quitButton.TabIndex = 9;
             this.quitButton.Text = "QUIT";
             this.quitButton.UseVisualStyleBackColor = false;
+            this.quitButton.UsingHoverAnimation = false;
             // 
             // pressAnyKeyToStartLable
             // 

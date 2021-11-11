@@ -22,11 +22,6 @@ namespace Tetris
         private PositionAnimation _startBtnAnim;
         private PositionAnimation _quitBtnAnim;
 
-        private ScaleAnimation _startScaleAnim;
-        private ScaleAnimation _quitScaleAnim;
-
-        private Transition transition;
-
         private enum State
         {
             WaitForInput,
@@ -37,7 +32,7 @@ namespace Tetris
         public MainMenu()
         {
             InitializeComponent();
-            transition = new Transition(this);
+            _transition = new Transition(this);
             pressAnyKeyToStartLable.Visible = startButton.Visible = quitButton.Visible = false;
 
             Resize += (s, e) =>
@@ -57,8 +52,8 @@ namespace Tetris
                 startButton.ForceStopAnim();
                 quitButton.ForceStopAnim();
                 pressAnyKeyToStartLable.Visible = startButton.Visible = quitButton.Visible = false;
-                transition.StartTransitionOut();
-                MainWindow.Instance.ToGame(transition.TransitionOutTime);
+                _transition.StartTransitionOut();
+                MainWindow.Instance.ToGameModeSelection(_transition.TransitionOutTime);
             };
 
             quitButton.Click += (s, e) =>
@@ -88,7 +83,7 @@ namespace Tetris
 
             if (Visible)
             {
-                transition.StartTransitionIn();
+                _transition.StartTransitionIn();
             }
         }
 

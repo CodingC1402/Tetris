@@ -64,8 +64,11 @@ namespace Tetris.Graphics
 
         private float _tetrisEffectOffset = 0.05f;
 
-        private float _shadowOpacity = 0.35f;
+        private float _shadowOpacity = 0.45f;
         private float _shadowScale = 0.9f;
+
+        private int _pausedBoardHeight = 400;
+        private Color _pausedBoardColor = Color.FromArgb(255, 38, 45, 45);
 
         private int _countingImageSize = 150;
         private Bitmap[] _countingImages = {
@@ -299,6 +302,19 @@ namespace Tetris.Graphics
                     var drawY = (Height - _countingImageSize) / 2;
 
                     pe.Graphics.DrawImage(_countingImages[(int)Math.Clamp(countingNumber, 0, _countingImages.Length - 1)], drawX, drawY, _countingImageSize, _countingImageSize);
+                }
+
+                if (BoardLogic.Paused)
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = Width;
+                    rectangle.Height = _pausedBoardHeight;
+                    rectangle.Y = (Height - rectangle.Height) / 2;
+
+                    using (Brush brush = new SolidBrush(_pausedBoardColor))
+                    {
+                        pe.Graphics.FillRectangle(brush, rectangle);
+                    }
                 }
             }
         }

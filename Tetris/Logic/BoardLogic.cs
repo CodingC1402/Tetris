@@ -83,7 +83,16 @@ namespace Tetris.Logic
 
         private static SoundEffect _countDownSound = SoundEffect.Collection[SfxFileName.CountDown];
 
-        public static GameMode CurrentGameMode { get; private set; }
+        public static GameMode _currentGameMode;
+        public static GameMode CurrentGameMode 
+        {
+            get => _currentGameMode;
+            set
+            {
+                if (!_started)
+                    _currentGameMode = value;
+            }
+        }
 
         public static int RisingFloorSpeed
         {
@@ -158,12 +167,11 @@ namespace Tetris.Logic
             }
         }
 
-        public static void Start(GameMode mode)
+        public static void Start()
         {
             Music.StartPlayingGameMusic();
 
             _started = true;
-            CurrentGameMode = mode;
             NextBlock = TetrisBlock.CreateTetrisBlock();
             CurrentBlock = null;
             CreateBlock();

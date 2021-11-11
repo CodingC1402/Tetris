@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using Tetris.CustomWfControls;
 
 namespace Tetris
 {
     public class Scene : Form
     {
+        protected Transition _transition;
+
         public Scene()
         {
             if (!Program.IsDesignMode())
             {
                 TopLevel = false;
                 FormBorderStyle = FormBorderStyle.None;
+                _transition = new Transition(this);
             }
         }
 

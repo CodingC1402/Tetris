@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tetris.CustomWfControls;
+using Tetris.Logic;
 using Tetris.Sound;
 
 namespace Tetris
@@ -44,7 +45,10 @@ namespace Tetris
             base.OnVisibleChanged(e);
             slider1.Value = Music.Volumn;
             if (Visible)
+            {
+                BoardLogic.Start();
                 _boardTransition.StartTransitionIn();
+            }
         }
 
         public override void UpdateLogic()

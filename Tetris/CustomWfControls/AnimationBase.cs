@@ -67,7 +67,8 @@ namespace Tetris.CustomWfControls
             if (_currentState == State.Stopped)
             {
                 _counter = 0;
-                _controlBmp = new Bitmap(_owner.Width, _owner.Height);
+                if (_controlBmp == null)
+                    _controlBmp = new Bitmap(_owner.Width, _owner.Height);
                 _owner.DrawToBitmap(_controlBmp, new Rectangle(0, 0, _controlBmp.Width, _controlBmp.Height));
                 _owner.Parent.Paint += OnPaintOverParent;
                 _owner.Visible = false;

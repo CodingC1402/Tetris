@@ -44,7 +44,7 @@ namespace Tetris
             this.startButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.startButton.Font = new System.Drawing.Font("Stencil", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.startButton.ForeColor = System.Drawing.Color.White;
-            this.startButton.HoverScale = 1.1F;
+            this.startButton.HoverScale = 1.05F;
             this.startButton.Location = new System.Drawing.Point(413, 256);
             this.startButton.Name = "startButton";
             this.startButton.OriginalSize = new System.Drawing.Size(0, 0);
@@ -64,7 +64,7 @@ namespace Tetris
             this.quitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.quitButton.Font = new System.Drawing.Font("Stencil", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.quitButton.ForeColor = System.Drawing.Color.White;
-            this.quitButton.HoverScale = 1.1F;
+            this.quitButton.HoverScale = 1.05F;
             this.quitButton.Location = new System.Drawing.Point(448, 350);
             this.quitButton.Name = "quitButton";
             this.quitButton.OriginalSize = new System.Drawing.Size(0, 0);

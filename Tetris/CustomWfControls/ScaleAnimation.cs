@@ -31,11 +31,27 @@ namespace Tetris.CustomWfControls
             Owner.Width = (int)MathF.Round(newWidth);
             Owner.Height = (int)MathF.Round(newHeight);
 
-            _controlBmp.Dispose();
-            _controlBmp = new Bitmap(Owner.Width, Owner.Height);
-            Owner.DrawToBitmap(_controlBmp, new Rectangle(0, 0, Owner.Width, Owner.Height));
+            var offSetX = (_controlBmp.Width - Owner.Width) / 2;
+            var offSetY = (_controlBmp.Height - Owner.Height) / 2;
 
+            System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(_controlBmp);
+            gfx.Clear(Color.Transparent);
+            Owner.DrawToBitmap(_controlBmp, new Rectangle(offSetX,  offSetY, Owner.Width, Owner.Height));
+
+            targetLocation.X -= offSetX;
+            targetLocation.Y -= offSetY;
             e.Graphics.DrawImage(ControlBmp, targetLocation);
+        }
+
+        public override void Start()
+        {
+            if (CurrentState == State.Stopped)
+            {
+                var value = MathF.Max(_fromValue, _toValue);
+                _controlBmp = new Bitmap((int)MathF.Round(OriginalSize.Width * value), (int)MathF.Round(OriginalSize.Height * value));
+            }
+
+            base.Start();
         }
 
         protected override void OnAnimationEnded(EventArgs e)

@@ -18,6 +18,8 @@ namespace Tetris
         private PositionAnimation _normalAnim;
         private PositionAnimation _labelAnim;
 
+        private int _imagePadding = 40;
+
         public GameModeSelection()
         {
             InitializeComponent();
@@ -28,7 +30,11 @@ namespace Tetris
             _labelAnim = new PositionAnimation(label);
             _labelAnim.AnimationTime = _risingFloorAnim.AnimationTime = _normalAnim.AnimationTime = 0.5f;
 
+            risingLabel.Visible = normalLabel.Visible = false;
             label.Visible = risingFloorBtn.Visible = normalModeBtn.Visible = false;
+
+            risingFloorBtn.Paint += DrawOnButton;
+            normalModeBtn.Paint += DrawOnButton;
 
             Resize += (s, e) => UpdateAnimation();
 
@@ -47,6 +53,31 @@ namespace Tetris
                 BoardLogic.CurrentGameMode = BoardLogic.GameMode.Normal;
                 TransitionToGame();
             };
+
+            _transition.TransitionInFinished += (s, e) =>
+            {
+                risingLabel.Visible = normalLabel.Visible = true;
+            };
+        }
+
+        protected void DrawOnButton(object sender, PaintEventArgs e)
+        {
+            FlatButton flatButton = sender as FlatButton;
+
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+
+            Rectangle rectangle = new Rectangle(_imagePadding, _imagePadding, flatButton.Width - _imagePadding * 2, flatButton.Height - _imagePadding * 2);
+
+            if (sender == risingFloorBtn)
+            {
+                e.Graphics.DrawImage(Images.RisingFloorMode, rectangle);
+            }
+            else
+            {
+                e.Graphics.DrawImage(Images.NormalMode, rectangle);
+            }
         }
 
         protected void UpdateAnimation()
@@ -63,9 +94,10 @@ namespace Tetris
 
         protected void TransitionToGame()
         {
+            risingLabel.Visible = normalLabel.Visible = false;
             risingFloorBtn.ForceStopAnim();
             normalModeBtn.ForceStopAnim();
-            risingFloorBtn.Visible = normalModeBtn.Visible = false;
+            label.Visible = risingFloorBtn.Visible = normalModeBtn.Visible = false;
 
             MainWindow.Instance.ToGame(_transition.TransitionOutTime);
             _transition.StartTransitionOut();

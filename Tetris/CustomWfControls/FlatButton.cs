@@ -49,7 +49,7 @@ namespace Tetris.CustomWfControls
             }
         }
 
-        private float _hoverScale = 1.10f;
+        private float _hoverScale = 1.05f;
         [Browsable(true), Category("Appearance")]
         public float HoverScale
         {
@@ -109,6 +109,9 @@ namespace Tetris.CustomWfControls
 
             FlatStyle = FlatStyle.Flat;
             FlatAppearance.BorderSize = 0;
+
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            BackColor = Color.Transparent;
         }
 
         protected bool IsMouseInside()
@@ -160,6 +163,12 @@ namespace Tetris.CustomWfControls
         protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
+
+            pe.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            pe.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            pe.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+            pe.Graphics.DrawImage(Images.ButtonBack, 0, 0, Width, Height);
+
             pe.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
             if (_cornerRadius > 0)

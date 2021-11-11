@@ -93,6 +93,16 @@ namespace Tetris {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap ButtonBack {
+            get {
+                object obj = ResourceManager.GetObject("ButtonBack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap counter1 {
             get {
                 object obj = ResourceManager.GetObject("counter1", resourceCulture);
@@ -136,6 +146,26 @@ namespace Tetris {
         public static System.Drawing.Bitmap MainMenuBG {
             get {
                 object obj = ResourceManager.GetObject("MainMenuBG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap NormalMode {
+            get {
+                object obj = ResourceManager.GetObject("NormalMode", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap RisingFloorMode {
+            get {
+                object obj = ResourceManager.GetObject("RisingFloorMode", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

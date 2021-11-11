@@ -13,16 +13,20 @@ namespace Tetris
 {
     public partial class MainMenu : Scene
     {
-        private float _fadeTime = 1.5f;
+        private float _fadeTime = 0.5f;
         private float _fadeCounter;
 
         private Bitmap _startingBG = Images.StartingBG;
         private Bitmap _mainMenuBG = Images.MainMenuBG;
 
-        private PointF _relativeStartButtonPos = new PointF(0.5f, 0.5f);
-        private PointF _relativeQuitButtonPos = new PointF(0.5f, 0.65f);
+        private PositionAnimation _startBtnAnim;
+        private PositionAnimation _quitBtnAnim;
 
-        private float _floatInOffSet = 0.75f;
+        private PointF _startBtnStartPos = new PointF(0.5f, 1.25f);
+        private PointF _quitBtnStartPos = new PointF(0.5f, 1.35f);
+
+        private PointF _startBtnEndPos = new PointF(0.5f, 0.5f);
+        private PointF _quitBtnEndPos = new PointF(0.5f, 0.65f);
 
         private Transition transition;
 
@@ -38,6 +42,15 @@ namespace Tetris
             InitializeComponent();
             transition = new Transition(this);
             pressAnyKeyToStartLable.Visible = startButton.Visible = quitButton.Visible = false;
+
+            Resize += (s, e) =>
+            {
+                UpdateAnimation();
+            };
+
+            _startBtnAnim = new PositionAnimation(startButton);
+            _quitBtnAnim = new PositionAnimation(quitButton);
+            _quitBtnAnim.AnimationTime = _startBtnAnim.AnimationTime = _fadeTime;
 
             startButton.Click += (s, e) =>
             {
@@ -55,6 +68,15 @@ namespace Tetris
             DoubleBuffered = true;
         }
 
+        protected void UpdateAnimation()
+        {
+            _startBtnAnim.FromValue = new Point(startButton.Location.X, startButton.Location.Y + Height); 
+            _startBtnAnim.ToValue = startButton.Location;
+
+            _quitBtnAnim.FromValue = new Point(quitButton.Location.X, quitButton.Location.Y + Height);
+            _quitBtnAnim.ToValue = quitButton.Location;
+        }
+
         protected override void OnVisibleChanged(EventArgs e)
         {
             base.OnVisibleChanged(e);
@@ -67,9 +89,7 @@ namespace Tetris
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            var ratioW = Width / (float)_startingBG.Width;
-            var ratioH = Height / (float)_startingBG.Height;
-            var ratio = MathF.Min(ratioH, ratioW);
+            var ratio = Height / (float)_startingBG.Height;
 
             Rectangle drawingRect = new Rectangle(0, 0, (int)(_startingBG.Width * ratio), (int)(_startingBG.Height * ratio));
             drawingRect.X = (Width - (drawingRect.Width)) / 2;
@@ -85,17 +105,6 @@ namespace Tetris
                 colorMatrix.Matrix33 = _fadeCounter / _fadeTime;
                 ImageAttributes imageAttributes = new ImageAttributes();
                 imageAttributes.SetColorMatrix(colorMatrix);
-
-                var floatInPosFactor = _floatInOffSet * (_fadeCounter / _fadeTime);
-                var startPath = CustomControlHelpers.GetRoundPath(new Rectangle(startButton.Location.X, (int)(startButton.Location.Y + Height * floatInPosFactor), startButton.Width, startButton.Height), startButton.CornerRadius);
-                var quitPath = CustomControlHelpers.GetRoundPath(new Rectangle(quitButton.Location.X, (int)(quitButton.Location.Y + Height * floatInPosFactor), quitButton.Width, quitButton.Height), quitButton.CornerRadius);
-
-                using (Brush startBrush = new SolidBrush(startButton.BackColor))
-                using (Brush quitBrush = new SolidBrush(quitButton.BackColor))
-                {
-                    e.Graphics.FillPath(startBrush, startPath);
-                    e.Graphics.FillPath(quitBrush, quitPath);
-                }
 
                 e.Graphics.DrawImage(_startingBG, drawingRect, 0, 0, _startingBG.Width, _startingBG.Height, GraphicsUnit.Pixel, imageAttributes);
 
@@ -122,16 +131,14 @@ namespace Tetris
                 return;
             }
 
-            var fadeFactor = _fadeCounter / (float)_fadeTime;
-            fadeFactor *= _floatInOffSet;
             if (_fadeCounter > 0)
             {
                 _fadeCounter -= Program.DeltaTime;
                 if (_fadeCounter < 0)
                 {
                     _fadeCounter = 0;
-                    startButton.Visible = true;
-                    quitButton.Visible = true;
+                    _quitBtnAnim.Start();
+                    _startBtnAnim.Start();
                 }
                 return;
             }

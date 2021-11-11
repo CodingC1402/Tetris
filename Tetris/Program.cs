@@ -75,7 +75,10 @@ namespace Tetris
                 else
                 {
                     Logic.InputSystem.Update();
+
                     Transition.UpdateTransitions();
+                    AnimationBase.UpdateAnimations();
+
                     MainWindow.Instance.CurrentScene?.UpdateLogic();
                     Logic.InputSystem.FlushKeyDown();
                     Renderer.Render();

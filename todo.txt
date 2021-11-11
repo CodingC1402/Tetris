@@ -7,3 +7,8 @@ block skin set class
 current block skin set
 board skin set
 currentboard skin set
+
+added transtition
+need 2 icon for gamemodes
+choose game mode menus
+score board base on gamemodes

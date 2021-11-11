@@ -63,9 +63,9 @@ namespace Tetris {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap BackGround {
+        public static System.Drawing.Bitmap BG1 {
             get {
-                object obj = ResourceManager.GetObject("BackGround", resourceCulture);
+                object obj = ResourceManager.GetObject("BG1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,29 @@ namespace Tetris {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap BackGround2 {
+        public static System.Drawing.Bitmap BG2 {
             get {
-                object obj = ResourceManager.GetObject("BackGround2", resourceCulture);
+                object obj = ResourceManager.GetObject("BG2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap BG3 {
+            get {
+                object obj = ResourceManager.GetObject("BG3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap BG4 {
+            get {
+                object obj = ResourceManager.GetObject("BG4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -156,6 +176,16 @@ namespace Tetris {
         public static System.Drawing.Bitmap NormalMode {
             get {
                 object obj = ResourceManager.GetObject("NormalMode", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap pauseButton {
+            get {
+                object obj = ResourceManager.GetObject("pauseButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

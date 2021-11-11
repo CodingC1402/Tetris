@@ -19,8 +19,10 @@ namespace Tetris.Graphics
 
         public Bitmap[] BackgroundsCollection = new Bitmap[]
         {
-            Images.BackGround,
-            Images.BackGround2
+            Images.BG1,
+            Images.BG2,
+            Images.BG3,
+            Images.BG4,
         };
         public int BackgroundIndex = 0;
         public Bitmap BackgroundBitmap = null;
@@ -42,8 +44,8 @@ namespace Tetris.Graphics
             }
         }
 
-        private const int _scoreBoardNextBlockPadding = 30;
-        private const int _scoreBoardScorePadding = 15;
+        private const int _scoreBoardNextBlockPadding = 27;
+        private const int _scoreBoardScorePadding = 10;
         private const int _maxScoreLength = 7;
 
         private Rectangle _innerBound = new Rectangle();
@@ -52,7 +54,7 @@ namespace Tetris.Graphics
 
         private Size _boardSize = new Size();
         private int _scoreBoardPadding = 10;
-        private Rectangle _scoreBoardRect = new Rectangle(0, 0, 250, 250);
+        private Rectangle _scoreBoardRect = new Rectangle(0, 0, 200, 225);
 
         private float _flashBeforeEnd = 1.5f;
         private float _maxOpacityWhenFlash = 0.8f;

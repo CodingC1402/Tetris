@@ -23,27 +23,21 @@ namespace Tetris
         public Game()
         {
             InitializeComponent();
+            circelPause.BackGroundImage = Images.pauseButton;
+            circelPause.Referencing = board;
+            circelPause.MouseDown += (s, e) =>
+            {
+                BoardLogic.Paused = true;
+            };
+
             _boardTransition = new Transition(board);
             _boardTransition.TransitionInTime = 1;
-
-            this.VisibleChanged += (s, e) =>
-            {
-                slider1.Value = Music.Volumn;
-            };
-            slider1.ValueChanged += (s, e) =>
-            {
-                Music.Volumn = slider1.Value;
-            };
-
             _instance = this;
-
-            Graphics.Renderer.FpsLable = fpsLabel;
         }
 
         protected override void OnVisibleChanged(EventArgs e)
         {
             base.OnVisibleChanged(e);
-            slider1.Value = Music.Volumn;
             if (Visible)
             {
                 BoardLogic.Start();
@@ -56,6 +50,7 @@ namespace Tetris
             if (!Visible)
                 return;
 
+            circelPause.Visible = !(BoardLogic.Paused || !BoardLogic.Started);
             Logic.Logic.Update();
         }
 
@@ -67,6 +62,7 @@ namespace Tetris
         public override void Render()
         {
             Graphics.Board.Instance.Invalidate();
+            circelPause.Invalidate();
         }
 
         protected override void OnPaint(PaintEventArgs e)

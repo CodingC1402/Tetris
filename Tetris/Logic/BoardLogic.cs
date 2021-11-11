@@ -37,6 +37,8 @@ namespace Tetris.Logic
             get => _paused;
             set
             {
+                if (_countingCounter > 0)
+                    return;
                 _paused = value;
             }
         }
@@ -171,7 +173,6 @@ namespace Tetris.Logic
         {
             Music.StartPlayingGameMusic();
 
-            _started = true;
             NextBlock = TetrisBlock.CreateTetrisBlock();
             CurrentBlock = null;
             CreateBlock();
@@ -198,14 +199,18 @@ namespace Tetris.Logic
 
         public static void Update()
         {
-            if (Paused || !_started)
-                return;
-
             if (_countingCounter > 0)
             {
                 _countingCounter -= Program.DeltaTime;
+                if (_countingCounter <= 0)
+                {
+                    _started = true;
+                }
                 return;
             }
+
+            if (!_started || _paused)
+                return;
 
             if (_tetrisEffectCounter > 0)
             {

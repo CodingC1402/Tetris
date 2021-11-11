@@ -20,7 +20,7 @@ namespace Tetris.Graphics
         protected int _offSetX = 0;
         protected int _offSetY = 0;
 
-        public bool PerfectPixel = true;
+        public bool PerfectPixel = false;
 
         public Bitmap BufferBitmap
         {
@@ -35,6 +35,11 @@ namespace Tetris.Graphics
         public BitmapRenderer()
         {
             InitializeComponent();
+            PaddingChanged += (s, e) =>
+            {
+                SetBoundsForBitmap();
+            };
+
             SizeChanged += (s, e) =>
             {
                 SetBoundsForBitmap();
@@ -85,7 +90,7 @@ namespace Tetris.Graphics
                 return;
 
             var ratioW = Bounds.Width / (float)_bufferBitmap.Width;
-            var ratioH = Bounds.Height / (float)_bufferBitmap.Height;
+            var ratioH = (Bounds.Height - Padding.Top - Padding.Bottom) / (float)_bufferBitmap.Height;
 
             var ratio = Math.Min(ratioH, ratioW);
             if (PerfectPixel)
@@ -98,7 +103,7 @@ namespace Tetris.Graphics
             _trueWidth = (int)Math.Round(_bufferBitmap.Width * ratio);
             _trueHeight = (int)Math.Round(_bufferBitmap.Height * ratio);
 
-            _offSetX = (int)Math.Round((Bounds.Width - _trueWidth) / 2.0f);
+            _offSetX = (int)Math.Round((Bounds.Width - _trueWidth) / 2.0f)  + Padding.Left;
             _offSetY = (int)Math.Round((Bounds.Height - _trueHeight) / 2.0f);
         }
     }

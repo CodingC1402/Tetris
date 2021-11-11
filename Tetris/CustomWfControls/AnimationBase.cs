@@ -8,7 +8,7 @@ namespace Tetris.CustomWfControls
 {
     public class AnimationBase
     {
-        enum State
+        public enum State
         {
             Stopped,
             Started,
@@ -16,10 +16,15 @@ namespace Tetris.CustomWfControls
         }
 
         private static List<AnimationBase> _needToUpdate = new List<AnimationBase>();
+        private static List<AnimationBase> _needToAddToUpdate = new List<AnimationBase>();
 
         private float _counter;
         private float _animationTime;
         private State _currentState = State.Stopped;
+        public State CurrentState
+        {
+            get => _currentState;
+        }
 
         public float Counter
         {
@@ -34,7 +39,7 @@ namespace Tetris.CustomWfControls
         private Control _owner;
         public Control Owner { get => _owner; }
 
-        private Bitmap _controlBmp;
+        protected Bitmap _controlBmp;
         public Bitmap ControlBmp { get => _controlBmp; }
 
         private event EventHandler _animationEnded;
@@ -88,10 +93,11 @@ namespace Tetris.CustomWfControls
         protected virtual void OnAnimationEnded(EventArgs e)
         {
             _owner.Parent.Paint -= OnPaintOverParent;
-            _currentState = State.Stopped;
             _controlBmp.Dispose();
             _controlBmp = null;
             _owner.Visible = true;
+
+            _currentState = State.Stopped;
             if (_animationEnded != null)
                 _animationEnded(this, e);
         }
@@ -103,7 +109,7 @@ namespace Tetris.CustomWfControls
 
         protected void AddToUpdate()
         {
-            _needToUpdate.Add(this);
+            _needToAddToUpdate.Add(this);
         }
 
         protected void RemoveFromUpdate()
@@ -115,6 +121,8 @@ namespace Tetris.CustomWfControls
         {
             var dt = Program.DeltaTime;
             List<AnimationBase> needToRemove = new List<AnimationBase>();
+            _needToUpdate.AddRange(_needToAddToUpdate);
+            _needToAddToUpdate.Clear();
 
             foreach (var anim in _needToUpdate)
             {

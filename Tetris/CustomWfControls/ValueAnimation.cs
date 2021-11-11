@@ -20,7 +20,6 @@ namespace Tetris.CustomWfControls
         }
 
         public ValueAnimation(Control owner) : base(owner) { }
-
         public ValueAnimation(Control owner, T fromValue, T toValue) : base(owner) {
             _fromValue = fromValue;
             _toValue = toValue;

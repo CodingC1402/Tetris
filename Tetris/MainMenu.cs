@@ -22,11 +22,8 @@ namespace Tetris
         private PositionAnimation _startBtnAnim;
         private PositionAnimation _quitBtnAnim;
 
-        private PointF _startBtnStartPos = new PointF(0.5f, 1.25f);
-        private PointF _quitBtnStartPos = new PointF(0.5f, 1.35f);
-
-        private PointF _startBtnEndPos = new PointF(0.5f, 0.5f);
-        private PointF _quitBtnEndPos = new PointF(0.5f, 0.65f);
+        private ScaleAnimation _startScaleAnim;
+        private ScaleAnimation _quitScaleAnim;
 
         private Transition transition;
 
@@ -48,6 +45,9 @@ namespace Tetris
                 UpdateAnimation();
             };
 
+            startButton.UsingHoverAnimation = true;
+            quitButton.UsingHoverAnimation = true;
+
             _startBtnAnim = new PositionAnimation(startButton);
             _quitBtnAnim = new PositionAnimation(quitButton);
             _quitBtnAnim.AnimationTime = _startBtnAnim.AnimationTime = _fadeTime;
@@ -63,6 +63,9 @@ namespace Tetris
             {
                 Program.Stop();
             };
+
+            startButton.OriginalSize = startButton.Size;
+            quitButton.OriginalSize = quitButton.Size;
 
             _fadeCounter = _fadeTime;
             DoubleBuffered = true;

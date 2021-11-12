@@ -70,7 +70,7 @@ namespace Tetris.Logic
         {
             FillInIfNeeded();
 
-            bool isHighScore = Scores[0].Score < score;
+            bool isHighScore = Scores[0] == null || Scores[0].Score < score;
             bool isInTheLeaderBoard = false;
 
             DateTime date = DateTime.Today;

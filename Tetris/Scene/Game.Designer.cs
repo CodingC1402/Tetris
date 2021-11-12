@@ -49,6 +49,7 @@ namespace Tetris
             this.board.BoardOpacity = 0.9F;
             this.board.Dock = System.Windows.Forms.DockStyle.Fill;
             this.board.Font = new System.Drawing.Font("Tahoma", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.board.LevelFont = new System.Drawing.Font("Stencil", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.board.Location = new System.Drawing.Point(0, 0);
             this.board.Margin = new System.Windows.Forms.Padding(20);
             this.board.Name = "board";

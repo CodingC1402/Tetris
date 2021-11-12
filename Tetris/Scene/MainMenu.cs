@@ -23,6 +23,7 @@ namespace Tetris
         private PositionAnimation _startBtnAnim;
         private PositionAnimation _quitBtnAnim;
         private PositionAnimation _optionBtnAnim;
+        private PositionAnimation _creditAnim;
 
         private bool _mouseDown = false;
         private SoundEffect _startSoundEffect = SoundEffect.Collection[SfxFileName.GameStart];
@@ -38,7 +39,7 @@ namespace Tetris
         {
             InitializeComponent();
             _transition = new Transition(this);
-            pressAnyKeyToStartLable.Visible = startButton.Visible = quitButton.Visible = optionBtn.Visible = false;
+            creditBtn.Visible = pressAnyKeyToStartLable.Visible = startButton.Visible = quitButton.Visible = optionBtn.Visible = false;
 
             MouseDown += (s, e) =>
             {
@@ -53,11 +54,13 @@ namespace Tetris
             startButton.UsingHoverAnimation = true;
             quitButton.UsingHoverAnimation = true;
             optionBtn.UsingHoverAnimation = true;
+            creditBtn.UsingHoverAnimation = true;
 
             _startBtnAnim = new PositionAnimation(startButton);
             _quitBtnAnim = new PositionAnimation(quitButton);
             _optionBtnAnim = new PositionAnimation(optionBtn);
-            _optionBtnAnim.AnimationTime = _quitBtnAnim.AnimationTime = _startBtnAnim.AnimationTime = _fadeTime;
+            _creditAnim = new PositionAnimation(creditBtn);
+            _creditAnim.AnimationTime = _optionBtnAnim.AnimationTime = _quitBtnAnim.AnimationTime = _startBtnAnim.AnimationTime = _fadeTime;
 
             startButton.Click += (s, e) =>
             {
@@ -76,9 +79,16 @@ namespace Tetris
                 Program.Stop();
             };
 
+            creditBtn.Click += (s, e) =>
+            {
+                StartTransition();
+                MainWindow.Instance.ToCredit(_transition.TransitionOutTime);
+            };
+
             startButton.OriginalSize = startButton.Size;
             quitButton.OriginalSize = quitButton.Size;
             optionBtn.OriginalSize = optionBtn.Size;
+            creditBtn.OriginalSize = creditBtn.Size;
 
             _fadeCounter = _fadeTime;
             DoubleBuffered = true;
@@ -89,8 +99,9 @@ namespace Tetris
             startButton.ForceStopAnim();
             quitButton.ForceStopAnim();
             optionBtn.ForceStopAnim();
+            creditBtn.ForceStopAnim();
 
-            pressAnyKeyToStartLable.Visible =  startButton.Visible = optionBtn.Visible = quitButton.Visible = false;
+            creditBtn.Visible = pressAnyKeyToStartLable.Visible =  startButton.Visible = optionBtn.Visible = quitButton.Visible = false;
             _transition.StartTransitionOut();
         }
 
@@ -104,6 +115,9 @@ namespace Tetris
 
             _optionBtnAnim.FromValue = new Point(optionBtn.Location.X, optionBtn.Location.Y + Height);
             _optionBtnAnim.ToValue = optionBtn.Location;
+
+            _creditAnim.FromValue = new Point(creditBtn.Location.X, creditBtn.Location.Y + Height);
+            _creditAnim.ToValue = creditBtn.Location;
         }
 
         protected override void OnVisibleChanged(EventArgs e)
@@ -170,6 +184,7 @@ namespace Tetris
                     _quitBtnAnim.Start();
                     _startBtnAnim.Start();
                     _optionBtnAnim.Start();
+                    _creditAnim.Start();
                 }
                 return;
             }

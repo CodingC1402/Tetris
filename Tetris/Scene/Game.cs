@@ -93,7 +93,14 @@ namespace Tetris
 
             continueBtn.Click += (s, e) =>
             {
-                BoardLogic.Paused = false;
+                if (BoardLogic.IsGameOver)
+                {
+                    StartTransition();
+                    MainWindow.Instance.ToScoreBoard(_boardTransition.TransitionOutTime);
+                    BoardLogic.Reset();
+                }
+                else
+                    BoardLogic.Paused = false;
             };
 
             menuBtn.Click += (s, e) =>
@@ -108,6 +115,17 @@ namespace Tetris
                 StartTransition();
                 MainWindow.Instance.ToGame(_boardTransition.TransitionOutTime);
                 BoardLogic.Reset();
+            };
+
+            continueBtn.VisibleChanged += (s, e) =>
+            {
+                if (continueBtn.Visible)
+                {
+                    if (BoardLogic.IsGameOver)
+                        continueBtn.Text = "Leader board";
+                    else
+                        continueBtn.Text = "Continue";
+                }
             };
 
             _boardTransition = new Transition(board);
@@ -145,8 +163,8 @@ namespace Tetris
         private void SetControlVisibility()
         {
             SuspendLayout();
-            continueBtn.Visible = sfxLabel.Visible = musicLabel.Visible = musicSlider.Visible = soundEffectSlider.Visible = BoardLogic.Paused;
-            pausedLabel.Visible = restartBtn.Visible = menuBtn.Visible = BoardLogic.Paused || BoardLogic.IsGameOver;
+            sfxLabel.Visible = musicLabel.Visible = musicSlider.Visible = soundEffectSlider.Visible = BoardLogic.Paused;
+            continueBtn.Visible = pausedLabel.Visible = restartBtn.Visible = menuBtn.Visible = BoardLogic.Paused || BoardLogic.IsGameOver;
 
             scoreLabel.Visible = BoardLogic.IsGameOver;
             isHighScoreLabel.Visible = BoardLogic.IsGameOver && (BoardLogic.GameResult == Logic.LeaderBoard.Result.HighScore || BoardLogic.GameResult == Logic.LeaderBoard.Result.IsInTheBoard);

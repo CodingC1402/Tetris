@@ -86,6 +86,11 @@ namespace Tetris
             ToScene(new SettingMenu(), delay);
         }
 
+        public void ToCredit(float delay)
+        {
+            ToScene(new CreditForm(), delay);
+        }
+
         public void ToScene(Scene scene, float delay)
         {
             CustomControlHelpers.CallFunctionWithDelay(this, () => {

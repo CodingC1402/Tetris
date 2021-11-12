@@ -33,6 +33,7 @@ namespace Tetris
             this.pressAnyKeyToStartLable = new System.Windows.Forms.Label();
             this.startButton = new Tetris.CustomWfControls.FlatButton();
             this.optionBtn = new Tetris.CustomWfControls.FlatButton();
+            this.creditBtn = new Tetris.CustomWfControls.FlatButton();
             this.SuspendLayout();
             // 
             // quitButton
@@ -46,7 +47,7 @@ namespace Tetris
             this.quitButton.Font = new System.Drawing.Font("Stencil", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.quitButton.ForeColor = System.Drawing.Color.White;
             this.quitButton.HoverScale = 1.05F;
-            this.quitButton.Location = new System.Drawing.Point(448, 414);
+            this.quitButton.Location = new System.Drawing.Point(448, 497);
             this.quitButton.Name = "quitButton";
             this.quitButton.OriginalSize = new System.Drawing.Size(0, 0);
             this.quitButton.Size = new System.Drawing.Size(159, 60);
@@ -107,16 +108,37 @@ namespace Tetris
             this.optionBtn.UseVisualStyleBackColor = false;
             this.optionBtn.UsingHoverAnimation = false;
             // 
+            // creditBtn
+            // 
+            this.creditBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.creditBtn.AnimationTime = 0.2F;
+            this.creditBtn.BackColor = System.Drawing.Color.Teal;
+            this.creditBtn.CornerRadius = 15;
+            this.creditBtn.FlatAppearance.BorderSize = 0;
+            this.creditBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.creditBtn.Font = new System.Drawing.Font("Stencil", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.creditBtn.ForeColor = System.Drawing.Color.White;
+            this.creditBtn.HoverScale = 1.05F;
+            this.creditBtn.Location = new System.Drawing.Point(427, 412);
+            this.creditBtn.Name = "creditBtn";
+            this.creditBtn.OriginalSize = new System.Drawing.Size(0, 0);
+            this.creditBtn.Size = new System.Drawing.Size(200, 60);
+            this.creditBtn.TabIndex = 15;
+            this.creditBtn.Text = "CREDIT";
+            this.creditBtn.UseVisualStyleBackColor = false;
+            this.creditBtn.UsingHoverAnimation = false;
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1054, 583);
+            this.Controls.Add(this.quitButton);
+            this.Controls.Add(this.creditBtn);
             this.Controls.Add(this.optionBtn);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.pressAnyKeyToStartLable);
-            this.Controls.Add(this.quitButton);
             this.Name = "MainMenu";
             this.Text = "MainMenu";
             this.ResumeLayout(false);
@@ -129,5 +151,6 @@ namespace Tetris
         private System.Windows.Forms.Label pressAnyKeyToStartLable;
         private CustomWfControls.FlatButton startButton;
         private CustomWfControls.FlatButton optionBtn;
+        private CustomWfControls.FlatButton creditBtn;
     }
 }

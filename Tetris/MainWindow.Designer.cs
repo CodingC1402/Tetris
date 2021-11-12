@@ -29,6 +29,7 @@ namespace Tetris
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.SuspendLayout();
             // 
             // MainWindow
@@ -37,10 +38,11 @@ namespace Tetris
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1184, 861);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(1200, 900);
             this.Name = "MainWindow";
-            this.Text = "Window";
+            this.Text = "TETRIS";
             this.ResumeLayout(false);
 
         }

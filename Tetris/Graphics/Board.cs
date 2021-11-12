@@ -45,7 +45,18 @@ namespace Tetris.Graphics
         }
 
         private const int _scoreBoardNextBlockPadding = 0;
-        private const int _scoreBoardScorePadding = 10;
+        private const int _scoreBoardScorePadding = 6;
+        // From bottom up
+        private const int _scoreBoardLevelPadding = 16;
+
+        private Font _levelFont;
+        [Browsable(true), Category("Appearance")]
+        public Font LevelFont
+        {
+            get => _levelFont;
+            set => _levelFont = value;
+        }
+
         private const int _maxScoreLength = 7;
 
         private Rectangle _innerBound = new Rectangle();
@@ -212,6 +223,11 @@ namespace Tetris.Graphics
             var strSize = pe.Graphics.MeasureString(scoreStr, Font);
             var strPoint = new PointF(_scoreBoardRect.X + (_scoreBoardRect.Width - strSize.Width) / 2, _scoreBoardScorePadding);
 
+            string levelString = $"Level: {BoardLogic.DropSpeed}";
+            var levelStrSize = pe.Graphics.MeasureString(levelString, LevelFont);
+            var levelStrDrawX = _scoreBoardRect.X + (_scoreBoardRect.Width - levelStrSize.Width) / 2;
+            var levelStrDrawY = _scoreBoardRect.Height - _scoreBoardLevelPadding - levelStrSize.Height;
+
             // Shadow
             NeedToRender.Add(new RenderTextItem
             {
@@ -226,6 +242,23 @@ namespace Tetris.Graphics
                 desRect = new RectangleF(strPoint.X, strPoint.Y, strSize.Width, strSize.Height),
                 text = scoreStr,
                 font = Font,
+                textBrush = new SolidBrush(Color.White)
+            });
+
+            // Drawing level
+            NeedToRender.Add(new RenderTextItem
+            {
+                desRect = new RectangleF(levelStrDrawX, levelStrDrawY + 4, levelStrSize.Width, levelStrSize.Height),
+                text = levelString,
+                font = _levelFont,
+                textBrush = new SolidBrush(Color.FromArgb(127, 0, 0, 0))
+            });
+
+            NeedToRender.Add(new RenderTextItem
+            {
+                desRect = new RectangleF(levelStrDrawX, levelStrDrawY, levelStrSize.Width, levelStrSize.Height),
+                text = levelString,
+                font = _levelFont,
                 textBrush = new SolidBrush(Color.White)
             });
 
@@ -263,6 +296,7 @@ namespace Tetris.Graphics
                     }
                 }
             }
+
             #endregion
             #region Render the board
             RenderImageItem boardItem = new RenderImageItem()

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using Tetris.Board;
-using Tetris.Graphics;
 using Tetris.Sound;
 
 namespace Tetris.Logic

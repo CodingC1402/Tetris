@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using Tetris.Graphics;
 using Tetris.Logic;
-using System.Security.Cryptography;
 
 namespace Tetris.Board
 {

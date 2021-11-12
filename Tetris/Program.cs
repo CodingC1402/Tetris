@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tetris.CustomWfControls;
 using Tetris.Graphics;
 using Tetris.Logic;
-using Tetris.Sound;
 
 namespace Tetris
 {
@@ -58,12 +54,6 @@ namespace Tetris
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.ApplicationExit += (s, e) =>
-            {
-                Logic.LeaderBoard.SaveAll();
-                Settings.SaveSetting();
-            };
-
             Logic.LeaderBoard.LoadLeaderBoard();
             Settings.LoadSetting();
 
@@ -93,6 +83,7 @@ namespace Tetris
                     Renderer.Render();
                 }
             };
+
             _clock.Start();
             Application.Run(new MainWindow());
         }

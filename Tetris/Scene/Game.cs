@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tetris.CustomWfControls;
 using Tetris.Logic;
@@ -100,7 +94,10 @@ namespace Tetris
                     BoardLogic.Reset();
                 }
                 else
+                {
                     BoardLogic.Paused = false;
+                    Settings.SaveSetting();
+                }
             };
 
             menuBtn.Click += (s, e) =>

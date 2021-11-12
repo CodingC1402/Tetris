@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using Tetris.Logic;
 using Tetris.Sound;
 
 namespace Tetris
@@ -53,6 +51,7 @@ namespace Tetris
             confirmBtn.Click += (s, e) =>
             {
                 TransitionToMainMenu();
+                Settings.SaveSetting();
             };
 
             _transition.TransitionInFinished += (s, e) =>

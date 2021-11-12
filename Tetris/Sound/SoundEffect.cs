@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Media;
-using System.Text;
 using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
 
 namespace Tetris.Sound
 {

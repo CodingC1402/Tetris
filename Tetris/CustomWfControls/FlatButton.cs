@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using PropertyChanged;
 using Tetris.Sound;
 
 namespace Tetris.CustomWfControls
 {
-    [AddINotifyPropertyChangedInterface]
     public partial class FlatButton : Button
     {
         private int _cornerRadius;

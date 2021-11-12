@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
+using System.Text.Json;
 
 namespace Tetris.Logic
 {
@@ -12,26 +10,25 @@ namespace Tetris.Logic
 
         public static T DeserialLize<T>(string fileName)
         {
-            FileStream fs = new FileStream(fileName, FileMode.Open);
+            if (!File.Exists(fileName))
+                return default(T);
+
+            string json = File.ReadAllText(fileName);
             try
             {
-                return (T)formatter.Deserialize(fs);
+                return JsonSerializer.Deserialize<T>(json);
             }
             catch { return default(T); }
-            finally { fs.Close(); }
         }
 
         public static void Serialize(object obj, string fileName)
         {
-            FileStream fs = new FileStream(fileName, FileMode.Create);
             try
             {
-                formatter.Serialize(fs, obj);
+                string json = JsonSerializer.Serialize(obj);
+                File.WriteAllText(fileName, json);
             }
-            finally
-            {
-                fs.Close();
-            }
+            catch { }
         }
     }
 }

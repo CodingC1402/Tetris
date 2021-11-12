@@ -172,13 +172,10 @@ namespace Tetris.CustomWfControls
         {
             base.OnPaint(pe);
 
-            if (_usingHoverAnimation)
-            {
-                pe.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-                pe.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                pe.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-                pe.Graphics.DrawImage(Images.ButtonBack, 0, 0, Width, Height);
-            }
+            pe.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            pe.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            pe.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+            pe.Graphics.DrawImage(Images.ButtonBack, 0, 0, Width, Height);
 
             pe.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 

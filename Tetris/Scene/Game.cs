@@ -139,7 +139,6 @@ namespace Tetris
             if (!Visible)
                 return;
 
-            SetControlVisibility();
             Logic.Logic.Update();
         }
 
@@ -164,6 +163,7 @@ namespace Tetris
         {
             board.Invalidate();
             circelPause.Invalidate();
+            SetControlVisibility();
         }
 
         protected override void OnPaint(PaintEventArgs e)

@@ -24,8 +24,13 @@ namespace Tetris
 
         protected List<Bitmap> GetBitmapFromControls()
         {
+            return GetBitmapFromControls(this);
+        }
+
+        protected List<Bitmap> GetBitmapFromControls(Control uiComponent)
+        {
             List<Bitmap> result = new List<Bitmap>();
-            foreach (Control control in Controls)
+            foreach (Control control in uiComponent.Controls)
             {
                 Bitmap newBitmap = new Bitmap(control.Width, control.Height);
                 control.DrawToBitmap(newBitmap, new Rectangle(0, 0, control.Width, control.Height));
@@ -37,10 +42,17 @@ namespace Tetris
 
         protected void SetControlVisibility(bool value)
         {
-            foreach (Control control in Controls)
+            SetControlVisibility(this, value);
+        }
+
+        protected void SetControlVisibility(Control uiComponent, bool value)
+        {
+            uiComponent.SuspendLayout();
+            foreach (Control control in uiComponent.Controls)
             {
                 control.Visible = value;
             }
+            uiComponent.ResumeLayout();
         }
 
         protected override void OnPaint(PaintEventArgs e)

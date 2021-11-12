@@ -57,6 +57,7 @@ namespace Tetris.Graphics
 
         public LeaderBoardUI()
         {
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             InitializeComponent();
             Resize += (s, e) =>
             {

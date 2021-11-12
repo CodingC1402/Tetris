@@ -106,6 +106,24 @@ namespace Tetris {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GameOver.wav.
+        /// </summary>
+        public static string GameOver {
+            get {
+                return ResourceManager.GetString("GameOver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GameOverHighScore.wav.
+        /// </summary>
+        public static string GameOverHighScore {
+            get {
+                return ResourceManager.GetString("GameOverHighScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GameStart.wav.
         /// </summary>
         public static string GameStart {

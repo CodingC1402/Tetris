@@ -377,7 +377,7 @@ namespace Tetris.Board
                 {
                     if (col != null && !col.Place())
                     {
-                        BoardLogic.Stop();
+                        BoardLogic.GameOver();
                         return;
                     }
                 }

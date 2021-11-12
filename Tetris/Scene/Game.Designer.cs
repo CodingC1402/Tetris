@@ -39,6 +39,8 @@ namespace Tetris
             this.continueBtn = new Tetris.CustomWfControls.FlatButton();
             this.menuBtn = new Tetris.CustomWfControls.FlatButton();
             this.restartBtn = new Tetris.CustomWfControls.FlatButton();
+            this.scoreLabel = new System.Windows.Forms.Label();
+            this.isHighScoreLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // board
@@ -68,20 +70,22 @@ namespace Tetris
             this.circelPause.Size = new System.Drawing.Size(100, 100);
             this.circelPause.TabIndex = 6;
             this.circelPause.Text = "circelPause1";
+            this.circelPause.Visible = false;
             // 
             // pausedLabel
             // 
             this.pausedLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pausedLabel.AutoSize = true;
             this.pausedLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.pausedLabel.Font = new System.Drawing.Font("Stencil", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.pausedLabel.ForeColor = System.Drawing.Color.White;
-            this.pausedLabel.Location = new System.Drawing.Point(354, 230);
+            this.pausedLabel.Location = new System.Drawing.Point(244, 238);
             this.pausedLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.pausedLabel.Name = "pausedLabel";
-            this.pausedLabel.Size = new System.Drawing.Size(210, 57);
+            this.pausedLabel.Size = new System.Drawing.Size(416, 57);
             this.pausedLabel.TabIndex = 14;
             this.pausedLabel.Text = "Paused";
+            this.pausedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.pausedLabel.Visible = false;
             // 
             // musicSlider
             // 
@@ -99,6 +103,7 @@ namespace Tetris
             this.musicSlider.ThumbColor = System.Drawing.Color.Azure;
             this.musicSlider.ThumbWidth = 30;
             this.musicSlider.Value = 0F;
+            this.musicSlider.Visible = false;
             // 
             // musicLabel
             // 
@@ -113,6 +118,7 @@ namespace Tetris
             this.musicLabel.Size = new System.Drawing.Size(119, 38);
             this.musicLabel.TabIndex = 12;
             this.musicLabel.Text = "Music";
+            this.musicLabel.Visible = false;
             // 
             // sfxLabel
             // 
@@ -127,6 +133,7 @@ namespace Tetris
             this.sfxLabel.Size = new System.Drawing.Size(270, 38);
             this.sfxLabel.TabIndex = 11;
             this.sfxLabel.Text = "Sound effects";
+            this.sfxLabel.Visible = false;
             // 
             // soundEffectSlider
             // 
@@ -144,6 +151,7 @@ namespace Tetris
             this.soundEffectSlider.ThumbColor = System.Drawing.Color.Azure;
             this.soundEffectSlider.ThumbWidth = 30;
             this.soundEffectSlider.Value = 0F;
+            this.soundEffectSlider.Visible = false;
             // 
             // continueBtn
             // 
@@ -165,6 +173,7 @@ namespace Tetris
             this.continueBtn.Text = "Continue";
             this.continueBtn.UseVisualStyleBackColor = false;
             this.continueBtn.UsingHoverAnimation = false;
+            this.continueBtn.Visible = false;
             // 
             // menuBtn
             // 
@@ -186,6 +195,7 @@ namespace Tetris
             this.menuBtn.Text = "Menu";
             this.menuBtn.UseVisualStyleBackColor = false;
             this.menuBtn.UsingHoverAnimation = false;
+            this.menuBtn.Visible = false;
             // 
             // restartBtn
             // 
@@ -207,6 +217,37 @@ namespace Tetris
             this.restartBtn.Text = "Restart";
             this.restartBtn.UseVisualStyleBackColor = false;
             this.restartBtn.UsingHoverAnimation = false;
+            this.restartBtn.Visible = false;
+            // 
+            // scoreLabel
+            // 
+            this.scoreLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.scoreLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.scoreLabel.Font = new System.Drawing.Font("Stencil", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.scoreLabel.ForeColor = System.Drawing.Color.White;
+            this.scoreLabel.Location = new System.Drawing.Point(242, 314);
+            this.scoreLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.scoreLabel.Name = "scoreLabel";
+            this.scoreLabel.Size = new System.Drawing.Size(416, 74);
+            this.scoreLabel.TabIndex = 18;
+            this.scoreLabel.Text = "Paused";
+            this.scoreLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.scoreLabel.Visible = false;
+            // 
+            // isHighScoreLabel
+            // 
+            this.isHighScoreLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.isHighScoreLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.isHighScoreLabel.Font = new System.Drawing.Font("Stencil", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.isHighScoreLabel.ForeColor = System.Drawing.Color.White;
+            this.isHighScoreLabel.Location = new System.Drawing.Point(242, 402);
+            this.isHighScoreLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.isHighScoreLabel.Name = "isHighScoreLabel";
+            this.isHighScoreLabel.Size = new System.Drawing.Size(416, 57);
+            this.isHighScoreLabel.TabIndex = 19;
+            this.isHighScoreLabel.Text = "Paused";
+            this.isHighScoreLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.isHighScoreLabel.Visible = false;
             // 
             // Game
             // 
@@ -215,6 +256,8 @@ namespace Tetris
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(900, 800);
+            this.Controls.Add(this.isHighScoreLabel);
+            this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.restartBtn);
             this.Controls.Add(this.menuBtn);
             this.Controls.Add(this.continueBtn);
@@ -243,6 +286,8 @@ namespace Tetris
         private CustomWfControls.FlatButton continueBtn;
         private CustomWfControls.FlatButton menuBtn;
         private CustomWfControls.FlatButton restartBtn;
+        private System.Windows.Forms.Label scoreLabel;
+        private System.Windows.Forms.Label isHighScoreLabel;
     }
 }
 

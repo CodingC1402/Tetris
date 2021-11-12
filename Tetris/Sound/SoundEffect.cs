@@ -39,6 +39,13 @@ namespace Tetris.Sound
 
         private List<DirectSoundOut> _waveOutEvents = new List<DirectSoundOut>();
 
+        private event EventHandler<StoppedEventArgs> _finishPlaying;
+        public event EventHandler<StoppedEventArgs> FinishPlaying
+        {
+            add { _finishPlaying += value; }
+            remove { _finishPlaying -= value; }
+        }
+
         private float _volumn = 1;
         public float Volumn
         {
@@ -82,12 +89,24 @@ namespace Tetris.Sound
 
             newSound = new SoundEffect(SfxFileName.GameStart, Path.Combine(AudioPath, SfxFileName.GameStart));
             Collection.Add(newSound.ID, newSound);
+
+            newSound = new SoundEffect(SfxFileName.GameOver, Path.Combine(AudioPath, SfxFileName.GameOver));
+            Collection.Add(newSound.ID, newSound);
+
+            newSound = new SoundEffect(SfxFileName.GameOverHighScore, Path.Combine(AudioPath, SfxFileName.GameOverHighScore));
+            Collection.Add(newSound.ID, newSound);
         }
 
         private SoundEffect(string id, string fileAddress)
         {
             ID = id;
             AudioAddress = fileAddress;
+        }
+
+        protected virtual void OnFinishPlaying(StoppedEventArgs e)
+        {
+            if (_finishPlaying != null)
+                _finishPlaying(this, e);
         }
 
         public void Dispose()
@@ -117,6 +136,7 @@ namespace Tetris.Sound
         private void DonePlaying(object sender, StoppedEventArgs e)
         {
             DirectSoundOut wo = sender as DirectSoundOut;
+            OnFinishPlaying(e);
             _waveOutEvents.Remove(wo);
             wo.Dispose();
         }

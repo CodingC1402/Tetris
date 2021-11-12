@@ -28,7 +28,7 @@ namespace Tetris.Sound
         public void UpdateVolumn()
         {
             if (_currentAudioFile != null)
-                _currentAudioFile.Volume = Music.Volumn;
+                _currentAudioFile.Volume = Music.MusicVolumn;
         }
 
         public void Start()

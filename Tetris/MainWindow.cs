@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tetris.CustomWfControls;
+using Tetris.Logic;
 using Tetris.Sound;
 
 namespace Tetris

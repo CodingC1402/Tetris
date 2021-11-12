@@ -24,6 +24,7 @@ namespace Tetris
         private PositionAnimation _quitBtnAnim;
         private PositionAnimation _optionBtnAnim;
 
+        private bool _mouseDown = false;
         private SoundEffect _startSoundEffect = SoundEffect.Collection[SfxFileName.GameStart];
         
         private enum State
@@ -38,6 +39,11 @@ namespace Tetris
             InitializeComponent();
             _transition = new Transition(this);
             pressAnyKeyToStartLable.Visible = startButton.Visible = quitButton.Visible = optionBtn.Visible = false;
+
+            MouseDown += (s, e) =>
+            {
+                _mouseDown = true;
+            };
 
             Resize += (s, e) =>
             {
@@ -147,7 +153,7 @@ namespace Tetris
         {
             if (_currentState == State.WaitForInput)
             {
-                if (InputSystem.HaveKeyDown)
+                if (InputSystem.HaveKeyDown || _mouseDown)
                 {
                     _currentState = State.InMenu;
                     _startSoundEffect.Play();

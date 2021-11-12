@@ -25,6 +25,18 @@ namespace Tetris.Logic
         public static readonly float TimeBeforeClear = 0.5f;
         public static readonly int BaseScore = 40;
 
+        private static bool _isGameOver = false;
+        public static bool IsGameOver {
+            get => _isGameOver;
+            set
+            {
+                if (!_started)
+                    return;
+
+                _isGameOver = value;
+            }
+        }
+
         private static bool _started = false;
         public static bool Started
         {
@@ -77,6 +89,9 @@ namespace Tetris.Logic
         private static SoundEffect _clearTwoSound = SoundEffect.Collection[SfxFileName.ClearTwo1];
         private static SoundEffect _clearThreeSound = SoundEffect.Collection[SfxFileName.ClearThree1];
         private static SoundEffect _tetrisSound = SoundEffect.Collection[SfxFileName.Tetris1];
+
+        private static SoundEffect _gameOverSound = SoundEffect.Collection[SfxFileName.GameOver];
+        private static SoundEffect _winSound = SoundEffect.Collection[SfxFileName.GameOverHighScore];
 
         private static float _countingTime = 2.8f;
         private static float _countingCounter = 0;
@@ -157,9 +172,22 @@ namespace Tetris.Logic
             }
         }
 
+        private static LeaderBoard.Result _gameResult = LeaderBoard.Result.Nothing;
+        public static LeaderBoard.Result GameResult { get => _gameResult; }
+
         static BoardLogic()
         {
             _delayBetweenDrop = 1 / (float)_dropSpeed;
+
+            _winSound.FinishPlaying += (s, e) =>
+            {
+                Music.VolumnFilter = 1f;
+            };
+
+            _gameOverSound.FinishPlaying += (s, e) =>
+            {
+                Music.VolumnFilter = 1f;
+            };
 
             Blocks = new Block[BoardLogic.NumberOfRow][];
             for (int i = 0; i < BoardLogic.NumberOfRow; i++)
@@ -169,11 +197,16 @@ namespace Tetris.Logic
             }
         }
 
+        public static void Reset()
+        {
+            _isGameOver = false;
+            Stop();
+        }
+
         public static void Start()
         {
             NextBlock = TetrisBlock.CreateTetrisBlock();
             CurrentBlock = null;
-            CreateBlock();
             Blocks = new Block[BoardLogic.NumberOfRow][];
             for (int i = 0; i < BoardLogic.NumberOfRow; i++)
             {
@@ -181,6 +214,7 @@ namespace Tetris.Logic
                 _rowCleanUpCounter[i] = -1;
             }
 
+            _isGameOver = false;
             _countDownSound.Play();
             _countingCounter = _countingTime;
 
@@ -188,11 +222,38 @@ namespace Tetris.Logic
             Score = 0;
         }
 
+        public static void GameOver()
+        {
+            IsGameOver = true;
+
+            //
+            // Save data and shits here, then check if it's high score
+            switch (CurrentGameMode)
+            {
+                case GameMode.RisingFloor:
+                    _gameResult = LeaderBoard.Collection[LeaderBoard.RisingFloorName].UpdateBoard(Score);
+                    break;
+                case GameMode.Normal:
+                    _gameResult = LeaderBoard.Collection[LeaderBoard.NormalScoreName].UpdateBoard(Score);
+                    break;
+            }
+
+            if (_gameResult == LeaderBoard.Result.Nothing)
+                _gameOverSound.Play();
+            else
+                _winSound.Play();
+
+            Music.VolumnFilter = 0.25f;
+            //
+
+            Stop();
+        }
+
         public static void Stop()
         {
             _started = false;
             _paused = false;
-            CurrentBlock.Dispose();
+            CurrentBlock?.Dispose();
             CurrentBlock = null;
         }
 
@@ -204,6 +265,7 @@ namespace Tetris.Logic
                 if (_countingCounter <= 0)
                 {
                     _started = true;
+                    CreateBlock();
                 }
                 return;
             }
@@ -371,6 +433,9 @@ namespace Tetris.Logic
 
         private static void CreateBlock()
         {
+            if (!_started)
+                return;
+
             _counter = 0;
 
             bool foundBlock = false;
@@ -391,6 +456,7 @@ namespace Tetris.Logic
                 if (foundBlock)
                     break;
             }
+
             CurrentBlock.Position = new System.Drawing.Point((NumberOfCol - CurrentBlock.Matrix[0].Length) / 2, -row - 1);
             NextBlock = TetrisBlock.CreateTetrisBlock();
         }

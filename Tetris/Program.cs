@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tetris.CustomWfControls;
 using Tetris.Graphics;
+using Tetris.Logic;
 using Tetris.Sound;
 
 namespace Tetris
@@ -48,6 +49,7 @@ namespace Tetris
         public static void Stop()
         {
             _quit = true;
+            LeaderBoard.SaveAll();
         }
 
         [STAThread]
@@ -57,6 +59,7 @@ namespace Tetris
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            LeaderBoard.LoadLeaderBoard();
             Mark();
             // Tempt
 

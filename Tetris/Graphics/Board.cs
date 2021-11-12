@@ -294,7 +294,7 @@ namespace Tetris.Graphics
         {
             base.OnBeforePaintCall(pe);
 
-            if (BoardLogic.Paused || BoardLogic.CountingCounter > 0)
+            if (BoardLogic.Paused || BoardLogic.CountingCounter > 0 || BoardLogic.IsGameOver)
             {
                 pe.Graphics.DrawImage(_pausedOverlayBitmap, 0, 0, Width, Height);
                 if (BoardLogic.CountingCounter > 0)
@@ -306,7 +306,7 @@ namespace Tetris.Graphics
                     pe.Graphics.DrawImage(_countingImages[(int)Math.Clamp(countingNumber, 0, _countingImages.Length - 1)], drawX, drawY, _countingImageSize, _countingImageSize);
                 }
 
-                if (BoardLogic.Paused)
+                if (BoardLogic.Paused || BoardLogic.IsGameOver)
                 {
                     Rectangle rectangle = new Rectangle();
                     rectangle.Width = Width;

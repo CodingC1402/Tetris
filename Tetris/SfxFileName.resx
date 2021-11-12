@@ -135,6 +135,12 @@
   <data name="CountDown" xml:space="preserve">
     <value>CountDown.wav</value>
   </data>
+  <data name="GameOver" xml:space="preserve">
+    <value>GameOver.wav</value>
+  </data>
+  <data name="GameOverHighScore" xml:space="preserve">
+    <value>GameOverHighScore.wav</value>
+  </data>
   <data name="GameStart" xml:space="preserve">
     <value>GameStart.wav</value>
   </data>

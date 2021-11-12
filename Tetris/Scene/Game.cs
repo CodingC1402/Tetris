@@ -23,7 +23,46 @@ namespace Tetris
         public Game()
         {
             InitializeComponent();
-            SetControlVisibility();
+
+            pausedLabel.VisibleChanged += (s, e) =>
+            {
+                if (pausedLabel.Visible)
+                    pausedLabel.Text = BoardLogic.IsGameOver ? "Game over" : "Paused";
+            };
+
+            scoreLabel.VisibleChanged += (s, e) =>
+            {
+                if (scoreLabel.Visible)
+                {
+                    scoreLabel.Text = BoardLogic.Score.ToString();
+                }
+            };
+
+            isHighScoreLabel.VisibleChanged += (s, e) =>
+            {
+                if (isHighScoreLabel.Visible)
+                {
+                    var defaultFont = pausedLabel.Font;
+                    switch (BoardLogic.GameResult)
+                    {
+                        case LeaderBoard.Result.HighScore:
+                            scoreLabel.ForeColor = Color.OrangeRed;
+                            defaultFont = new Font(defaultFont.FontFamily, defaultFont.Size + 20, defaultFont.Style);
+                            isHighScoreLabel.Text = "NEW RECORD!";
+                            break;
+                        case LeaderBoard.Result.IsInTheBoard:
+                            scoreLabel.ForeColor = Color.Orange;
+                            defaultFont = new Font(defaultFont.FontFamily, defaultFont.Size + 10, defaultFont.Style);
+                            isHighScoreLabel.Text = "NEW HIGH SCORE!";
+                            break;
+                        case LeaderBoard.Result.Nothing:
+                            scoreLabel.ForeColor = Color.White;
+                            isHighScoreLabel.Text = "";
+                            break;
+                    }
+                    scoreLabel.Font = defaultFont;
+                }
+            };
 
             circelPause.BackGroundImage = Images.pauseButton;
             circelPause.Referencing = board;
@@ -59,16 +98,16 @@ namespace Tetris
 
             menuBtn.Click += (s, e) =>
             {
-                BoardLogic.Stop();
                 StartTransition();
                 MainWindow.Instance.ToMainMenu(_boardTransition.TransitionOutTime);
+                BoardLogic.Reset();
             };
 
             restartBtn.Click += (s, e) =>
             {
-                BoardLogic.Stop();
                 StartTransition();
                 MainWindow.Instance.ToGame(_boardTransition.TransitionOutTime);
+                BoardLogic.Reset();
             };
 
             _boardTransition = new Transition(board);
@@ -106,8 +145,14 @@ namespace Tetris
 
         private void SetControlVisibility()
         {
-            restartBtn.Visible = menuBtn.Visible = continueBtn.Visible = sfxLabel.Visible = musicLabel.Visible = musicSlider.Visible = soundEffectSlider.Visible = pausedLabel.Visible = BoardLogic.Paused;
+            SuspendLayout();
+            continueBtn.Visible = sfxLabel.Visible = musicLabel.Visible = musicSlider.Visible = soundEffectSlider.Visible = BoardLogic.Paused;
+            pausedLabel.Visible = restartBtn.Visible = menuBtn.Visible = BoardLogic.Paused || BoardLogic.IsGameOver;
+
+            scoreLabel.Visible = BoardLogic.IsGameOver;
+            isHighScoreLabel.Visible = BoardLogic.IsGameOver && (BoardLogic.GameResult == LeaderBoard.Result.HighScore || BoardLogic.GameResult == LeaderBoard.Result.IsInTheBoard);
             circelPause.Visible = !(BoardLogic.Paused || !BoardLogic.Started);
+            ResumeLayout();
         }
 
         public override void StartLogic()

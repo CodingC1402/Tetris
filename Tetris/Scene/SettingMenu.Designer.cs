@@ -36,6 +36,7 @@ namespace Tetris
             this.settingLabel = new System.Windows.Forms.Label();
             this.confirmBtn = new Tetris.CustomWfControls.FlatButton();
             this.cancelBtn = new Tetris.CustomWfControls.FlatButton();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // soundEffectSlider
@@ -154,12 +155,27 @@ namespace Tetris
             this.cancelBtn.UseVisualStyleBackColor = false;
             this.cancelBtn.UsingHoverAnimation = false;
             // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Stencil", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(285, 396);
+            this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(378, 22);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "NOTE: Press f11 to go full screen";
+            // 
             // SettingMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(963, 570);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.confirmBtn);
             this.Controls.Add(this.settingLabel);
@@ -185,5 +201,6 @@ namespace Tetris
         private System.Windows.Forms.Label settingLabel;
         private CustomWfControls.FlatButton confirmBtn;
         private CustomWfControls.FlatButton cancelBtn;
+        private System.Windows.Forms.Label label1;
     }
 }

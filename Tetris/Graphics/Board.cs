@@ -32,7 +32,7 @@ namespace Tetris.Graphics
         public float FadeTime = 1f;
         private float _fadeCounter = 0;
 
-        public Point StartPos = new Point(10, 10);
+        public Point StartPos = new Point(30, 30);
 
         private float _boardOpacity = 1f;
         public float BoardOpacity
@@ -44,7 +44,7 @@ namespace Tetris.Graphics
             }
         }
 
-        private const int _scoreBoardNextBlockPadding = 27;
+        private const int _scoreBoardNextBlockPadding = 0;
         private const int _scoreBoardScorePadding = 10;
         private const int _maxScoreLength = 7;
 
@@ -54,7 +54,7 @@ namespace Tetris.Graphics
 
         private Size _boardSize = new Size();
         private int _scoreBoardPadding = 10;
-        private Rectangle _scoreBoardRect = new Rectangle(0, 0, 200, 225);
+        private Rectangle _scoreBoardRect = new Rectangle(0, 0, 200, 275);
 
         private float _flashBeforeEnd = 1.5f;
         private float _maxOpacityWhenFlash = 0.8f;
@@ -235,7 +235,7 @@ namespace Tetris.Graphics
             {
                 var matrixSize = nextBlock.Matrix.Length * Block.BlockPixelSize + (nextBlock.Matrix.Length - 1) * BlockPadding;
                 var startY = _scoreBoardNextBlockPadding + (_scoreBoardRect.Height - matrixSize) / 2;
-                var startX = _boardSize.Width + (_scoreBoardRect.Width - matrixSize) / 2;
+                var startX = _scoreBoardPadding + _boardSize.Width + (_scoreBoardRect.Width - matrixSize) / 2;
 
                 foreach (var row in nextBlock.Matrix)
                 {

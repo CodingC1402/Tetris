@@ -60,11 +60,11 @@ namespace Tetris
 
             Application.ApplicationExit += (s, e) =>
             {
-                LeaderBoard.SaveAll();
+                Logic.LeaderBoard.SaveAll();
                 Settings.SaveSetting();
             };
 
-            LeaderBoard.LoadLeaderBoard();
+            Logic.LeaderBoard.LoadLeaderBoard();
             Settings.LoadSetting();
 
             Mark();

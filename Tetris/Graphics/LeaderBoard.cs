@@ -8,15 +8,17 @@ using System.Windows.Forms;
 
 namespace Tetris.Graphics
 {
-    public partial class ScoreBoard : BitmapRenderer
+    public partial class LeaderBoard : BitmapRenderer
     {
-        public ScoreBoard()
+        public LeaderBoard()
         {
             InitializeComponent();
         }
 
         protected override void OnPaint(PaintEventArgs pe)
         {
+
+
             base.OnPaint(pe);
         }
     }

@@ -37,7 +37,7 @@ namespace Tetris.Sound
         public readonly string AudioAddress = "";
         public bool Stacking = false;
 
-        private List<DirectSoundOut> _waveOutEvents = new List<DirectSoundOut>();
+        private List<KeyValuePair<AudioFileReader, DirectSoundOut>> _waveOutEvents = new List<KeyValuePair<AudioFileReader, DirectSoundOut>>();
 
         private event EventHandler<StoppedEventArgs> _finishPlaying;
         public event EventHandler<StoppedEventArgs> FinishPlaying
@@ -53,7 +53,7 @@ namespace Tetris.Sound
             set
             {
                 value = Math.Clamp(value, 0, 1);
-                if (_sfxVolumn != value)
+                if (_volumn != value)
                 {
                     _volumn = value;
                     UpdateVolumn();
@@ -113,8 +113,9 @@ namespace Tetris.Sound
         {
             foreach (var wo in _waveOutEvents)
             {
-                wo.Stop();
-                wo.Dispose();
+                wo.Value.Stop();
+                wo.Key.Dispose();
+                wo.Value.Dispose();
             }
             _waveOutEvents.Clear();
         }
@@ -125,27 +126,39 @@ namespace Tetris.Sound
             {
                 DirectSoundOut wo = new DirectSoundOut();
                 AudioFileReader audioFileReader = new AudioFileReader(AudioAddress);
+                audioFileReader.Volume = _sfxVolumn * _volumn;
+
                 wo.Init(audioFileReader);
                 wo.PlaybackStopped += DonePlaying;
 
-                _waveOutEvents.Add(wo);
+                _waveOutEvents.Add(new KeyValuePair<AudioFileReader, DirectSoundOut>(audioFileReader, wo));
                 wo.Play();
             }
         }
 
         private void DonePlaying(object sender, StoppedEventArgs e)
         {
-            DirectSoundOut wo = sender as DirectSoundOut;
+            var wo = (DirectSoundOut)sender;
             OnFinishPlaying(e);
-            _waveOutEvents.Remove(wo);
-            wo.Dispose();
+            foreach (var keyPair in _waveOutEvents)
+            {
+                if (wo == keyPair.Value)
+                {
+                    keyPair.Value.Stop();
+                    keyPair.Value.Dispose();
+                    keyPair.Key.Dispose();
+
+                    _waveOutEvents.Remove(keyPair);
+                    break;
+                }
+            }
         }
 
         private void UpdateVolumn()
         {
             foreach (var wo in _waveOutEvents)
             {
-                wo.Volume = _sfxVolumn * _volumn;
+                wo.Key.Volume = _sfxVolumn * _volumn;
             }
         }
     }

@@ -49,7 +49,6 @@ namespace Tetris
         public static void Stop()
         {
             _quit = true;
-            LeaderBoard.SaveAll();
         }
 
         [STAThread]
@@ -59,7 +58,15 @@ namespace Tetris
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            Application.ApplicationExit += (s, e) =>
+            {
+                LeaderBoard.SaveAll();
+                Settings.SaveSetting();
+            };
+
             LeaderBoard.LoadLeaderBoard();
+            Settings.LoadSetting();
+
             Mark();
             // Tempt
 

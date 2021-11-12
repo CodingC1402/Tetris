@@ -57,14 +57,14 @@ namespace Tetris
                             break;
                         case LeaderBoard.Result.Nothing:
                             scoreLabel.ForeColor = Color.White;
-                            isHighScoreLabel.Text = "";
+                            isHighScoreLabel.Text = "TRY HARDER!";
                             break;
                     }
                     scoreLabel.Font = defaultFont;
                 }
             };
 
-            circelPause.BackGroundImage = Images.pauseButton;
+            circelPause.BackGroundImage = Images.pauseButton;   
             circelPause.Referencing = board;
             circelPause.MouseDown += (s, e) =>
             {

@@ -1,7 +1,6 @@
 add menus <-----
 
 still need score board
-deadscreen
 save setting, save score, more skin (2 more skin board and block)
 block skin set class
 current block skin set
@@ -9,6 +8,4 @@ board skin set
 currentboard skin set
 
 score board based on game mode in 1 screen,
-save load settings
-save load scores
 dead screne 

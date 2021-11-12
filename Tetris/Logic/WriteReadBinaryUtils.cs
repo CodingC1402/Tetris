@@ -12,7 +12,7 @@ namespace Tetris.Logic
 
         public static T DeserialLize<T>(string fileName)
         {
-            FileStream fs = new FileStream(fileName, FileMode.Create);
+            FileStream fs = new FileStream(fileName, FileMode.Open);
             try
             {
                 return (T)formatter.Deserialize(fs);
@@ -28,7 +28,6 @@ namespace Tetris.Logic
             {
                 formatter.Serialize(fs, obj);
             }
-            catch { }
             finally
             {
                 fs.Close();

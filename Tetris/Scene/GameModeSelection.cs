@@ -32,6 +32,10 @@ namespace Tetris
             _labelAnim = new PositionAnimation(label);
             _labelAnim.AnimationTime = _risingFloorAnim.AnimationTime = _normalAnim.AnimationTime = 0.5f;
 
+            backButton.UsingHoverAnimation = leaderBoardBtn.UsingHoverAnimation = true;
+            backButton.OriginalSize = backButton.Size;
+            leaderBoardBtn.OriginalSize = leaderBoardBtn.Size;
+
             SetControlVisibility(false);
 
             risingFloorBtn.Paint += DrawOnButton;
@@ -42,6 +46,12 @@ namespace Tetris
             risingFloorBtn.UsingHoverAnimation = normalModeBtn.UsingHoverAnimation = true;
             risingFloorBtn.OriginalSize = risingFloorBtn.Size;
             normalModeBtn.OriginalSize = normalModeBtn.Size;
+
+            leaderBoardBtn.Click += (s, e) =>
+            {
+                TransitionSetup();
+                MainWindow.Instance.ToScoreBoard(_transition.TransitionOutTime);
+            };
 
             risingFloorBtn.Click += (s, e) =>
             {
@@ -101,12 +111,13 @@ namespace Tetris
 
         protected void TransitionSetup()
         {
+            _controlBitmap = GetBitmapFromControls();
             risingFloorBtn.ForceStopAnim();
             normalModeBtn.ForceStopAnim();
             backButton.ForceStopAnim();
+            leaderBoardBtn.ForceStopAnim();
             SetControlVisibility(false);
 
-            _controlBitmap = GetBitmapFromControls();
             _transition.StartTransitionOut();
         }
 

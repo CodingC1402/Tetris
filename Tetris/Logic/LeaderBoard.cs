@@ -30,6 +30,7 @@ namespace Tetris.Logic
                 loaded.Name = NormalScoreName;
                 loaded.SaveFileName = _normalScoreSaveFile;
             }
+            loaded.FillInIfNeeded();
             Collection.Add(loaded.Name, loaded);
 
             loaded = LeaderBoard.Load(_risingFloorScoreSaveFile);
@@ -39,6 +40,7 @@ namespace Tetris.Logic
                 loaded.Name = RisingFloorName;
                 loaded.SaveFileName = _risingFloorScoreSaveFile;
             }
+            loaded.FillInIfNeeded();
             Collection.Add(loaded.Name, loaded);
         }
         public static Dictionary<string, LeaderBoard> Collection = new Dictionary<string, LeaderBoard>();
@@ -55,27 +57,46 @@ namespace Tetris.Logic
         public string SaveFileName { get; set; }
         public List<Record> Scores { get; set; }
 
-        public Result UpdateBoard(int score)
+        public void FillInIfNeeded()
         {
             if (Scores == null)
                 Scores = new List<Record>();
 
             while (Scores.Count < NumberOfRecord)
-                Scores.Add(new Record());
+                Scores.Add(null);
+        }
+
+        public Result UpdateBoard(int score)
+        {
+            FillInIfNeeded();
 
             bool isHighScore = Scores[0].Score < score;
             bool isInTheLeaderBoard = false;
 
+            DateTime date = DateTime.Today;
+
             for (int i = 0; i < Scores.Count; i++)
             {
                 if (Scores[i] == null)
-                    Scores[i] = new Record();
-
-                if (score > Scores[i].Score)
+                {
+                    Scores[i] = new Record
+                    {
+                        Score = score,
+                        Date = date
+                    };
+                    break;
+                }
+                else if (score > Scores[i].Score)
                 {
                     var oldScore = score;
+                    var oldDate = date;
+
                     score = Scores[i].Score;
+                    date = Scores[i].Date;
+
                     Scores[i].Score = oldScore;
+                    Scores[i].Date = oldDate;
+
                     isInTheLeaderBoard = true;
                 }
             }

@@ -45,17 +45,17 @@ namespace Tetris
                     var defaultFont = pausedLabel.Font;
                     switch (BoardLogic.GameResult)
                     {
-                        case LeaderBoard.Result.HighScore:
+                        case Logic.LeaderBoard.Result.HighScore:
                             scoreLabel.ForeColor = Color.OrangeRed;
                             defaultFont = new Font(defaultFont.FontFamily, defaultFont.Size + 20, defaultFont.Style);
                             isHighScoreLabel.Text = "NEW RECORD!";
                             break;
-                        case LeaderBoard.Result.IsInTheBoard:
+                        case Logic.LeaderBoard.Result.IsInTheBoard:
                             scoreLabel.ForeColor = Color.Orange;
                             defaultFont = new Font(defaultFont.FontFamily, defaultFont.Size + 10, defaultFont.Style);
                             isHighScoreLabel.Text = "NEW HIGH SCORE!";
                             break;
-                        case LeaderBoard.Result.Nothing:
+                        case Logic.LeaderBoard.Result.Nothing:
                             scoreLabel.ForeColor = Color.White;
                             isHighScoreLabel.Text = "TRY HARDER!";
                             break;
@@ -150,7 +150,7 @@ namespace Tetris
             pausedLabel.Visible = restartBtn.Visible = menuBtn.Visible = BoardLogic.Paused || BoardLogic.IsGameOver;
 
             scoreLabel.Visible = BoardLogic.IsGameOver;
-            isHighScoreLabel.Visible = BoardLogic.IsGameOver && (BoardLogic.GameResult == LeaderBoard.Result.HighScore || BoardLogic.GameResult == LeaderBoard.Result.IsInTheBoard);
+            isHighScoreLabel.Visible = BoardLogic.IsGameOver && (BoardLogic.GameResult == Logic.LeaderBoard.Result.HighScore || BoardLogic.GameResult == Logic.LeaderBoard.Result.IsInTheBoard);
             circelPause.Visible = !(BoardLogic.Paused || !BoardLogic.Started);
             ResumeLayout();
         }

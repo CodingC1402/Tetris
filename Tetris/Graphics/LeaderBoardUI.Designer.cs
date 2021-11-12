@@ -1,7 +1,7 @@
 ﻿
 namespace Tetris.Graphics
 {
-    partial class LeaderBoard
+    partial class LeaderBoardUI
     {
         /// <summary>
         /// Required designer variable.

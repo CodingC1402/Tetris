@@ -78,7 +78,7 @@ namespace Tetris
 
         public void ToScoreBoard(float delay)
         {
-            ToScene(new ScoreBoard(), delay);
+            ToScene(new LeaderBoard(), delay);
         }
 
         public void ToSettingMenu(float delay)

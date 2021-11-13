@@ -169,11 +169,6 @@ namespace Tetris
             ResumeLayout();
         }
 
-        public override void StartLogic()
-        {
-
-        }
-
         public override void Render()
         {
             board.Invalidate();

@@ -18,6 +18,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="AudioFiles\Musics\Game\GameSound.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GameSound.resx</DependentUpon>
+    </Compile>
+    <Compile Update="AudioFiles\Musics\Menu\MenuSounds.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MenuSounds.resx</DependentUpon>
+    </Compile>
+    <Compile Update="AudioFiles\SoundEffects\SoundEffects.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SoundEffects.resx</DependentUpon>
+    </Compile>
     <Compile Update="MenuTheme.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -41,6 +56,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="AudioFiles\Musics\Game\GameSound.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GameSound.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="AudioFiles\Musics\Menu\MenuSounds.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MenuSounds.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="AudioFiles\SoundEffects\SoundEffects.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SoundEffects.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="MenuTheme.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MenuTheme.Designer.cs</LastGenOutput>
@@ -57,11 +84,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Images.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="AudioFiles\Musics\" />
-    <Folder Include="AudioFiles\SoundEffects\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -67,6 +67,8 @@ namespace Tetris.Logic
         public Result UpdateBoard(int score)
         {
             FillInIfNeeded();
+            if (score == 0)
+                return Result.Nothing;
 
             bool isHighScore = Scores[0] == null || Scores[0].Score < score;
             bool isInTheLeaderBoard = false;
@@ -82,6 +84,7 @@ namespace Tetris.Logic
                         Score = score,
                         Date = date
                     };
+                    isInTheLeaderBoard = true;
                     break;
                 }
                 else if (score > Scores[i].Score)

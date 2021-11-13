@@ -81,29 +81,7 @@ namespace Tetris.Board
         public static TetrisBlockTemplate GetRandomTemplate()
         {
             TotalBlockCount++;
-            int averageBlockCount = TotalBlockCount / Templates.Count;
-            double rndValue = Program.Rnd.NextDouble();
-
-            double minChance = 0;
-            double maxChance = 0;
-
-            var index = -1;
-            for (int i = 0; i < Templates.Count; i++)
-            {
-                maxChance += (100 / Templates.Count - (Templates[i].AppearTime - averageBlockCount)) / 100f;
-                if (minChance <= rndValue && rndValue < maxChance)
-                {
-                    index = i;
-                    Templates[i].AppearTime++;
-                    break;
-                }
-            }
-
-            if (index < 0)
-            {
-                index = Program.Rnd.Next(0, Templates.Count);
-                Templates[index].AppearTime++;
-            }
+            var index = Program.Rnd.Next(0, Templates.Count);
 
             return Templates[index];
         }

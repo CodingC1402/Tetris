@@ -425,7 +425,7 @@ namespace Tetris.Graphics
                                 {
                                     newRenderItem.colorMatrix = new System.Drawing.Imaging.ColorMatrix();
 
-                                    float divisionTime = BoardLogic.DelayBetweenDrop / _flashBeforeEnd;
+                                    float divisionTime = BoardLogic.PlacingTime / _flashBeforeEnd;
                                     float opacityFactor = (BoardLogic.PlacingCounter % divisionTime) / divisionTime;
 
                                     if (opacityFactor > 0.5)

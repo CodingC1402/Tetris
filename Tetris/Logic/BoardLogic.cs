@@ -133,6 +133,11 @@ namespace Tetris.Logic
             get => _rowCleanUpCounter;
         }
 
+        private const float _placingTime = 0.75f;
+        public static float PlacingTime
+        {
+            get => _placingTime;
+        }
         private static float _placingCounter = 0;
         public static float PlacingCounter
         {
@@ -210,11 +215,13 @@ namespace Tetris.Logic
                 _rowCleanUpCounter[i] = -1;
             }
 
+            _risingFloorCounter = 0;
             _isGameOver = false;
             _countDownSound.Play();
             _countingCounter = _countingTime;
+            _lineCleared = 0;
 
-            DropSpeed = 1;
+            RisingFloorSpeed = DropSpeed = 1;
             Score = 0;
         }
 
@@ -390,7 +397,7 @@ namespace Tetris.Logic
                 if (_startPlacingCounter)
                 {
                     _placingCounter += Program.DeltaTime;
-                    if (_placingCounter >= _delayBetweenDrop)
+                    if (_placingCounter >= _placingTime)
                     {
                         PlaceBlock();
                         if (!_clearingRow)
@@ -520,18 +527,24 @@ namespace Tetris.Logic
 
         public static void RaiseFloor()
         {
+            // Game over if top row is not empty
+            bool emptyTopRow = true;
+            for (int col = 0; col < Blocks[0].Length; col++)
+            {
+                emptyTopRow = emptyTopRow && Blocks[0][col] == null;
+            }
+
+            // Store last row and move up
+            var oldLastRow = Blocks[NumberOfRow - 1];
             for (int i = 0; i < NumberOfRow - 1;)
             {
                 Blocks[i] = Blocks[++i];
             }
+            var lastRow = Blocks[NumberOfRow - 1] = new Block[NumberOfCol];
 
-            var lastRow = new Block[NumberOfCol];
-            Blocks[NumberOfRow - 1] = lastRow;
-
-            var emptyIndex = Program.Rnd.Next(0, NumberOfCol);
             for (int col = 0; col < NumberOfCol; col++)
             {
-                if (col != emptyIndex)
+                if (oldLastRow[col] != null)
                 {
                     lastRow[col] = Block.GetGrayBlock();
                     lastRow[col].LocalPosition = new System.Drawing.Point(NumberOfRow - 1, col);
@@ -549,6 +562,9 @@ namespace Tetris.Logic
                 }
                 CurrentBlock.UpdateShadow();
             }
+
+            if (!emptyTopRow)
+                GameOver();
         }
     }
 }

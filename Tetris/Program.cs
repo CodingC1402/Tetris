@@ -56,6 +56,7 @@ namespace Tetris
 
             Logic.LeaderBoard.LoadLeaderBoard();
             Settings.LoadSetting();
+            InputSetting.LoadInput();
 
             Mark();
             // Tempt

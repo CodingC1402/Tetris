@@ -137,6 +137,8 @@ namespace Tetris.Board
 
         public bool Rotate()
         {
+            var originalPos = Position;
+
             // Create new copy of the old matrix
             Block[][] newMatrix = new Block[Matrix.Length][];
             for (int i = 0; i < Matrix.Length; i++)
@@ -261,6 +263,10 @@ namespace Tetris.Board
             {
                 Matrix = newMatrix;
                 UpdateShadow();
+            }
+            else
+            {
+                Position = originalPos;
             }
 
             return canRotate;

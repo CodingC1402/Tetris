@@ -8,7 +8,7 @@ namespace Tetris.Logic
     public class Input
     {
         public readonly string Name;
-        public readonly Keys KeyCode;
+        public Keys KeyCode;
 
         private bool _isKeyPressed = false;
         public bool IsKeyPressed {

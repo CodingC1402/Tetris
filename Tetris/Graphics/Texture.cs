@@ -13,7 +13,7 @@ namespace Tetris.Graphics
         public static readonly string ScoreBoardTextureKey = "ScoreBoardTexture";
 
         public readonly string ID;
-        public readonly Bitmap Bmp;
+        public Bitmap Bmp;
 
         static Texture()
         {

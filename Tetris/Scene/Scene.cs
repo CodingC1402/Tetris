@@ -20,30 +20,46 @@ namespace Tetris
             }
         }
 
-        protected List<Bitmap> GetBitmapFromControls()
+        protected List<Bitmap> GetBitmapFromControls(bool ignoreVisible = true)
         {
-            return GetBitmapFromControls(this);
+            return GetBitmapFromControls(this, ignoreVisible);
         }
 
-        protected List<Bitmap> GetBitmapFromControls(Control uiComponent)
+        protected List<Bitmap> GetBitmapFromControls(Control uiComponent, bool ignoreVisible = true)
         {
             List<Bitmap> result = new List<Bitmap>();
             foreach (Control control in uiComponent.Controls)
             {
-                Bitmap newBitmap = new Bitmap(control.Width, control.Height);
-                control.DrawToBitmap(newBitmap, new Rectangle(0, 0, control.Width, control.Height));
-                result.Add(newBitmap);
+                if (ignoreVisible || control.Visible)
+                {
+                    Bitmap newBitmap = new Bitmap(control.Width, control.Height);
+                    control.DrawToBitmap(newBitmap, new Rectangle(0, 0, control.Width, control.Height));
+
+                    if (control.Controls.Count > 0)
+                    {
+                        var childBitmaps = GetBitmapFromControls(control, ignoreVisible);
+                        using (System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(newBitmap))
+                        {
+                            for (int i = 0; i < childBitmaps.Count; i++)
+                            {
+                                gfx.DrawImage(childBitmaps[i], control.Controls[i].Location);
+                            }
+                        }
+                    }
+
+                    result.Add(newBitmap);
+                }
             }
 
             return result;
         }
 
-        protected void SetControlVisibility(bool value)
+        protected virtual void SetControlVisibility(bool value)
         {
             SetControlVisibility(this, value);
         }
 
-        protected void SetControlVisibility(Control uiComponent, bool value)
+        protected virtual void SetControlVisibility(Control uiComponent, bool value)
         {
             uiComponent.SuspendLayout();
             foreach (Control control in uiComponent.Controls)

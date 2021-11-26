@@ -15,29 +15,7 @@ namespace Tetris.Logic
         public static Input ForcePlaceInput;
 
         public static bool HaveKeyDown { get; private set; }
-
-        static InputSystem()
-        {
-            Input input = new Input("MoveDown", Keys.S);
-            Inputs.Add(input.Name, input);
-            MoveDownInput = input;
-
-            input = new Input("Rotate", Keys.W);
-            Inputs.Add(input.Name, input);
-            RotateInput = input;
-
-            input = new Input("MoveRight", Keys.D);
-            Inputs.Add(input.Name, input);
-            MoveRightInput = input;
-
-            input = new Input("MoveLeft", Keys.A);
-            Inputs.Add(input.Name, input);
-            MoveLeftInput = input;
-
-            input = new Input("ForcePlace", Keys.Space);
-            Inputs.Add(input.Name, input);
-            ForcePlaceInput = input;
-        }
+        public static Keys FirstKeyDown { get; private set; }
 
         public static void AddToStack(Keys key, bool isRepeat, bool isKeyDown)
         {
@@ -61,6 +39,8 @@ namespace Tetris.Logic
                     }
                 }
 
+                if (key.IsKeyDown && !HaveKeyDown)
+                    FirstKeyDown = key.KeyCode;
                 HaveKeyDown |= key.IsKeyDown;
 
                 if (key.IsKeyDown && key.KeyCode == Keys.F11)

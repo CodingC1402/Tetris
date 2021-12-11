@@ -48,10 +48,10 @@ namespace Tetris.Logic
                     MainWindow.FullScreen();
                 }
 
-                if (key.IsKeyDown && key.KeyCode == Keys.F12)
-                {
-                    BoardLogic.Start();
-                }
+                //if (key.IsKeyDown && key.KeyCode == Keys.F12)
+                //{
+                //    BoardLogic.Start();
+                //}
 
                 if (key.IsKeyDown && key.KeyCode == Keys.Escape)
                 {

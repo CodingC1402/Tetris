@@ -218,6 +218,7 @@ namespace Tetris.Logic
             _risingFloorCounter = 0;
             _isGameOver = false;
             _countDownSound.Play();
+            _paused = false;
             _countingCounter = _countingTime;
             _lineCleared = 0;
 
@@ -228,7 +229,7 @@ namespace Tetris.Logic
         public static void GameOver()
         {
             IsGameOver = true;
-
+            _paused = false;
             //
             // Save data and shits here, then check if it's high score
             switch (CurrentGameMode)
